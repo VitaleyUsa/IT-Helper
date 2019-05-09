@@ -421,14 +421,14 @@ Func FederalResources()
 ;~ 			EndIf
 ;~ 		EndIf
 
-		Status("CryptoPRO и Blitz для Google Chrome")
+		Status("Установка и настройка CryptoPRO и Blitz для Google Chrome")
 		; Расширение CryptoPro и Blitz
 			RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist", "1", "REG_SZ", "iifchhfnnmpdbibifmljnfjhpififfog;https://clients2.google.com/service/update2/crx")
 			RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist", "2", "REG_SZ", "pomekhchngaooffdadfjnghfkaeipoba;https://clients2.google.com/service/update2/crx")
 			RunWait(@ComSpec & " /c " & "gpupdate /force", "", @SW_HIDE) ; Применяем политику
 
 		; Browser Plugins
-		Status("CryptoPro Browser plugin")
+		Status("Установка и настройка CryptoPro Browser plugin")
 
 			; Криптопро Браузер Плагин
 			If SoftDownload($dir_federal, $cbpSetup) Then
@@ -451,21 +451,21 @@ Func FederalResources()
 			EndIf
 
 		; Плагин для Госуслуг
-		Status("Плагин для Госуслуг")
+		Status("Установка и настройка плагина для Госуслуг")
 
 			Local $gosSetup = $gosSetup32
 			If @OSArch = "X64" Then $gosSetup = $gosSetup64
 			If SoftDownload($dir_federal, $gosSetup) Then SoftInstall($dir_federal, $gosSetup, "msi")
 
 		; Федресурс плагин
-		Status("Плагин для Федресурса")
+		Status("Установка и настройка плагина для Федресурса")
 
 			If SoftDownload($dir_federal, $fedResurs) Then SoftInstall($dir_federal, $fedResurs, "msi")
 	EndIf
 
 	; CryptoArm
 	If Checked($checkARM) Then
-		Status("CryptoARM")
+		Status("Установка и настройка CryptoARM")
 
 		If SoftDownload($dir_federal, $armSetup) Then ; Закачка и установка КриптоАРМ
 			If SoftUnzip($dir_federal, $armSetup) Then SoftInstall($dir_federal & "CryptoARM", "setup.exe", "arm")
@@ -476,21 +476,21 @@ Func FederalResources()
 
 	; Adobe Reader DC
 	If Checked($checkAdobe) Then
-		Status("Adobe Reader DC")
+		Status("Установка и настройка Adobe Reader DC")
 
 		If SoftDownload($dir_software, $adobeSetup) Then SoftInstall($dir_software, $adobeSetup, "/sALL")
 	EndIf
 
 	; CryptoPro PDF
 	If Checked($checkPDF) Then
-		Status("CryptoPro PDF")
+		Status("Установка и настройка CryptoPro PDF")
 
 		If SoftDownload($dir_federal, $pdfSetup) Then SoftInstall($dir_federal, $pdfSetup, "pdf")
 	EndIf
 
 		; КриптоЛайн
 	If Checked($checkLine) Then
-		Status("КриптоЛайн")
+		Status("Установка и настройка КриптоЛайн")
 
 		If SoftDownload($dir_federal, $line_ds) Then SoftInstall($dir_federal, $line_ds, "msi")
 	EndIf
@@ -506,7 +506,7 @@ Func FederalResources()
 
 	; Firefox ESR
 	If Checked($checkFF) Then
-		Status("Mozilla Firefox")
+		Status("Установка и настройка Mozilla Firefox")
 
 		If SoftDownload($dir_federal, $firefox) Then ; Скачиваем FF
 			ProcessClose("firefox.exe")
@@ -599,7 +599,7 @@ Func FederalResources()
 	EndIf
 
 	If Checked($checkChrome) Then
-		Status("Google Chrome")
+		Status("Установка и настройка Google Chrome")
 
 		Local $chromeSetup = $chromeSetup32
 
@@ -642,7 +642,7 @@ EndFunc   ;==>FederalResources
 Func Programs()
 	; IrfanView
 	If Checked($checkIrfan) Then
-		Status("IrfanView")
+		Status("Установка и настройка IrfanView")
 
 		If DirGetSize($dir_software & "irfanview") = -1 Then
 			If SoftDownload($dir_software, $irfanview) Then
@@ -655,14 +655,14 @@ Func Programs()
 
 	; FastStone Image viewer
 	If Checked($checkFastStone) Then
-		Status("FastStone Image Viewer")
+		Status("Установка и настройка FastStone Image Viewer")
 
 		If SoftDownload($dir_software, $faststone_ds) Then SoftInstall($dir_software, $faststone_ds, "/S")
 	EndIf
 
 	; TeamViewer QS 9
 	If Checked($checkTM) Then
-		Status("Teamviewer QS 9")
+		Status("Установка и настройка Teamviewer QS 9")
 
 		If SoftDownload($dir_software, $tm_ds) Then
 	 		FileCreateShortcut($dir_software & $tm_ds, @DesktopDir & "\TeamViewer.lnk", $dir_software)
@@ -674,14 +674,14 @@ Func Programs()
 
 	; AnyDesk
 	If Checked($checkAnyDesk) Then
-		Status("AnyDesk")
+		Status("Установка и настройка AnyDesk")
 
 		If SoftDownload($dir_software, $anydesk_ds) Then SoftInstall($dir_software, $anydesk_ds, "run", "0") ; Запускаем AnyDesk
 	EndIf
 
 	; Trueconf
 	If Checked($checkTrueConf) Then
-		Status("TrueConf")
+		Status("Установка и настройка TrueConf")
 
 		If SoftDownload($dir_software, $trueconf_ds) Then
 			DirCreate($dir_software & "TrueConf") ; создаем папку для труконфа
@@ -696,7 +696,7 @@ Func Programs()
 
 	; Startisback
 	If Checked($checkStart) Then
-		Status("StartIsBack для Windows 10")
+		Status("Установка и настройка StartIsBack для Windows 10")
 
 		If SoftDownload($dir_software, $start_ds) Then
 			DirCreate($dir_software & "StartIsBack") ; создаем папку для Startisback
@@ -735,14 +735,14 @@ Func Programs()
 
 	; WinSCP FTP prog
 	If Checked($checkSCP) Then
-		Status("WinSCP")
+		Status("Установка и настройка WinSCP")
 
 		If SoftDownload($dir_software, $scp_ds) Then SoftInstall($dir_software, $scp_ds, "/SILENT")
 	EndIf
 
 	; 7-Zip
 	If Checked($checkZIP) Then
-		Status("7-Zip")
+		Status("Установка и настройка 7-Zip")
 
 		Local $zip_ds = $zip32_ds
 		Local $zip_assoc = $zip32_assoc
@@ -758,7 +758,7 @@ Func Programs()
 
 	; PuntoSwitcher with config
 	If Checked($checkPunto) Then
-		Status("Закачка PuntoSwitcher")
+		Status("Установка и настройка PuntoSwitcher")
 
 		If SoftDownload($dir_software, $punto_ds) Then
 			SoftUnzip($dir_software, $punto_ds)
@@ -768,7 +768,7 @@ Func Programs()
 
 	; MS Access 97
 	If Checked($checkAccess) Then
-		Status("Закачка Microsoft Access 97")
+		Status("Установка и настройка Microsoft Access 97")
 
 		If SoftDownload($dir_software, $access97_ds) Then
 			SoftUnzip($dir_software, $access97_ds)
@@ -793,7 +793,7 @@ Func Programs()
 
 	; Advanced IP Scanner
 	If Checked($checkIPScanner) Then
-		Status("IP Scanner")
+		Status("Установка и настройка IP Scanner")
 
 		If SoftDownload($dir_software, $ipscanner_ds) Then
 			SoftInstall($dir_software, $ipscanner_ds, "/silent /norestart /log " & $dir_logs & $ipscanner_ds)
@@ -803,7 +803,7 @@ Func Programs()
 
 	; XML Notepad
 	If Checked($checkXMLPad) Then
-		Status("XML Notepad")
+		Status("Установка и настройка XML Notepad")
 
 		If SoftDownload($dir_software, $xmlpad_ds) Then	SoftInstall($dir_software, $xmlpad_ds, "msi")
 	EndIf
@@ -822,7 +822,7 @@ Func Express()
 
 	; MS XML
 	If Checked($checkXML) Then
-		Status("MS Xml")
+		Status("Установка и настройка MS Xml")
 
 		If SoftDownload($dir_express, $xml_ds) Then SoftInstall($dir_express, $xml_ds, "msi")
 	EndIf
@@ -851,7 +851,7 @@ Func FNS()
 	; FNS Program
 	If Checked($checkFNS) Then
 		; Пакет электронных документов
-		Status("Программы для ФНС")
+		Status("Установка и настройка програм для ФНС")
 			Local $msiErr = ""
 			Local $FnsLink = IniRead($dir_distr & "version.ini", "ФНС", "Ссылка", "")
 
@@ -878,7 +878,7 @@ Func FNS()
 							$sFileName = FileFindNextFile($hSearch)
 							FileClose($hSearch)
 
-							Status("Модуль печати ППДГР")
+							Status("Установка и настройка модуля печати ППДГР")
 							RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
 						FileChangeDir($dir_distr)
 					EndIf
