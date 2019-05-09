@@ -510,8 +510,14 @@ Func FederalResources()
 
 		If SoftDownload($dir_federal, $firefox) Then ; Скачиваем FF
 			ProcessClose("firefox.exe")
-			DirRemove("C:\Program Files\Mozilla Firefox", 1)
-			DirRemove("C:\Program Files (x86)\Mozilla Firefox", 1)
+			Sleep(1000)
+
+			; Удаляем предыдущие копии с Firefox
+			$CMD = "cd ""C:\Program Files\"" && ren ""Mozilla Firefox"" Firefox && rmdir Firefox /s /q"
+			RunWait('"' & @ComSpec & '" /c ' & $CMD)
+
+			$CMD = "cd ""C:\Program Files (x86)\"" && ren ""Mozilla Firefox"" Firefox && rmdir Firefox /s /q"
+			RunWait('"' & @ComSpec & '" /c ' & $CMD)
 
 			SoftInstall($dir_federal, $firefox, "-ms")
 
