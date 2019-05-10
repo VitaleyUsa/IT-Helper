@@ -377,7 +377,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[43] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[42] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -386,7 +386,7 @@ Global $AllCheckboxes[43] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkXML, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
-		$checkXMLPad, $checkCleanUpdates, $checkLibReg] ; Массив из чекбоксов
+		$checkXMLPad, $checkLibReg] ; Массив из чекбоксов
 
 If $Start_param_certs Then
 	GUICtrlSetState($checkCerts, $GUI_CHECKED)

@@ -238,7 +238,7 @@ Func Enot()
 
 		
 		If SoftDownload($dir_enot, $LibReg) Then ; скачиваем ActiveTree.ocx и скрипт для реги енотовских библиотек
-			If SoftDownload($dir_enot, $ActiveTree) Then FileCopy($dir_enot & $ActiveTree, $WinLib & "\" & $ActiveTree)
+			If SoftDownload($dir_enot, $ActiveTree) Then FileCopy($dir_enot & $ActiveTree, $WinLib & "\" & $ActiveTree, 1)
 
 			_FileWriteToLine($dir_enot & $LibReg, 2, "set WinLibDir=" & $WinLib, 1) ; добавляем пути окружения в скрипт
 			_FileWriteToLine($dir_enot & $LibReg, 3, "set eNotPath=" & $sEnotPath, 1)
