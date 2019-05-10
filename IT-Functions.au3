@@ -402,26 +402,21 @@ Func FederalResources()
 	; ActiveX + Browser Plugins
 	If Checked($checkActx_Browser) Then
 		; ActiveX
-;~ 		Status("Установка ActiveX компонентов")
+		Status("Удаление старых компонентов ActiveX")
 
-		; Нужно вообще? Жалобы на то, что не заходит в Федресурс
-;~ 		If SoftDownload($dir_federal, $actxSetup) Then ; Закачка activex
-;~ 			If DirGetSize("C:\Program Files (x86)\Interfax\") = -1 And DirGetSize("C:\Program Files\Interfax\") = -1 Then ; Проверка на установленные компоненты
-;~ 				If SoftInstall($dir_federal, $actxSetup, "msi", "0") Then
-;~ 					WinWait("Setup - Firefox ActiveX Plugin", "This will install Firefox Acti", $_sleepforwindow)
-;~ 					WinActivate("Setup - Firefox ActiveX Plugin", "This will install Firefox Acti")
-;~ 					ControlClick("Setup - Firefox ActiveX Plugin", "This will install Firefox Acti", "TNewButton1")
-;~ 					WinWait("Setup - Firefox ActiveX Plugin", "Where should Firefox ActiveX P", $_sleepforwindow)
-;~ 					ControlClick("Setup - Firefox ActiveX Plugin", "Where should Firefox ActiveX P", "TNewButton3")
-;~ 					WinWait("Setup - Firefox ActiveX Plugin", "Setup is now ready to begin in", $_sleepforwindow)
-;~ 					ControlClick("Setup - Firefox ActiveX Plugin", "Setup is now ready to begin in", "TNewButton3")
-;~ 					WinWait("Setup - Firefox ActiveX Plugin", "Setup has finished installing ", $_sleepforwindow)
-;~ 					ControlClick("Setup - Firefox ActiveX Plugin", "Setup has finished installing ", "TNewButton3")
-;~ 				EndIf
-;~ 			EndIf
-;~ 		EndIf
+		$sName = "ЕФРСБ - компонент подписи ЭЦП"
+		$oWMI = ObjGet("winmgmts:{impersonationLevel=impersonate}!\\" & @ComputerName & "\root\cimv2")
+		$aProducts = $oWMI.ExecQuery("Select * from Win32_Product Where Name LIKE '%" & $sName & "%'")
+
+		For $app in $aProducts
+			$app.Uninstall()
+		Next
+
+		If FileExists("C:\Program Files\Firefox ActiveX Plugin\") Then RunWait(" ""C:\Program Files\Firefox ActiveX Plugin\unins000.exe"" /SILENT")
+		If FileExists("C:\Program Files (x86)\Firefox ActiveX Plugin\") Then RunWait(" ""C:\Program Files (x86)\Firefox ActiveX Plugin\unins000.exe"" /SILENT")
 
 		Status("Установка и настройка CryptoPRO и Blitz для Google Chrome")
+
 		; Расширение CryptoPro и Blitz
 			RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist", "1", "REG_SZ", "iifchhfnnmpdbibifmljnfjhpififfog;https://clients2.google.com/service/update2/crx")
 			RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist", "2", "REG_SZ", "pomekhchngaooffdadfjnghfkaeipoba;https://clients2.google.com/service/update2/crx")
