@@ -28,9 +28,9 @@ Opt("TrayMenuMode", 3)
 #include "it-functions.au3"
 #include "it-password.au3"
 
-;~ local $title = _update()
+local $title = _update()
 
-local $title = "TEST"
+;~ local $title = "TEST"
 
 ; Main application
 
@@ -77,8 +77,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetState(-1, $GUI_DISABLE)
 		$checkLibReg = GUICtrlCreateCheckbox(" Регистрация библиотек", 17, 186, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Регистрация библиотек (vstwain.dll)")
-		GUICtrlSetState(-1, $GUI_DISABLE)
+		GUICtrlSetTip(-1, "vstwain, activetree, capicom, enotddb2, msmask32, eNotTX15, tx4ole23, eNotTX23, eNotTXres")
 		
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_fns = GUICtrlCreateGroup("ФНС", 216, 277, 193, 97)
@@ -330,7 +329,7 @@ Global $DummyEnd = GUICtrlCreateDummy()
 #EndRegion ### Конец - Кнопки ###
 
 #Region ### Начало - Tray ###
-Local $iSettings = TrayCreateMenu("Настройки") ; Create a tray menu sub menu with two sub items.
+Local $iSettings = TrayCreateMenu("Настройки") ; Создаем трей меню
 Local $iOffline = TrayCreateItem("Offline - режим", $iSettings)
 Local $iRemove = TrayCreateItem("Удалить ПО", $iSettings)
 TrayCreateItem("")
@@ -339,7 +338,7 @@ Local $iAbout = TrayCreateItem("О программе")
 TrayCreateItem("")
 Local $iExit = TrayCreateItem("Выйти")
 
-TraySetState($TRAY_ICONSTATE_SHOW) ; Show the tray menu.
+TraySetState($TRAY_ICONSTATE_SHOW) ; Показываем трей меню
 #Region ### Конец - Tray ###
 
 #Region ### Начало - Строка состояния ###
@@ -377,7 +376,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[41] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[43] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -386,7 +385,7 @@ Global $AllCheckboxes[41] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkXML, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
-		$checkXMLPad] ; Массив из чекбоксов
+		$checkXMLPad, $checkCleanUpdates, $checkLibReg] ; Массив из чекбоксов
 
 If $Start_param_certs Then
 	GUICtrlSetState($checkCerts, $GUI_CHECKED)

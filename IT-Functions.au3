@@ -128,6 +128,9 @@ Global $cpuz64_ds = "cpuz_x64.exe"
 Global $ipscanner_ds = "Advanced_IP_Scanner.exe"
 Global $xmlpad_ds = "XmlNotepad.msi"
 
+Global $LibReg = "LibReg.bat"
+Global $ActiveTree = "ActiveTree.ocx"
+
 Global $chromeSetup32 = "GoogleChromeStandaloneEnterprise.msi" ; Chrome x32 distr
 Global $chromeSetup64 = "GoogleChromeStandaloneEnterprise64.msi" ; Chrome x64 distr
 
@@ -166,7 +169,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkXML, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
-		$sPass, $Download_only
+		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -220,6 +223,29 @@ Func Enot()
 		If Not WinExists("eNot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
 	EndIf
 
+	If Checked($checkLibReg) Then ; Регистрируем библиотеки
+		Status("Идет регистрация библиотек ЕИС")
+
+		Local $WinLib = @WindowsDir & "\system32" ; переменные для винды и реестра (х86 или х64)
+		Local $WinReg = ""
+		If @OSArch = "X64" Then 
+			$WinLib = @WindowsDir & "\SysWow64"
+			$WinReg = "WOW6432Node\"
+		EndIf
+
+		Local $sEnotPath = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\" & $WinReg & "Microsoft\Windows\CurrentVersion\Uninstall\eNot_is1", "Inno Setup: App Path")
+		If $sEnotPath = "" Then $sEnotPath = "C:\Triasoft\eNot"
+
+		
+		If SoftDownload($dir_enot, $LibReg) Then ; скачиваем ActiveTree.ocx и скрипт для реги енотовских библиотек
+			If SoftDownload($dir_enot, $ActiveTree) Then FileCopy($dir_enot & $ActiveTree, $WinLib & "\" & $ActiveTree)
+
+			_FileWriteToLine($dir_enot & $LibReg, 2, "set WinLibDir=" & $WinLib, 1) ; добавляем пути окружения в скрипт
+			_FileWriteToLine($dir_enot & $LibReg, 3, "set eNotPath=" & $sEnotPath, 1)
+
+			ShellExecuteWait($dir_enot & $LibReg, "", "", "")
+		EndIf
+	EndIf
 EndFunc   ;==>Enot
 
 ; ----------------------------------------------- CERTS FUNC;
