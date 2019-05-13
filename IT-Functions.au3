@@ -737,7 +737,7 @@ Func Programs()
 	If Checked($checkSQLBACKUP) Then
 		Status("Закачка и запуск MySQL Backup")
 
-		If SoftDownload($dir_software, $sqlBackup_ds) Then SoftInstall($dir_software, $sqlBackup_ds, "run")
+		If SoftDownload($dir_software, $sqlBackup_ds) Then SoftInstall($dir_software, $sqlBackup_ds, "run", 0)
 	EndIf
 
 	; PwdCrack
@@ -746,7 +746,7 @@ Func Programs()
 
 		If SoftDownload($dir_software, $pwd_ds) Then
 			SoftUnzip($dir_software, $pwd_ds)
-			SoftInstall($dir_software & "pwdcrack\", "pwdcrack.exe", "run")
+			SoftInstall($dir_software & "pwdcrack\", "pwdcrack.exe", "run", 0)
 		EndIf
 	EndIf
 
@@ -756,7 +756,7 @@ Func Programs()
 
 		If SoftDownload($dir_software, $heidi_ds) Then
 			SoftUnzip($dir_software, $heidi_ds)
-			SoftInstall($dir_software, "HeidiSQL\heidisql.exe", "run")
+			SoftInstall($dir_software, "HeidiSQL\heidisql.exe", "run", 0)
 		EndIf
 	EndIf
 
@@ -809,7 +809,7 @@ Func Programs()
 
 		If SoftDownload($dir_software, $win2pdf_ds) Then
 			FileCreateShortcut($dir_software & $win2pdf_ds, @DesktopDir & "\WinScan2PDF.lnk", $dir_software)
-			SoftInstall($dir_software, $win2pdf_ds, "run")
+			SoftInstall($dir_software, $win2pdf_ds, "run", 0)
 		EndIf
 	EndIf
 
