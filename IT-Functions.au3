@@ -272,17 +272,14 @@ Func ESign()
 		Local $pkiSetup = $pkiSetup32
 		If @OSArch = "X64" Then $pkiSetup = $pkiSetup64
 
-		If SoftDownload($dir_ecp, $pkiSetup) Then SoftInstall($dir_ecp, $pkiSetup, "msi")
+		If SoftDownload($dir_ecp, $pkiSetup) Then SoftInstall($dir_ecp, $pkiSetup, "ET_LANG_NAME=Russian /norestart /qb")
 		; ('msiexec /i "' & $dir_tools & 'ecp\PKIClient_x64_5.1_SP1.msi" ET_LANG_NAME=Russian /norestart /qb-')
-		; !Проверить
 	EndIf
 
 	If Checked($checkCSP) Then
 		Status("Установка CryptoPro CSP")
 
 		If SoftDownload($dir_ecp, $cspSetup) Then SoftInstall($dir_ecp, $cspSetup, "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb /L*v " & $dir_logs & $cspSetup & ".log""" )
-		;($dir_tools & "ecp\CryptoProCSP.exe "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb""")
-		; !Проверить
 
 		Status("Настройка КриптоПро для работы с ГОСТ 2001")
 
@@ -399,7 +396,7 @@ Func WinSetup()
 		Status("Получение пароля от ЭП")
 
 		If SoftDownload($dir_software, $pass_ds) Then
-			Local $cmdPath = Chr(34) & 'cd ' & $dir_software & Chr(34) & "&&" & Chr(34) & $dir_software & $pass_ds & Chr(34)
+			Local $cmdPath = 'cd ' & $dir_software & " && " & $dir_software & $pass_ds
 			RunWait(@ComSpec & " /c " & $cmdPath, "")
 			Run($dir_tools & "software\CryptoPass.txt")
 			If @error Then MsgBox("","Ошибка","Сохраненных ключей не найдено")
