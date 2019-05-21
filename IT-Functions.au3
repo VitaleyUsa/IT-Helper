@@ -103,6 +103,9 @@ Global $fedResurs = "FedresursDSPlugin.msi" ; Плагин для Федресу
 Global $cryptoFF = "ru.cryptopro.nmcades@cryptopro.ru.xpi" ; КриптоПро плагин для FF
 Global $blitzFF = "pomekhchngaooffdadfjnghfkaeipoba@reaxoft.ru.xpi" ; Блитц плагин для FF
 Global $crypto_reg = "crypto.reg" ; Файл настроек для ГОСТ 2001
+Global $win_updates32_ds = "WinUpdatesDisabler_x32.exe"
+Global $win_updates64_ds = "WinUpdatesDisabler_x64.exe"
+
 
 ;~ Global $java_update = "/Utils/Update-Java.exe"
 ;~ Global $java_settings = "/Utils/JavaSettings.exe"
@@ -340,17 +343,25 @@ Func WinSetup()
 	EndIf
 
 	If Checked($checkMUpdate) Then ; Отключение обновлений win10
-		RunWait(@ComSpec & " /c " & "sc config wuauserv start=disabled & sc stop wuauserv & sc config bits start=disabled & sc stop bits & sc config dosvc start=disabled & sc stop dosvc") ; отключаем службы обновления
+		;~ RunWait(@ComSpec & " /c " & "sc config wuauserv start=disabled & sc stop wuauserv & sc config bits start=disabled & sc stop bits & sc config dosvc start=disabled & sc stop dosvc") ; отключаем службы обновления
 
-		DllCall("kernel32.dll", "int", "Wow64DisableWow64FsRedirection", "int", 1) ; перенаправление отключаем
-		RunWait(@ComSpec & " /c " & 'TAKEOWN /F ' & @WindowsDir & '\System32\UsoClient.exe /a') ; даем себе права на файл автосканирования центра обновлений windows
-		RunWait(@ComSpec & " /c " & 'icacls ' & @WindowsDir & "\System32\UsoClient.exe /inheritance:r /remove ''Администраторы'' ''Прошедшие проверку'' ''Пользователи'' ''Система''") ; забираем права у всех (чтобы не производителось сканирование на наличии обновлений
+		;~ DllCall("kernel32.dll", "int", "Wow64DisableWow64FsRedirection", "int", 1) ; перенаправление отключаем
+		;~ RunWait(@ComSpec & " /c " & 'TAKEOWN /F ' & @WindowsDir & '\System32\UsoClient.exe /a') ; даем себе права на файл автосканирования центра обновлений windows
+		;~ RunWait(@ComSpec & " /c " & 'icacls ' & @WindowsDir & "\System32\UsoClient.exe /inheritance:r /remove ''Администраторы'' ''Прошедшие проверку'' ''Пользователи'' ''Система''") ; забираем права у всех (чтобы не производителось сканирование на наличии обновлений
 
-		RegWrite("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR", "AppCaptureEnabled", "REG_DWORD", "0")
-		RegWrite("HKEY_CURRENT_USER\System\GameConfigStore", "GameDVR_Enabled", "REG_DWORD", "0")
+		;~ RegWrite("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR", "AppCaptureEnabled", "REG_DWORD", "0")
+		;~ RegWrite("HKEY_CURRENT_USER\System\GameConfigStore", "GameDVR_Enabled", "REG_DWORD", "0")
 
-		RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\Microsoft\Windows\UpdateOrchestrator") ; отключаем задачи обновления
-		RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\Microsoft\Windows\WindowsUpdate")
+		;~ RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\Microsoft\Windows\UpdateOrchestrator") ; отключаем задачи обновления
+		;~ RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\Microsoft\Windows\WindowsUpdate")
+	
+		Local $win_updates = $win_updates32_ds
+		If @OSArch = "X64" Then $win_updates = $win_updates64_ds
+
+		If SoftDownload($dir_software, $win_updates)
+			SoftInstall($dir_software, $win_updates,"run", 0)
+		EndIf
+	
 	EndIf
 
 	; ProduKey
