@@ -415,7 +415,7 @@ Func WinSetup()
 		Status("Получение пароля от ЭП")
 
 		If SoftDownload($dir_software, $pass_ds) Then
-			Local $cmdPath = 'cd ' & $dir_software & " && " & $dir_software & $pass_ds
+			Local $cmdPath = $dir_software & $pass_ds & " " & $dir_software
 			RunWait(@ComSpec & " /c " & $cmdPath, "")
 			Run($dir_tools & "software\CryptoPass.txt")
 			If @error Then MsgBox("","Ошибка","Сохраненных ключей не найдено")
