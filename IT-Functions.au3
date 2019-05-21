@@ -626,10 +626,16 @@ Func FederalResources()
 		Status("Установка и настройка Google Chrome")
 
 		Local $chromeSetup = $chromeSetup32
-
+		Local $Registry64 = ""
 		ProcessClose("chrome.exe") ; закрываем Chrome
-		If @OSArch = "X64" Then $chromeSetup = $chromeSetup64 ; Определяем разрядность Хрома
+		If @OSArch = "X64" Then 
+			$chromeSetup = $chromeSetup64 ; Определяем разрядность Хрома
+			$Registry64 = "Wow6432Node\"
+		EndIf
+
 		If SoftDownload($dir_federal, $chromeSetup) Then
+			RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\" $ $Registry64 $ "google\update") ; исключаем ошибки от предыдущих установок
+
 			SoftInstall($dir_federal, $chromeSetup, "msi") ; Скачиваем и устанавливаем хром
 
 			; Расширение CryptoPro и Blitz
