@@ -358,7 +358,7 @@ Func WinSetup()
 		Local $win_updates = $win_updates32_ds
 		If @OSArch = "X64" Then $win_updates = $win_updates64_ds
 
-		If SoftDownload($dir_software, $win_updates)
+		If SoftDownload($dir_software, $win_updates) Then
 			SoftInstall($dir_software, $win_updates,"run", 0)
 		EndIf
 	
