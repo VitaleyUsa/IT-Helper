@@ -329,6 +329,14 @@ Func WinSetup()
 
 		; Включаем показ расширений
 		RegWrite("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "HideFileExt", "REG_DWORD", "0")
+	
+		; Добавляем в исключения папки с енотом / нотариальным помощником
+		Local $HKLM = "HKLM\"
+		If @OSArch = "X64" Then $HKLM = "HKLM64\"
+
+		RegWrite($HKLM & "SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths", "C:\Triasoft\eNot", "REG_DWORD", "0")
+		RegWrite($HKLM & "SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths", "C:\Triasoft\Express", "REG_DWORD", "0")
+		RegWrite($HKLM & "SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths", "C:\Distr\Notary", "REG_DWORD", "0")
 	EndIf
 
 	If Checked($checkMUpdate) Then ; Отключение обновлений win10
@@ -634,7 +642,7 @@ Func FederalResources()
 		EndIf
 
 		If SoftDownload($dir_federal, $chromeSetup) Then
-			RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\" $ $Registry64 $ "google\update") ; исключаем ошибки от предыдущих установок
+			RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\" & $Registry64 & "google\update") ; исключаем ошибки от предыдущих установок
 
 			SoftInstall($dir_federal, $chromeSetup, "msi") ; Скачиваем и устанавливаем хром
 
