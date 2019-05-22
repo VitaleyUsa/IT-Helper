@@ -133,6 +133,7 @@ Global $xmlpad_ds = "XmlNotepad.msi"
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
+Global $TX25 = "TX25.zip"
 
 Global $chromeSetup32 = "GoogleChromeStandaloneEnterprise.msi" ; Chrome x32 distr
 Global $chromeSetup64 = "GoogleChromeStandaloneEnterprise64.msi" ; Chrome x64 distr
@@ -236,9 +237,15 @@ Func Enot()
 			$WinReg = "WOW6432Node\"
 		EndIf
 
-		Local $sEnotPath = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\" & $WinReg & "Microsoft\Windows\CurrentVersion\Uninstall\eNot_is1", "Inno Setup: App Path")
-		If $sEnotPath = "" Then $sEnotPath = "C:\Triasoft\eNot"
+		Local $sEnotPath = "C:\Triasoft\eNot"
+		If Not FileExists("C:\Triasoft\eNot") Then
+			Local $sEnotPath = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\" & $WinReg & "Microsoft\Windows\CurrentVersion\Uninstall\eNot_is1", "Inno Setup: App Path")
+		EndIf
 
+		if Not FileExists($sEnotPath & "\TX25") Then 
+			DirCreate($sEnotPath & "\TX25")
+			If SoftDownload($dir_enot, $TX25) Then	SoftUnzip($dir_enot, $TX25, $sEnotPath & "\TX25")
+		EndIf
 		
 		If SoftDownload($dir_enot, $LibReg) Then ; скачиваем ActiveTree.ocx и скрипт для реги енотовских библиотек
 			If SoftDownload($dir_enot, $ActiveTree) Then FileCopy($dir_enot & $ActiveTree, $WinLib & "\" & $ActiveTree, 1)
