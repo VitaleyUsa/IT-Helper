@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.17
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.18
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -60,64 +60,69 @@ GUICtrlSetFont(-1, 10, 400, 0, "Arial")
 $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	$group_eis = GUICtrlCreateGroup("ЕИС Енот", 8, 37, 193, 337)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkEnot = GUICtrlCreateCheckbox(" Дистрибутив ЕИС", 17, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkBD = GUICtrlCreateCheckbox(" Дистрибутив MySQL", 17, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Mysql + базы данных еис")
+
 		$checkSQLBACKUP = GUICtrlCreateCheckbox(" Бэкап баз данных ЕИС", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Утилита для бэкапа MySQL БД Енота")
+
 		$checkCleanUpdates = GUICtrlCreateCheckbox(" Очистка обновлений", 17, 154, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Удаление старых обновлений ЕИС")
-		GUICtrlSetState(-1, $GUI_DISABLE)
+
 		$checkLibReg = GUICtrlCreateCheckbox(" Регистрация библиотек", 17, 186, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "vstwain, activetree, capicom, enotddb2, msmask32, eNotTX15, tx4ole23, eNotTX23, eNotTXres")
+		GUICtrlSetTip(-1, "vstwain, activetree, capicom, enotddb2, eNotTXres + папки tx/tx23/tx25")
+
+		$checkFindRND = GUICtrlCreateCheckbox(" Пропущ. действия РНД", 17, 218, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Утилита для поиск пропущенных значений в РНД ЕИС")
 		
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_fns = GUICtrlCreateGroup("ФНС", 216, 277, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkFNS = GUICtrlCreateCheckbox(" ППДГР", 225, 297, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkFNS_Print = GUICtrlCreateCheckbox(" Модуль печати", 225, 330, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Восстанавливает модуль печати для ППДГР")
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_express = GUICtrlCreateGroup("Триасофт - Экспресс", 216, 173, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkHasp = GUICtrlCreateCheckbox(" HASP Драйвер", 225, 193, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Удаляет старые драйверы для ключа hasp и устанавливает новые")
+
 		$checkXML = GUICtrlCreateCheckbox(" MsXML", 225, 226, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "")
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_browser = GUICtrlCreateGroup("Интернет браузеры", 424, 37, 193, 161)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkFF = GUICtrlCreateCheckbox(" Firefox ESR", 433, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "+ расширения для FF + отключение обновлений")
+
 		$checkChrome = GUICtrlCreateCheckbox(" Google Chrome", 433, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "+ расширения для Chrome")
+
 		$checkIE = GUICtrlCreateCheckbox(" Internet Explorer", 433, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Настройка Internet Explorer")
+
 		$checkActx_Browser = GUICtrlCreateCheckbox(" Плагины и расширения", 433, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "ЕФРСБ, Госуслуги, Федресурс")
@@ -125,31 +130,29 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_ecp = GUICtrlCreateGroup("Электронная подпись", 216, 37, 193, 129)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkPKI = GUICtrlCreateCheckbox(" eToken pki client", 225, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты", 225, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Сертификиты + списки отзывов РР и ФЦИИТ")
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_crypto = GUICtrlCreateGroup("Крипто утилиты", 424, 205, 193, 129)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkARM = GUICtrlCreateCheckbox(" Крипто ARM", 433, 225, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkPDF = GUICtrlCreateCheckbox(" Крипто PDF", 433, 258, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkLine = GUICtrlCreateCheckbox(" Крипто Лайн", 433, 291, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Бесплатный аналог КриптоАРМ (не сертифицированная)")
 #EndRegion ### Конец - Вкладка - Нотариат ###
 
@@ -158,80 +161,78 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 $TabSheet2 = GUICtrlCreateTabItem("Программы")
 	$group_view = GUICtrlCreateGroup("Просмотр изображений", 8, 173, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkIrfan = GUICtrlCreateCheckbox(" IrfanView", 17, 193, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkFastStone = GUICtrlCreateCheckbox(" FastStone Viewer", 17, 226, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$group_rdp = GUICtrlCreateGroup("Удаленный доступ", 8, 277, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkTM = GUICtrlCreateCheckbox(" TeamViewer QS", 17, 297, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Teamviewer Quick Support 9")
+
 		$checkAnyDesk = GUICtrlCreateCheckbox(" AnyDesk", 17, 330, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_tools = GUICtrlCreateGroup("Начальная настройка ОС", 8, 37, 193, 129)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkAdobe = GUICtrlCreateCheckbox(" Adobe Reader", 17, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkZIP = GUICtrlCreateCheckbox(" 7-Zip", 17, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Архиватор (x32/x64)")
+
 		$checkNet_35 = GUICtrlCreateCheckbox(" .Net Framework 3.5", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_other = GUICtrlCreateGroup("Разное", 216, 37, 193, 337)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkTrueConf = GUICtrlCreateCheckbox(" TrueConf", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Видеоконференция")
+
 		$check_heidi = GUICtrlCreateCheckbox(" HeidiSQL", 225, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Утилита для работы с БД")
+
 		$checkSCP = GUICtrlCreateCheckbox(" WinSCP", 225, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Фтп - клиент")
+
 		$checkStart = GUICtrlCreateCheckbox(" StartIsBack", 225, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Возвращает стандартный пуск в win10")
+
 		$checkPunto = GUICtrlCreateCheckbox(" PuntoSwitcher", 225, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Автоматическое переключение раскладки + улучшенный буфер обмена")
+
 		$checkAccess = GUICtrlCreateCheckbox(" Microsoft Access 97 SR2", 225, 222, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Утилита для восстановление баз данных Экспресса")
+
 		$checkWin2PDF = GUICtrlCreateCheckbox(" WinScan2PDF", 225, 255, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Утилита для сканирования в ПДФ")
+
 		$checkIPScanner = GUICtrlCreateCheckbox(" Advanced IP Scanner", 225, 288, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Сканер локальных сетей")
+
 		$checkXMLPad = GUICtrlCreateCheckbox(" XML Notepad", 225, 321, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		GUICtrlSetTip(-1, "Блокнот для визуализации XML-файлов")
 #EndRegion ### Конец - Вкладка - Программы ###
 
@@ -240,68 +241,66 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 	$group_os = GUICtrlCreateGroup("Операционная система", 8, 37, 193, 193)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkWinSet = GUICtrlCreateCheckbox(" Настройка Windows", 17, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Открывает порт для . Профиль энергосбережения ОС - 'быстродействие'. Отключает выключение жестких дисков и usb. Добавляет в исключения папки Triasoft")
+		
 		$checkMUpdate = GUICtrlCreateCheckbox(" Обновления Win10", 17, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Отключение / включение обновлений Windows 10")
+		
 		$checkShare = GUICtrlCreateCheckbox(" Общий сетевой доступ", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Настройка общего сетевого доступа для локальной сети")
+		
 		$checkECPPass= GUICtrlCreateCheckbox(" Пароль от ЭП", 17, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Показывает все сохраненные ранее пароли от ЭП")
+		
 		$checkSysInfo = GUICtrlCreateCheckbox(" Отчет о системе", 17, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Отчет о системных характеристиках и комплектующих")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$group_os_tools = GUICtrlCreateGroup("Доп. утилиты", 8, 237, 193, 137)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$checkProduKey = GUICtrlCreateCheckbox(" Серийные номера", 17, 257, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Утилита для сохранения серийных номеров от различных программ (криптопро, арм, офис, ос)")
+		
 		$check_pwd = GUICtrlCreateCheckbox(" PasswordCrack", 17, 290, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Показывает скрытый под звездочками пароль")
+		
 		$checkC = GUICtrlCreateCheckbox(" Visual C++ 05-17", 17, 323, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetTip(-1, "Microsoft Visual C++ 2005-2008-2010-2012-2013-2017 Redistributable Package Hybrid x86  x64")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$group_folders = GUICtrlCreateGroup("Часто используемые папки", 216, 37, 193, 337)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		$L_NotaryFolder = GUICtrlCreateLabel(" Дистрибутив помощника", 227, 56, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetCursor (-1, 0)
+		
 		$L_eis = GUICtrlCreateLabel(" Дистрибутив ЕИС Енот", 226, 89, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetCursor (-1, 0)
+		
 		$L_profile = GUICtrlCreateLabel(" Профиль пользователя", 227, 122, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetCursor (-1, 0)
+		
 		$L_hosts = GUICtrlCreateLabel(" Доменные имена Hosts", 226, 155, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
 		GUICtrlSetCursor (-1, 0)
+		
 		$L_Logs = GUICtrlCreateLabel(" Журнал операций", 226, 188, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetBkColor(-1, 0xFFFFFF)
+
 		GUICtrlSetCursor (-1, 0)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	GUICtrlCreateTabItem("")
@@ -377,7 +376,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[42] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[44] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -386,7 +385,7 @@ Global $AllCheckboxes[42] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkXML, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
-		$checkXMLPad, $checkLibReg] ; Массив из чекбоксов
+		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND] ; Массив из чекбоксов
 
 If $Start_param_certs Then
 	GUICtrlSetState($checkCerts, $GUI_CHECKED)

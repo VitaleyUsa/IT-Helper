@@ -105,6 +105,8 @@ Global $blitzFF = "pomekhchngaooffdadfjnghfkaeipoba@reaxoft.ru.xpi" ; Блитц
 Global $crypto_reg = "crypto.reg" ; Файл настроек для ГОСТ 2001
 Global $win_updates32_ds = "WinUpdatesDisabler_x32.exe"
 Global $win_updates64_ds = "WinUpdatesDisabler_x64.exe"
+Global $CleanUpdates_ds = "CleanUpdates_EIS.exe"
+Global $FindRND = "MySql_indexer.exe"
 
 
 ;~ Global $java_update = "/Utils/Update-Java.exe"
@@ -173,7 +175,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkXML, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
-		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg
+		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -227,6 +229,12 @@ Func Enot()
 		If Not WinExists("eNot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
 	EndIf
 
+	If Checked($checkCleanUpdates) Then ; Утилита для очистки обновлений ЕИС
+		Status("Запуск утилиты для очистки обновлений ЕИС")
+
+		If SoftDownload($dir_enot, $CleanUpdates_ds) Then SoftInstall($dir_enot, $CleanUpdates_ds, "run", 0)
+	EndIf
+
 	If Checked($checkLibReg) Then ; Регистрируем библиотеки
 		Status("Идет регистрация библиотек ЕИС")
 
@@ -256,6 +264,12 @@ Func Enot()
 			ShellExecuteWait($dir_enot & $LibReg, "", "", "")
 		EndIf
 	EndIf
+
+	If Checked($checkFindRND) Then ; Утилита для поиска пропущенного значения в РНД
+		Status("Идет скачивание и настройка утилиты для поиска пропущенных значений, подождите")
+
+		If SoftDownload($dir_enot, $FindRND) Then SoftInstall($dir_enot, $FindRND, "run", 0)
+	EndIf
 EndFunc   ;==>Enot
 
 ; ----------------------------------------------- CERTS FUNC;
@@ -282,8 +296,7 @@ Func ESign()
 		Local $pkiSetup = $pkiSetup32
 		If @OSArch = "X64" Then $pkiSetup = $pkiSetup64
 
-		If SoftDownload($dir_ecp, $pkiSetup) Then SoftInstall($dir_ecp, $pkiSetup, "ET_LANG_NAME=Russian /norestart /qb")
-		; ('msiexec /i "' & $dir_tools & 'ecp\PKIClient_x64_5.1_SP1.msi" ET_LANG_NAME=Russian /norestart /qb-')
+		If SoftDownload($dir_ecp, $pkiSetup) Then SoftInstall($dir_ecp, $pkiSetup, "etoken")
 	EndIf
 
 	If Checked($checkCSP) Then
@@ -1107,6 +1120,7 @@ EndFunc   ;==>_SoftUnzip
 Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка софта
 	; (Место, Название, Вариант установки: 				   run = Только запуск
 														;  msi = Тихая установка MSI пакетов
+														;  etoken = Тихая установка etoken
 														;  cades = Тихая установка пакетов криптоПРО плагин
 														;  pdf = Тихая установка пакетов КриптоПДФ
 														;  arm = Тихая установка криптоАРМ
@@ -1126,6 +1140,9 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 
 		Case "msi" ; Установка MSI пакетов
 			$arg = "msiexec /i " & $FilePath & $arg
+
+		Case "etoken"
+			$arg = "msiexec /i " & $FilePath & " ET_LANG_NAME=Russian /qb /L*V " & $dir_logs & $Soft_ds & ".log"
 
 		Case "cades" ; КриптоПРО плагин
 			$arg = $FilePath & " -norestart -silent -cadesargs ""/qn REBOOT=REALLYSUPPRESS"" "
