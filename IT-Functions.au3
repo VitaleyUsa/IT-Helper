@@ -1142,7 +1142,7 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 			$arg = "msiexec /i " & $FilePath & $arg
 
 		Case "etoken"
-			$arg = "msiexec /i " & $FilePath & " ET_LANG_NAME=Russian /qb /L*V " & $dir_logs & $Soft_ds & ".log"
+			$arg = "msiexec /i " & $FilePath & " ET_LANG_NAME=Russian /qb REBOOT=REALLYSUPPRESS /L*V " & $dir_logs & $Soft_ds & ".log"
 
 		Case "cades" ; КриптоПРО плагин
 			$arg = $FilePath & " -norestart -silent -cadesargs ""/qn REBOOT=REALLYSUPPRESS"" "
