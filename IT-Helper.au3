@@ -312,12 +312,10 @@ Global $DummyEnd = GUICtrlCreateDummy()
 	$btnNewPk = GUICtrlCreateButton("Новый ПК", 2, 408, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
 	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
 	GUICtrlSetColor(-1, 0x000000)
-	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$btnSpecialist = GUICtrlCreateButton("Тех. работник", 90, 408, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
 	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
 	GUICtrlSetColor(-1, 0x000000)
-	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$btnDownloadOnly = GUICtrlCreateButton("Скачать", 178, 408, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
 	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
@@ -474,12 +472,18 @@ While 1
 
 		; Кнопки
 
+		Case $btnNewPk ; Кнопка Новый ПК
+			_Next("Настройка ПК завершена", False, "NewPK")
+
+		Case $btnSpecialist ; Кнопка Тех. работник
+			_Next("Рабочее место тех. работника настроено", False, "Specialist")
+
 		Case $btnDownloadOnly ; Кнопка СКАЧАТЬ
-				_Next("Загрузка завершена", True)
-;~ 				test()
+			_Next("Загрузка завершена", True)
+;~ 			test()
 
 		Case $btnInstall ; Кнопка УСТАНОВИТЬ
-				_Next()
+			_Next()
 
 	EndSwitch
 

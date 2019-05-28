@@ -198,7 +198,7 @@ Func _install($dwnload_only = False)
 	Programs() ; Различный софт
 	Express() ; Экспресс
 	FNS()
-
+	Programs2Reboot()
 	_FileWriteLog($dir_logs & "Install.log", " ===================================================" & @CRLF & @CRLF )
 
 EndFunc   ;==>_install
@@ -518,17 +518,6 @@ Func FederalResources()
 		Status("Установка и настройка плагина для Федресурса")
 
 			If SoftDownload($dir_federal, $fedResurs) Then SoftInstall($dir_federal, $fedResurs, "msi")
-	EndIf
-
-	; CryptoArm
-	If Checked($checkARM) Then
-		Status("Установка и настройка CryptoARM")
-
-		If SoftDownload($dir_federal, $armSetup) Then ; Закачка и установка КриптоАРМ
-			If SoftUnzip($dir_federal, $armSetup) Then SoftInstall($dir_federal & "CryptoARM", "setup.exe", "arm")
-		EndIf
-
-		If SoftDownload($dir_federal, $arm_settings) Then RunWait("reg.exe IMPORT " & $dir_federal & $arm_settings) ; Настройка КриптоАРМ
 	EndIf
 
 	; Adobe Reader DC
@@ -910,7 +899,6 @@ Func Express()
 	EndIf
 EndFunc   ;==>Express
 
-
 ; ----------------------------------------------- FNS FUNC;
 
 Func FNS()
@@ -975,6 +963,20 @@ Func FNS()
 	EndIf
 EndFunc
 
+; ----------------------------------------------- Programs2Reboot FUNC;
+
+Func Programs2Reboot() ; Все программы, которые желательно выполнять в конце скрипта (т.к. могут вызвать перезагрузку ПК)
+	; CryptoArm
+	If Checked($checkARM) Then
+		Status("Установка и настройка CryptoARM")
+
+		If SoftDownload($dir_federal, $armSetup) Then ; Закачка и установка КриптоАРМ
+			If SoftUnzip($dir_federal, $armSetup) Then SoftInstall($dir_federal & "CryptoARM", "setup.exe", "arm")
+		EndIf
+
+		If SoftDownload($dir_federal, $arm_settings) Then RunWait("reg.exe IMPORT " & $dir_federal & $arm_settings) ; Настройка КриптоАРМ
+	EndIf
+EndFunc
 ; ----------------------------------------------- JAVA FUNC;
 
 ;~ Func _JavaUpdate() ; Закачка и установка Java
@@ -1316,8 +1318,38 @@ Func _ScriptRestart() ; перезапуск скрипта
 	Exit
 EndFunc   ;==>_ScriptRestart
 
-Func _Next($msg = "Установка завершена", $dwnload_only = False) ; Закачка, установка и настройка
+Func _Next($msg = "Установка завершена", $dwnload_only = False, $button = "") ; Закачка, установка и настройка
 	Local $continue = False
+
+	If $button = "Specialist" Then ; Настройка кнопки "Тех. работник"
+		GUICtrlSetState($checkCSP, $GUI_CHECKED)
+		GUICtrlSetState($checkPKI, $GUI_CHECKED)
+		GUICtrlSetState($checkCerts, $GUI_CHECKED)
+		GUICtrlSetState($checkFF, $GUI_CHECKED)
+		GUICtrlSetState($checkChrome, $GUI_CHECKED)
+		GUICtrlSetState($checkIE, $GUI_CHECKED)
+		GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
+	EndIf
+
+	If $button = "NewPK" Then ; Настройка кнопки "Новое раб. место"
+		GUICtrlSetState($checkNet_35, $GUI_CHECKED)
+		GUICtrlSetState($checkC, $GUI_CHECKED)
+		GUICtrlSetState($checkShare, $GUI_CHECKED)
+		GUICtrlSetState($checkWinSet, $GUI_CHECKED)
+		GUICtrlSetState($checkAdobe, $GUI_CHECKED)
+		GUICtrlSetState($checkPDF, $GUI_CHECKED)
+		GUICtrlSetState($checkARM, $GUI_CHECKED)
+		GUICtrlSetState($checkFNS, $GUI_CHECKED)
+		GUICtrlSetState($checkHASP, $GUI_CHECKED)
+		GUICtrlSetState($checkEnot, $GUI_CHECKED)
+		GUICtrlSetState($checkCSP, $GUI_CHECKED)
+		GUICtrlSetState($checkPKI, $GUI_CHECKED)
+		GUICtrlSetState($checkCerts, $GUI_CHECKED)
+		GUICtrlSetState($checkFF, $GUI_CHECKED)
+		GUICtrlSetState($checkChrome, $GUI_CHECKED)
+		GUICtrlSetState($checkIE, $GUI_CHECKED)
+		GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
+	EndIf
 
 	For $i = 0 To UBound($AllCheckboxes) - 1 Step 1 ; Проверяем, выбран ли какой-либо пункт меню
 		If GUICtrlRead($AllCheckboxes[$i]) = $GUI_CHECKED Then $continue = True
