@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.21
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.22
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -83,8 +83,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkFindRND = GUICtrlCreateCheckbox(" Пропущ. действия РНД", 17, 218, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Утилита для поиск пропущенных значений в РНД ЕИС")
-		
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
 	$group_fns = GUICtrlCreateGroup("ФНС", 216, 277, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
@@ -95,7 +94,6 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Восстанавливает модуль печати для ППДГР")
 
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_express = GUICtrlCreateGroup("Триасофт - Экспресс", 216, 173, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
@@ -107,7 +105,6 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "")
 
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_browser = GUICtrlCreateGroup("Интернет браузеры", 424, 37, 193, 161)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
@@ -126,8 +123,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkActx_Browser = GUICtrlCreateCheckbox(" Плагины и расширения", 433, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "ЕФРСБ, Госуслуги, Федресурс")
-
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
 	$group_ecp = GUICtrlCreateGroup("Электронная подпись", 216, 37, 193, 129)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
@@ -141,8 +137,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Сертификиты + списки отзывов РР и ФЦИИТ")
 
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	$group_crypto = GUICtrlCreateGroup("Крипто утилиты", 424, 205, 193, 129)
+	$group_crypto = GUICtrlCreateGroup("Крипто утилиты", 424, 205, 193, 169)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkARM = GUICtrlCreateCheckbox(" Крипто ARM", 433, 225, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
@@ -157,7 +152,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 #EndRegion ### Конец - Вкладка - Нотариат ###
 
 #Region ### Начало - Вкладка - Программы ###
-GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 $TabSheet2 = GUICtrlCreateTabItem("Программы")
 	$group_view = GUICtrlCreateGroup("Просмотр изображений", 8, 173, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -167,7 +162,6 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 
 		$checkFastStone = GUICtrlCreateCheckbox(" FastStone Viewer", 17, 226, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$group_rdp = GUICtrlCreateGroup("Удаленный доступ", 8, 277, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -179,7 +173,6 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$checkAnyDesk = GUICtrlCreateCheckbox(" AnyDesk", 17, 330, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$group_tools = GUICtrlCreateGroup("Начальная настройка ОС", 8, 37, 193, 129)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
@@ -193,9 +186,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$checkNet_35 = GUICtrlCreateCheckbox(" .Net Framework 3.5", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	$group_other = GUICtrlCreateGroup("Разное", 216, 37, 193, 337)
+	$group_other = GUICtrlCreateGroup("Разное - I", 216, 37, 193, 337)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkTrueConf = GUICtrlCreateCheckbox(" TrueConf", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
@@ -232,14 +223,16 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 
 		$checkXMLPad = GUICtrlCreateCheckbox(" XML Notepad", 225, 321, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
 		GUICtrlSetTip(-1, "Блокнот для визуализации XML-файлов")
+
+	$group_other2 = GUICtrlCreateGroup("Разное - II", 424, 37, 193, 337)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 #EndRegion ### Конец - Вкладка - Программы ###
 
 #Region ### Начало - Вкладка - Системные настройки ###
-GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
-	$group_os = GUICtrlCreateGroup("Операционная система", 8, 37, 193, 193)
+	$group_os = GUICtrlCreateGroup("Операционная система - I", 8, 37, 193, 193)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkWinSet = GUICtrlCreateCheckbox(" Настройка Windows", 17, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
@@ -261,9 +254,8 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 		$checkSysInfo = GUICtrlCreateCheckbox(" Отчет о системе", 17, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Отчет о системных характеристиках и комплектующих")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$group_os_tools = GUICtrlCreateGroup("Доп. утилиты", 8, 237, 193, 137)
+	
+	$group_os_tools = GUICtrlCreateGroup("Доп. утилиты", 8, 237, 193, 137) 
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkProduKey = GUICtrlCreateCheckbox(" Серийные номера", 17, 257, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
@@ -277,32 +269,43 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 		$checkC = GUICtrlCreateCheckbox(" Visual C++ 05-17", 17, 323, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Microsoft Visual C++ 2005-2008-2010-2012-2013-2017 Redistributable Package Hybrid x86  x64")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$group_folders = GUICtrlCreateGroup("Часто используемые папки", 216, 37, 193, 337)
+	
+	$group_os2 = GUICtrlCreateGroup("Операционная система - II", 216, 37, 193, 337) 
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$L_NotaryFolder = GUICtrlCreateLabel(" Дистрибутив помощника", 227, 56, 178, 33, $SS_CENTERIMAGE)
+		$checkEvent292 = GUICtrlCreateCheckbox(" Событие 292 | CproCtrl ", 226, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+			GUICtrlSetTip(-1, "Исправление для ошибки 292 (CproCtrl) возникающей после обновления ОС")
+
+		$checkCleanTask = GUICtrlCreateCheckbox(" Очистка журналов", 226, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+			GUICtrlSetTip(-1, "Очищает все журналы операционной системы")
+		
+
+	$group_folders = GUICtrlCreateGroup("Часто используемые папки", 424, 37, 193, 337) 
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$L_NotaryFolder = GUICtrlCreateLabel(" Дистрибутив помощника", 434, 56, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetCursor (-1, 0)
 		
-		$L_eis = GUICtrlCreateLabel(" Дистрибутив ЕИС Енот", 226, 89, 178, 33, $SS_CENTERIMAGE)
+		$L_eis = GUICtrlCreateLabel(" Дистрибутив ЕИС Енот", 434, 89, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetCursor (-1, 0)
 		
-		$L_profile = GUICtrlCreateLabel(" Профиль пользователя", 227, 122, 178, 33, $SS_CENTERIMAGE)
+		$L_profile = GUICtrlCreateLabel(" Профиль пользователя", 434, 122, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetCursor (-1, 0)
 		
-		$L_hosts = GUICtrlCreateLabel(" Доменные имена Hosts", 226, 155, 178, 33, $SS_CENTERIMAGE)
+		$L_hosts = GUICtrlCreateLabel(" Доменные имена Hosts", 434, 155, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetCursor (-1, 0)
 		
-		$L_Logs = GUICtrlCreateLabel(" Журнал операций", 226, 188, 178, 33, $SS_CENTERIMAGE)
+		$L_Logs = GUICtrlCreateLabel(" Журнал операций", 434, 188, 178, 33, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 		GUICtrlSetCursor (-1, 0)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
 	GUICtrlCreateTabItem("")
 #EndRegion ### Конец - Вкладка - Системные настройки ###
 
@@ -374,7 +377,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[44] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[46] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -383,7 +386,8 @@ Global $AllCheckboxes[44] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkXML, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
-		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND] ; Массив из чекбоксов
+		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
+		$checkCleanTask] ; Массив из чекбоксов
 
 If $Start_param_certs Then
 	GUICtrlSetState($checkCerts, $GUI_CHECKED)

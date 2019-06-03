@@ -107,7 +107,7 @@ Global $win_updates32_ds = "WinUpdatesDisabler_x32.exe"
 Global $win_updates64_ds = "WinUpdatesDisabler_x64.exe"
 Global $CleanUpdates_ds = "CleanUpdates_EIS.exe"
 Global $FindRND = "MySql_indexer.exe"
-
+Global $CryptoFix = "CryptoPro_Fix.xml"
 
 ;~ Global $java_update = "/Utils/Update-Java.exe"
 ;~ Global $java_settings = "/Utils/JavaSettings.exe"
@@ -151,7 +151,6 @@ Global $produkey_ds = "ProduKey.exe" ; ProduKey
 Global $share_ds 	= "net_share.bat" ; Network Share Parameters
 Global $pass_ds  = "crypto_pass.bat" ; Получение сохраненных данных с ключа ЭП
 Global $faststone_ds = "FSViewerSetup66.exe" ; Faststone image viewer
-
 Global $sqlBackup_ds = "MysqlBackup.exe" ; утилита для бэкапа баз данных
 
 ; Системные
@@ -175,7 +174,8 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkXML, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
-		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND
+		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
+		$btnNewPk, $checkEvent292, $checkCleanTask
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -456,6 +456,19 @@ Func WinSetup()
 		EndIf
 	EndIf
 
+	; Исправление для 292 ошибки
+	If Checked($checkEvent292) Then
+		Status("Применяется исправление ошибки 292")
+
+		If SoftDownload($dir_software, $CryptoFix) Then RunWait(@ComSpec & " /c " & 'schtasks /Create /XML ' & $dir_software  & $CryptoFix & ' /TN CryptoPro_Fix_429', "", @SW_HIDE)
+	EndIf
+
+	If Checked($checkCleanTask) Then
+		Status("Очистка журналов ОС")
+
+		Local $CMD = "for /F ""tokens=*"" %1 in ('wevtutil.exe el') DO wevtutil.exe cl ""%1"""
+		RunWait(@ComSpec & " /c " & $CMD)
+	EndIf
 EndFunc   ;==>WinSetup
 
 ; ----------------------------------------------- FEDERAL FUNC;
@@ -1356,6 +1369,8 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 	Next
 
 	If $continue Then
+		GUICtrlSetState($btnNewPk, $GUI_DISABLE)
+		GUICtrlSetState($btnSpecialist, $GUI_DISABLE)
 		GUICtrlSetState($btnDownloadOnly, $GUI_DISABLE)
 		GUICtrlSetState($btnInstall, $GUI_DISABLE)
 		GUICtrlSetState($menuHelp, $GUI_DISABLE)
@@ -1371,6 +1386,8 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 			GUICtrlSetState($AllCheckboxes[$i], $GUI_ENABLE)
 		Next
 
+		GUICtrlSetState($btnNewPk, $GUI_ENABLE)
+		GUICtrlSetState($btnSpecialist, $GUI_ENABLE)
 		GUICtrlSetState($btnDownloadOnly, $GUI_ENABLE)
 		GUICtrlSetState($btnInstall, $GUI_ENABLE)
 		GUICtrlSetState($menuHelp, $GUI_ENABLE)
