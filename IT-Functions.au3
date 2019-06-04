@@ -1392,6 +1392,8 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 		GUICtrlSetState($btnInstall, $GUI_ENABLE)
 		GUICtrlSetState($menuHelp, $GUI_ENABLE)
 		Status($msg)
+
+		If $button = "NewPk" or $button = "Specialist" Then	MsgBox ("", "Внимание" ,"Для завершения установки необходимо перезагрузить компьютер.")
 	EndIf
 EndFunc   ;==>_Next
 
