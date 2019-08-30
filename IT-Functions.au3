@@ -88,8 +88,11 @@ Global $certs_ds = "certs.zip" ; Сертификаты
 Global $ieSetup = "internet_explorer.reg" ; Internet Explorer settings
 Global $pkiSetup32 = "PKIClient_x32_5.1_SP1.msi" ; Etoken Pki Client x86bit
 Global $pkiSetup64 = "PKIClient_x64_5.1_SP1.msi" ; Etoken Pki Client x64bit
+Global $jacarta32 = "Jacarta_32.msi" ; Jacarta x86bit
+Global $jacarta64 = "Jacarta_64.msi" ; Jacarta x64bit
 
 Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP
+Global $csp5setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0
 Global $armSetup = "CryptoARM.zip" ; CryptoARM
 Global $arm_settings = "arm_settings.reg" ; CryptoARM settings
 Global $actxSetup = "cspcomsetup.msi" ; ActiveX Component + Firefox Plugin
@@ -103,8 +106,7 @@ Global $fedResurs = "FedresursDSPlugin.msi" ; Плагин для Федресу
 Global $cryptoFF = "ru.cryptopro.nmcades@cryptopro.ru.xpi" ; КриптоПро плагин для FF
 Global $blitzFF = "pomekhchngaooffdadfjnghfkaeipoba@reaxoft.ru.xpi" ; Блитц плагин для FF
 Global $crypto_reg = "crypto.reg" ; Файл настроек для ГОСТ 2001
-Global $win_updates32_ds = "WinUpdatesDisabler_x32.exe"
-Global $win_updates64_ds = "WinUpdatesDisabler_x64.exe"
+Global $win_updates = "Wub.exe"
 Global $CleanUpdates_ds = "CleanUpdates_EIS.exe"
 Global $FindRND = "MySql_indexer.exe"
 Global $CryptoFix = "CryptoPro_Fix.xml"
@@ -132,6 +134,8 @@ Global $cpuz32_ds = "cpuz_x32.exe" ; CPU _ Z для отчетов о систе
 Global $cpuz64_ds = "cpuz_x64.exe"
 Global $ipscanner_ds = "Advanced_IP_Scanner.exe"
 Global $xmlpad_ds = "XmlNotepad.msi"
+Global $cspclean = "cspclean.exe"
+Global $photoviewer = "PhotoViewer.reg"
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -175,7 +179,8 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
-		$btnNewPk, $checkEvent292, $checkCleanTask
+		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
+		$checkPhotoViewer
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -327,6 +332,20 @@ Func ESign()
 		EndIf
 	EndIf
 
+	If checked($checkjacarta) Then
+		status("Установка Единого клиента Jacarta")
+
+		Local $jacarta = $jacarta32
+		If @OSArch = "X64" Then $jacarta = $jacarta64
+		If softdownload($dir_ecp, $jacarta) Then softinstall($dir_ecp, $jacarta, "msi")
+	EndIf
+
+	If checked($checkcsp5) Then
+		status("Установка Крипто-Про 5.0")
+
+		If softdownload($dir_ecp, $csp5setup) Then softinstall($dir_ecp, $csp5setup, "csp5")
+	EndIf
+
 EndFunc   ;==>ESign
 
 
@@ -375,9 +394,6 @@ Func WinSetup()
 		;~ RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\Microsoft\Windows\UpdateOrchestrator") ; отключаем задачи обновления
 		;~ RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\Microsoft\Windows\WindowsUpdate")
 	
-		Local $win_updates = $win_updates32_ds
-		If @OSArch = "X64" Then $win_updates = $win_updates64_ds
-
 		If SoftDownload($dir_software, $win_updates) Then
 			SoftInstall($dir_software, $win_updates,"run", 0)
 		EndIf
@@ -808,7 +824,7 @@ Func Programs()
 	If Checked($checkSCP) Then
 		Status("Установка и настройка WinSCP")
 
-		If SoftDownload($dir_software, $scp_ds) Then SoftInstall($dir_software, $scp_ds, "/SILENT")
+		If SoftDownload($dir_software, $scp_ds) Then SoftInstall($dir_software, $scp_ds, "/SILENT", 0)
 	EndIf
 
 	; 7-Zip
@@ -877,6 +893,17 @@ Func Programs()
 		Status("Установка и настройка XML Notepad")
 
 		If SoftDownload($dir_software, $xmlpad_ds) Then	SoftInstall($dir_software, $xmlpad_ds, "msi")
+	EndIf
+
+	; CSPclean
+	If checked($checkcspclean) Then
+		status("Удаление крипто-про")
+		If softdownload($dir_software, $cspclean) Then softinstall($dir_software, $cspclean, "/Silent")
+	EndIf
+
+	; Classic PhotoViewer
+	If checked($checkphotoviewer) Then
+		If softdownload($dir_software, $photoviewer) Then RunWait("reg.exe IMPORT " & $dir_software & $photoviewer)
 	EndIf
 EndFunc   ;==>Programs
 
@@ -1161,6 +1188,9 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 
 		Case "cades" ; КриптоПРО плагин
 			$arg = $FilePath & " -norestart -silent -cadesargs ""/qn REBOOT=REALLYSUPPRESS"" "
+
+		Case "csp5" ; КриптоПро 5.0
+				$args = $filepath & '-nodlg -args "/qb /norestart /L*V" ' & $dir_logs & $soft_ds & ".log"
 
 		Case "arm" ; КриптоАРМ
 			$arg = $FilePath & " /V """ & StringStripWS($arg,1) & """"

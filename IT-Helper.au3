@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.23
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.24
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -94,17 +94,6 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Восстанавливает модуль печати для ППДГР")
 
-	$group_express = GUICtrlCreateGroup("Триасофт - Экспресс", 216, 173, 193, 97)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-
-		$checkHasp = GUICtrlCreateCheckbox(" HASP Драйвер", 225, 193, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Удаляет старые драйверы для ключа hasp и устанавливает новые")
-
-		$checkXML = GUICtrlCreateCheckbox(" MsXML", 225, 226, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "")
-
 	$group_browser = GUICtrlCreateGroup("Интернет браузеры", 424, 37, 193, 161)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
@@ -124,18 +113,26 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "ЕФРСБ, Госуслуги, Федресурс")
 	
-	$group_ecp = GUICtrlCreateGroup("Электронная подпись", 216, 37, 193, 129)
+	$group_ecp = GUICtrlCreateGroup("Электронная подпись", 216, 37, 193, 236)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-		$checkPKI = GUICtrlCreateCheckbox(" eToken pki client", 225, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0", 225, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "КриптоПро CSP 5.0.11455 (Fury) от 8.05.2019")
 
 		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты", 225, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Сертификиты + списки отзывов РР и ФЦИИТ")
+		GUICtrlSetTip(-1, "Сертификаты + списки отзывов РР и ФЦИИТ")
+
+		$checkJacarta = GUICtrlCreateCheckbox(" Единый Клиент JaCarta", 225, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт JaCarta")
+
+		$checkPKI = GUICtrlCreateCheckbox(" eToken pki client", 225, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 	$group_crypto = GUICtrlCreateGroup("Крипто утилиты", 424, 205, 193, 169)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -227,6 +224,25 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 
 	$group_other2 = GUICtrlCreateGroup("Разное - II", 424, 37, 193, 337)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkCSPclean = GUICtrlCreateCheckbox(" Cspclean", 433, 57, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Утилита очистки следов установки продуктов КриптоПро")
+
+		$checkHasp = GUICtrlCreateCheckbox(" HASP Драйвер", 433, 90, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Удаляет старые драйверы для ключа hasp и устанавливает новые")
+
+		$checkXML = GUICtrlCreateCheckbox(" MsXML", 433, 123, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "")
+
+		$checkPhotoViewer = GUICtrlCreateCheckbox(" Просмотр фотографий", 433, 156, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Возвращает классическое средство Просмотра фотографий в Windows 10")
+
+		
+
 #EndRegion ### Конец - Вкладка - Программы ###
 
 #Region ### Начало - Вкладка - Системные настройки ###
@@ -377,7 +393,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[46] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[50] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -387,7 +403,7 @@ Global $AllCheckboxes[46] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
-		$checkCleanTask] ; Массив из чекбоксов
+		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer] ; Массив из чекбоксов
 
 If $Start_param_certs Then
 	GUICtrlSetState($checkCerts, $GUI_CHECKED)
