@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.24
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.25
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -29,9 +29,11 @@ Opt("TrayMenuMode", 3)
 #include "it-functions.au3"
 #include "it-password.au3"
 
-local $title = _update()
-
-;~ local $title = "TEST"
+If @Compiled Then
+	local $title = _update()
+ Else
+	local $title = "For building purpose only"
+ EndIf
 
 ; Main application
 

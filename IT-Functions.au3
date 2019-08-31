@@ -1173,6 +1173,7 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 
 	$FilePath = $Place & $Soft_ds ; Переменная для приведения пути к файлу в нужный вид
 	If $Place <> $dir_tools Then $FilePath = $Place & "\" & $Soft_ds
+	
 
 	_FileWriteLog($dir_logs & "Install.log", $Soft_ds & ": Installing") ; записываем в лог время запуска установки определенного пункта
 
@@ -1190,7 +1191,7 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 			$arg = $FilePath & " -norestart -silent -cadesargs ""/qn REBOOT=REALLYSUPPRESS"" "
 
 		Case "csp5" ; КриптоПро 5.0
-				$args = $filepath & '-nodlg -args "/qb /norestart /L*V" ' & $dir_logs & $soft_ds & ".log"
+			$arg = $FilePath & " -nodlg -args " & chr(34) & $arg & chr(34)
 
 		Case "arm" ; КриптоАРМ
 			$arg = $FilePath & " /V """ & StringStripWS($arg,1) & """"
