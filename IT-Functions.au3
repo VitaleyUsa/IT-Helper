@@ -72,6 +72,12 @@ Global $Data = "http://download.triasoft.com/enot/50/Data.zip" ; Располо�
 Global $Data_tables = "http://download.triasoft.com/enot/50/Data_tables.zip" ; Расположение таблиц БД еНот
 
 Global $xml_ds = "msxml6_x86.msi" ; MS XML for Express
+Global $capicom = "capicom.dll" ; Microsoft Capicom
+
+Global $font_micross = "micross.ttf"
+Global $font_sserifer = "sserifer.ttf"
+
+
 
 ; Файлы на нашей фтпшке
 
@@ -180,7 +186,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
-		$checkPhotoViewer
+		$checkPhotoViewer, $checkFonts, $checkCapicom
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -275,6 +281,25 @@ Func Enot()
 
 		If SoftDownload($dir_enot, $FindRND) Then SoftInstall($dir_enot, $FindRND, "run", 0)
 	EndIf
+
+	; Шрифты для правильного отображения енота
+	If Checked($checkFonts) Then
+		Status("Установка шрифтов")
+
+		If SoftDownload($dir_enot, $font_micross) Then _FileFontInstall($dir_enot & $font_micross, "")
+		If SoftDownload($dir_enot, $font_sserifer) Then _FileFontInstall($dir_enot & $font_sserifer, "")
+	EndIf
+
+	; Компонент Capicom
+	If Checked($checkCapicom) Then
+		Status("Установка компонента capicom")
+
+		If SoftDownload($dir_enot, $capicom) Then SoftInstall($dir_enot & $capicom, "/Q")
+		
+		Local $CMD = "regsvr32.exe /s " & @SystemDir & "capicom.dll"
+		RunWait(@ComSpec & " /c " & $CMD)
+	EndIf
+	
 EndFunc   ;==>Enot
 
 ; ----------------------------------------------- CERTS FUNC;
@@ -1564,6 +1589,41 @@ Func _IsWin7Above() ; Это windows 7 или выше?
 		Return False
 	EndIf
 EndFunc   ;==>_IsWin7Above
+
+
+Func _FileFontInstall($sSourceFile, $sFontDescript="", $sFontsPath="")
+    Local Const $HWND_BROADCAST = 0xFFFF
+    Local Const $WM_FONTCHANGE = 0x1D
+
+    If $sFontsPath = "" Then $sFontsPath = @WindowsDir & "\fonts"
+
+    Local $sFontName = StringRegExpReplace($sSourceFile, "^.*\\", "")
+    If Not FileCopy($sSourceFile, $sFontsPath & "\" & $sFontName, 1) Then Return SetError(1, 0, 0)
+
+    Local $hSearch = FileFindFirstFile($sSourceFile)
+    Local $iFontIsWildcard = StringRegExp($sFontName, "\*|\?")
+    Local $aRet, $hGdi32_DllOpen = DllOpen("GDI32.dll")
+
+    If $hSearch = -1 Then Return SetError(2, 0, 0)
+    If $hGdi32_DllOpen = -1 Then Return SetError(3, 0, 0)
+
+    While 1
+        $sFontName = FileFindNextFile($hSearch)
+        If @error Then ExitLoop
+
+        If $iFontIsWildcard Then $sFontDescript = StringRegExpReplace($sFontName, "\.[^\.]*$", "")
+
+        $aRet = DllCall($hGdi32_DllOpen, "Int", "AddFontResource", "str", $sFontsPath & "\" & $sFontName)
+        If IsArray($aRet) And $aRet[0] > 0 Then
+            RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts", _
+                $sFontDescript, "REG_SZ", $sFontsPath & "\" & $sFontName)
+        EndIf
+    WEnd
+
+    DllClose($hGdi32_DllOpen)
+    DllCall("User32.dll", "Int", "SendMessage", "hwnd", $HWND_BROADCAST, "int", $WM_FONTCHANGE, "int", 0, "int", 0)
+    Return 1
+EndFunc
 
 Func _InstallDotNet($version) ; Устанавливаем netframework, если не установлен
 	Local $arg = False

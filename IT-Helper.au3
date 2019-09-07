@@ -85,6 +85,14 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkFindRND = GUICtrlCreateCheckbox(" Пропущ. действия РНД", 17, 218, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Утилита для поиск пропущенных значений в РНД ЕИС")
+
+		$checkFonts = GUICtrlCreateCheckbox(" Шрифты для ЕИС", 17, 250, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Исправление кракозябр в ЕИС")
+
+		$checkCapicom = GUICtrlCreateCheckbox(" Компонент Capicom", 17, 282, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Необходимый компонент для работы ЕИС")
 	
 	$group_fns = GUICtrlCreateGroup("ФНС", 216, 277, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -291,9 +299,9 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 	$group_os2 = GUICtrlCreateGroup("Операционная система - II", 216, 37, 193, 337) 
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkEvent292 = GUICtrlCreateCheckbox(" Событие 292 | CproCtrl ", 226, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkEvent292 = GUICtrlCreateCheckbox(" Событие CproCtrl", 226, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-			GUICtrlSetTip(-1, "Исправление для ошибки 292 (CproCtrl) возникающей после обновления ОС")
+			GUICtrlSetTip(-1, "Исправление для ошибки 256 и 292 (CproCtrl) возникающей после обновления ОС")
 
 		$checkCleanTask = GUICtrlCreateCheckbox(" Очистка журналов", 226, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
@@ -395,7 +403,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[50] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[52] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -405,7 +413,7 @@ Global $AllCheckboxes[50] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
-		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer] ; Массив из чекбоксов
+		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom] ; Массив из чекбоксов
 
 If $Start_param_certs Then
 	GUICtrlSetState($checkCerts, $GUI_CHECKED)
