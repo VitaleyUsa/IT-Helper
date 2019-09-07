@@ -294,7 +294,7 @@ Func Enot()
 	If Checked($checkCapicom) Then
 		Status("Установка компонента capicom")
 
-		If SoftDownload($dir_enot, $capicom) Then SoftInstall($dir_enot & $capicom, "/Q")
+		If SoftDownload($dir_enot, $capicom) Then FileCopy($dir_enot & $capicom, @SystemDir & $capicom, 1)
 		
 		Local $CMD = "regsvr32.exe /s " & @SystemDir & "capicom.dll"
 		RunWait(@ComSpec & " /c " & $CMD)
