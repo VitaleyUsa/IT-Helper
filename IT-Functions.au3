@@ -75,7 +75,7 @@ Global $xml_ds = "msxml6_x86.msi" ; MS XML for Express
 Global $capicom = "capicom.dll" ; Microsoft Capicom
 
 Global $font_micross = "micross.ttf"
-Global $font_sserifer = "sserifer.ttf"
+Global $font_sserifer = "sserifer.fon"
 
 
 
