@@ -116,6 +116,7 @@ Global $win_updates = "Wub.exe"
 Global $CleanUpdates_ds = "CleanUpdates_EIS.exe"
 Global $FindRND = "MySql_indexer.exe"
 Global $CryptoFix = "CryptoPro_Fix.xml"
+Global $feedback = "feedback.exe" ; Утилита для обратной связи с ТП
 
 ;~ Global $java_update = "/Utils/Update-Java.exe"
 ;~ Global $java_settings = "/Utils/JavaSettings.exe"
@@ -186,7 +187,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
-		$checkPhotoViewer, $checkFonts, $checkCapicom
+		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -300,6 +301,16 @@ Func Enot()
 		RunWait(@ComSpec & " /c " & $CMD)
 	EndIf
 	
+	If Checked($checkFeedbackTP) Then
+		Status("Установка компонента обратной связи")
+
+		If SoftDownload($dir_enot, $feedback) Then
+			FileDelete(@DesktopDir & "\Обратная связь.lnk")
+			FileCreateShortcut($dir_enot & $feedback, @DesktopDir & "\Обратная связь.lnk", $dir_enot)
+			_UpdateScreen()
+			SoftInstall($dir_enot, $feedback, "run", 0)
+		EndIf
+	EndIf
 EndFunc   ;==>Enot
 
 ; ----------------------------------------------- CERTS FUNC;

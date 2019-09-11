@@ -94,6 +94,10 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Необходимый компонент для работы ЕИС")
 	
+		$checkFeedbackTP = GUICtrlCreateCheckbox(" Обратная связь", 17, 314, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программа для написаний обращений в службы тех. поддержки")
+
 	$group_fns = GUICtrlCreateGroup("ФНС", 216, 277, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
@@ -403,7 +407,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[52] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[53] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -413,7 +417,8 @@ Global $AllCheckboxes[52] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
-		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom] ; Массив из чекбоксов
+		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
+		$checkFeedbackTP] ; Массив из чекбоксов
 
 If $Start_param_certs Then
 	GUICtrlSetState($checkCerts, $GUI_CHECKED)
