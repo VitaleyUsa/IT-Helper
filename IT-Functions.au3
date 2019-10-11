@@ -462,6 +462,10 @@ Func WinSetup()
 				If Not $sCrypto40 Then $sCrypto40 = "Не установлен"
 				FileWriteLine($hFile, "КриптоПро 4.0 = " & $sCrypto40)
 
+				Local $sCrypto50 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\08F19F05793DC7340B8C2621D83E5BE5\InstallProperties", "ProductID")
+				If Not $sCrypto50 Then $sCrypto50 = "Не установлен"
+				FileWriteLine($hFile, "КриптоПро 5.0 = " & $sCrypto40)
+
 				Local $sCryptoArm = RegRead($HKLM & "SOFTWARE\WOW6432Node\Digt\Trusted Desktop\License", "SerialNumber")
 				If Not $sCryptoArm Then $sCryptoArm = "Не установлен"
 				FileWriteLine($hFile, "КриптоАрм = " & $sCryptoArm)
@@ -488,8 +492,8 @@ Func WinSetup()
 
 		If SoftDownload($dir_software, $pass_ds) Then
 			_FileWriteToLine($dir_software & $pass_ds, 2, "cd " & $dir_software, 1)
-			ShellExecuteWait($dir_software & $pass_ds)
-			WinWait(500)
+			ShellExecute($dir_software & $pass_ds)
+			WinWait(5000)
 			Run("notepad.exe " & $dir_software & "CryptoPass.txt", @WindowsDir)
 			If @error Then MsgBox("","Ошибка","Сохраненных ключей не найдено")
 		EndIf
