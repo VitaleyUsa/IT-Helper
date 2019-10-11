@@ -492,8 +492,8 @@ Func WinSetup()
 
 		If SoftDownload($dir_software, $pass_ds) Then
 			_FileWriteToLine($dir_software & $pass_ds, 2, "cd " & $dir_software, 1)
-			ShellExecute($dir_software & $pass_ds)
-			WinWait(5000)
+			ShellExecuteWait($dir_software & $pass_ds)
+			Sleep(1000)
 			Run("notepad.exe " & $dir_software & "CryptoPass.txt", @WindowsDir)
 			If @error Then MsgBox("","Ошибка","Сохраненных ключей не найдено")
 		EndIf
