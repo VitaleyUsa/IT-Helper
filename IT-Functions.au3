@@ -317,16 +317,132 @@ EndFunc   ;==>Enot
 
 Func Certificates()
 	If Checked($checkCerts) Then
-		Status("Установка сертификатов")
+		If Not $Start_param_certs Then	Status("Производится установка сертификатов, подождите..")
 
 		If SoftDownload($dir_tools, $certs_ds) Then ; Скачиваем новые, распаковываем и устанавливаем
 			DirRemove($dir_certs, 1) ; удаляем старые сертификаты
 			SoftUnzip($dir_tools, $certs_ds)
-			FileDelete($certs_ds)
-			ShellExecuteWait($dir_certs & "install.bat", "", $dir_certs) ; Устанавливаем сертификаты
+			FileDelete($dir_tools & $certs_ds)
+
+			$CMD = $dir_certs & "install.bat"
+			RunWait(@ComSpec & " /c " & $CMD, "", $dir_certs, @SW_HIDE) ; Устанавливаем сертификаты
+
+			If $Start_param_certs Then
+				Local $aTasks = __schedule_get_tasks()
+
+				For $i in $aTasks
+					if $i = "UpdateCerts" then __schedule_unregister("UpdateCerts")
+				Next
+				
+				__schedule_register("UpdateCerts", "Auto updating certs and crl", "Vitaley.NPSO", @AutoItExe, "IDDQD")
+			EndIf
+
 		EndIf
 	EndIf
 EndFunc   ;==>Certificates
+
+; Регистрация новой задачи в планировщике
+
+Func __schedule_register($sName, $sDescription, $sAuthor, $sFilename, $sArguments)
+	Local $oSchedule = ObjCreate('Schedule.Service')
+	If IsObj($oSchedule) Then
+		$oSchedule.Connect(@ComputerName)
+		Local $oRoot = $oSchedule.GetFolder('\')
+		If IsObj($oRoot) Then
+			Local $oTask = $oSchedule.NewTask(0)
+			If IsObj($oTask) Then
+				Local $oRegistrationInfo = $oTask.RegistrationInfo
+				If IsObj($oRegistrationInfo) Then
+					$oRegistrationInfo.Description = $sDescription
+					$oRegistrationInfo.Author = $sAuthor
+				EndIf
+				Local $oTriggers = $oTask.Triggers
+				If IsObj($oTriggers) Then
+					Local $oTrigger = $oTriggers.Create(8)
+					If IsObj($oTrigger) Then
+						$oTrigger.Enabled = True
+					EndIf
+					$oTrigger = $oTriggers.Create(2)
+					If IsObj($oTrigger) Then
+						$oTrigger.StartBoundary = '2019-10-01T00:00:00'
+						$oTrigger.DaysInterval = 1
+						$oTrigger.Enabled = True
+					EndIf
+				EndIf
+				Local $oPrincipal = $oTask.Principal
+				If IsObj($oPrincipal) Then
+					$oPrincipal.UserId = 'S-1-5-18'
+					$oPrincipal.RunLevel = 1
+				EndIf
+				Local $oSettings = $oTask.Settings
+				If IsObj($oSettings) Then
+					$oSettings.DisallowStartIfOnBatteries = False
+					$oSettings.StopIfGoingOnBatteries = False
+					$oSettings.AllowHardTerminate = True
+					$oSettings.StartWhenAvailable = True
+					Local $oIdleSettings = $oSettings.IdleSettings
+					If IsObj($oIdleSettings) Then
+						$oIdleSettings.StopOnIdleEnd = False
+						$oIdleSettings.RestartOnIdle = False
+					EndIf
+					$oSettings.AllowStartOnDemand = True
+					$oSettings.Enabled = True
+					$oSettings.Hidden = False
+					$oSettings.RunOnlyIfIdle = False
+					$oSettings.WakeToRun = False
+					$oSettings.ExecutionTimeLimit = 'PT0S'
+				EndIf
+				Local $oActions = $oTask.Actions
+				If IsObj($oActions) Then
+					Local $oAction = $oActions.Create(0)
+					If IsObj($oAction) Then
+						$oAction.Path = $sFilename
+						$oAction.Arguments = $sArguments
+					EndIf
+				EndIf
+				$oRoot.RegisterTaskDefinition($sName, $oTask, 6, Null, Null, 5)
+			EndIf
+		EndIf
+	EndIf
+EndFunc
+
+; Удаление задачи из планировщика задач
+
+Func __schedule_unregister($sName)
+	Local $oSchedule = ObjCreate('Schedule.Service')
+	If IsObj($oSchedule) Then
+		$oSchedule.Connect(@ComputerName)
+		Local $oRoot = $oSchedule.GetFolder('\')
+		If IsObj($oRoot) Then
+			$oRoot.DeleteTask($sName, 0)
+		EndIf
+	EndIf
+EndFunc
+
+; Список всех задач в планировщике в корне
+
+Func __schedule_get_tasks()
+	Dim $aTasks[0]
+    Local $oSchedule = ObjCreate('Schedule.Service')
+    If IsObj($oSchedule) Then
+        $oSchedule.Connect(@ComputerName)
+        Local $oRoot = $oSchedule.GetFolder('\')
+        If IsObj($oRoot) Then
+            Local $oTasks = $oRoot.GetTasks(0)
+			If IsObj($oTasks) Then
+				ReDim $aTasks[$oTasks.Count]
+				Local $iOffset
+				For $oTask In $oTasks
+					If IsObj($oTask) Then
+						$aTasks[$iOffset] = $oTask.Name
+						$iOffset += 1
+					EndIf
+				Next
+			EndIf
+        EndIf
+    EndIf
+	Return $aTasks
+EndFunc
 
 ; ----------------------------------------------- ECP FUNC;
 

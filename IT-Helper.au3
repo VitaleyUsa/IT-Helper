@@ -421,11 +421,11 @@ Global $AllCheckboxes[53] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkFeedbackTP] ; Массив из чекбоксов
 
 If $Start_param_certs Then
-	GUICtrlSetState($checkCerts, $GUI_CHECKED)
 	GUISetState(@SW_HIDE)
+	GUICtrlSetState($checkCerts, $GUI_CHECKED)
 	_Next()
-	SplashTextOn("Статус", "Сертификаты успешно установлены ", 480, 45, -1, -1, 1, "", 16)
-	Sleep(4000)
+	;SplashTextOn("Статус", "Сертификаты успешно установлены ", 480, 45, -1, -1, 1, "", 16)
+	;Sleep(4000)
 	Exit
 EndIf
 

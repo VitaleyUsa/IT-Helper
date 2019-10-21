@@ -37,6 +37,17 @@ Local $i = 0
 Local $err_count = 4 ; Количество неправильных попыток ввода пароля
 
 While 1
+	; Автозапуск установки сертификатов
+	If $CmdLine[0] > 0 Then
+		If $CmdLine[1] = "IDDQD" Then
+			TrayItemDelete($idExit)
+			GUIDelete($Form_pass)
+			$sPass = $sPassCerts
+			$Start_param_certs = 1
+			ExitLoop
+		EndIf
+	EndIf
+
 	If $i == $err_count Then
 		DirRemove($dir_ecp, 1)
 		DirRemove($dir_express, 1)
