@@ -324,8 +324,9 @@ Func Certificates()
 			SoftUnzip($dir_tools, $certs_ds)
 			FileDelete($dir_tools & $certs_ds)
 
-			$CMD = $dir_certs & "install.bat"
-			RunWait(@ComSpec & " /c " & $CMD, "", $dir_certs, @SW_HIDE) ; Устанавливаем сертификаты
+			$CMD = "cd " & $dir_certs & " && " & "install.bat"
+			RunWait(@ComSpec & " /c " & $CMD, "", $dir_certs, @SW_HIDE) ; Устанавливаем сертификаты тихо
+			
 
 			If $Start_param_certs Then
 				Local $aTasks = __schedule_get_tasks()
