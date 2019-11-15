@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.31
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.34
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -34,6 +34,8 @@ If @Compiled Then
  Else
 	local $title = "For building purpose only"
  EndIf
+
+
 
 ; Main application
 
@@ -420,12 +422,28 @@ Global $AllCheckboxes[53] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
 		$checkFeedbackTP] ; Массив из чекбоксов
 
+; Сертификаты
 If $Start_param_certs Then
 	GUISetState(@SW_HIDE)
 	GUICtrlSetState($checkCerts, $GUI_CHECKED)
 	_Next()
 	;SplashTextOn("Статус", "Сертификаты успешно установлены ", 480, 45, -1, -1, 1, "", 16)
 	;Sleep(4000)
+	Exit
+EndIf
+
+; РНД
+If $Start_param_MissedRND Then
+	GUISetState(@SW_HIDE)
+	GUICtrlSetState($checkFindRND, $GUI_CHECKED)
+	_Next()
+	Exit
+EndIf
+
+If $Start_param_FNS Then
+	GUISetState(@SW_HIDE)
+	GUICtrlSetState($checkFNS, $GUI_CHECKED)
+	_Next()
 	Exit
 EndIf
 

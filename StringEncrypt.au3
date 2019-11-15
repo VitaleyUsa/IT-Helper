@@ -22,7 +22,10 @@ Func _HexToString($strHex)
 	EndIf
 EndFunc
 
-Func _StringEncrypt($i_Encrypt, $s_EncryptText, $s_EncryptPassword, $i_EncryptLevel = 1)
+Func _StringEncrypt($s_EncryptText)
+   Local $i_Encrypt = 1
+   Local $i_EncryptLevel = 5
+   Local $s_EncryptPassword = "Нотариальный помощник"
    If $i_Encrypt <> 0 And $i_Encrypt <> 1 Then
       Return ''
       SetError(1)
