@@ -74,7 +74,7 @@ Global $Data = "http://download.triasoft.com/enot/50/Data.zip" ; Располо�
 Global $Data_tables = "http://download.triasoft.com/enot/50/Data_tables.zip" ; Расположение таблиц БД еНот
 
 Global $xml_ds = "msxml6_x86.msi" ; MS XML for Express
-Global $capicom = "capicom.dll" ; Microsoft Capicom
+Global $capicom = "capicom.exe" ; Microsoft Capicom
 
 Global $font_micross = "micross.ttf"
 Global $font_sserifer = "sserifer.fon"
@@ -145,6 +145,7 @@ Global $ipscanner_ds = "Advanced_IP_Scanner.exe"
 Global $xmlpad_ds = "XmlNotepad.msi"
 Global $cspclean = "cspclean.exe"
 Global $photoviewer = "PhotoViewer.reg"
+Global $naps2_ds = "naps2.msi" ; Сканирование в разные форматы
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -189,7 +190,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
-		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP
+		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -297,9 +298,8 @@ Func Enot()
 	If Checked($checkCapicom) Then
 		Status("Установка компонента capicom")
 
-		If SoftDownload($dir_enot, $capicom) Then FileCopy($dir_enot & $capicom, @SystemDir & $capicom, 1)
-		
-		Local $CMD = "regsvr32.exe /s " & @SystemDir & "capicom.dll"
+		If SoftDownload($dir_enot, $capicom) Then SoftInstall($dir_enot, $capicom, "/Q", 0)
+	
 		RunWait(@ComSpec & " /c " & $CMD)
 	EndIf
 	
@@ -492,13 +492,13 @@ Func ESign()
 
 		Local $jacarta = $jacarta32
 		If @OSArch = "X64" Then $jacarta = $jacarta64
-		If softdownload($dir_ecp, $jacarta) Then softinstall($dir_ecp, $jacarta, "msi")
+		If SoftDownload($dir_ecp, $jacarta) Then SoftInstall($dir_ecp, $jacarta, "msi")
 	EndIf
 
 	If checked($checkcsp5) Then
 		status("Установка Крипто-Про 5.0")
 
-		If softdownload($dir_ecp, $csp5setup) Then softinstall($dir_ecp, $csp5setup, "csp5")
+		If SoftDownload($dir_ecp, $csp5setup) Then SoftInstall($dir_ecp, $csp5setup, "csp5")
 	EndIf
 
 EndFunc   ;==>ESign
@@ -580,10 +580,10 @@ Func WinSetup()
 				Local $sCrypto40 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\7AB5E7046046FB044ACD63458B5F481C\InstallProperties", "ProductID")
 				If Not $sCrypto40 Then $sCrypto40 = "Не установлен"
 				FileWriteLine($hFile, "КриптоПро 4.0 = " & $sCrypto40)
-
+				
 				Local $sCrypto50 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\08F19F05793DC7340B8C2621D83E5BE5\InstallProperties", "ProductID")
 				If Not $sCrypto50 Then $sCrypto50 = "Не установлен"
-				FileWriteLine($hFile, "КриптоПро 5.0 = " & $sCrypto40)
+				FileWriteLine($hFile, "КриптоПро 5.0 = " & $sCrypto50)
 
 				Local $sCryptoArm = RegRead($HKLM & "SOFTWARE\WOW6432Node\Digt\Trusted Desktop\License", "SerialNumber")
 				If Not $sCryptoArm Then $sCryptoArm = "Не установлен"
@@ -1057,13 +1057,23 @@ Func Programs()
 
 	; CSPclean
 	If checked($checkcspclean) Then
-		status("Удаление крипто-про")
-		If softdownload($dir_software, $cspclean) Then softinstall($dir_software, $cspclean, "/Silent")
+		Status("Удаление крипто-про")
+
+		If SoftDownload($dir_software, $cspclean) Then softinstall($dir_software, $cspclean, "/Silent")
 	EndIf
 
 	; Classic PhotoViewer
 	If checked($checkphotoviewer) Then
-		If softdownload($dir_software, $photoviewer) Then RunWait("reg.exe IMPORT " & $dir_software & $photoviewer)
+		Status("Настройка классического просмотрщика фотографий")
+
+		If SoftDownload($dir_software, $photoviewer) Then RunWait("reg.exe IMPORT " & $dir_software & $photoviewer)
+	EndIf
+
+	; Naps2
+	If checked($checkNaps2) Then
+		Status("Установка Naps2")
+
+		If SoftDownload($dir_software, $naps2_ds) Then	SoftInstall($dir_software, $naps2_ds, "msi")
 	EndIf
 EndFunc   ;==>Programs
 
@@ -1353,7 +1363,7 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 			$arg = $FilePath & " -norestart -silent -cadesargs ""/qn REBOOT=REALLYSUPPRESS"" "
 
 		Case "csp5" ; КриптоПро 5.0
-			$arg = $FilePath & " -nodlg -args " & chr(34) & $arg & chr(34)
+			$arg = $FilePath & " -root -silent -noreboot"
 
 		Case "arm" ; КриптоАРМ
 			$arg = $FilePath & " /V """ & StringStripWS($arg,1) & """"
