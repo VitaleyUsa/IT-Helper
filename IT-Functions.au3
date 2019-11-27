@@ -1538,33 +1538,41 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 	Local $continue = False
 
 	If $button = "Specialist" Then ; Настройка кнопки "Тех. работник"
-		GUICtrlSetState($checkCSP, $GUI_CHECKED)
-		GUICtrlSetState($checkPKI, $GUI_CHECKED)
-		GUICtrlSetState($checkCerts, $GUI_CHECKED)
-		GUICtrlSetState($checkFF, $GUI_CHECKED)
-		GUICtrlSetState($checkChrome, $GUI_CHECKED)
-		GUICtrlSetState($checkIE, $GUI_CHECKED)
-		GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
+		$iMsgBoxAnswer = MsgBox(33,"Внимание","Вы уверены, что хотите запустить настройку рабочего места тех. работника?")
+		Select
+			Case $iMsgBoxAnswer = 1 ;Ок
+				GUICtrlSetState($checkCSP, $GUI_CHECKED)
+				GUICtrlSetState($checkPKI, $GUI_CHECKED)
+				GUICtrlSetState($checkCerts, $GUI_CHECKED)
+				GUICtrlSetState($checkFF, $GUI_CHECKED)
+				GUICtrlSetState($checkChrome, $GUI_CHECKED)
+				GUICtrlSetState($checkIE, $GUI_CHECKED)
+				GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
+		EndSelect
 	EndIf
 
 	If $button = "NewPK" Then ; Настройка кнопки "Новое раб. место"
-		GUICtrlSetState($checkNet_35, $GUI_CHECKED)
-		GUICtrlSetState($checkC, $GUI_CHECKED)
-		GUICtrlSetState($checkShare, $GUI_CHECKED)
-		GUICtrlSetState($checkWinSet, $GUI_CHECKED)
-		GUICtrlSetState($checkAdobe, $GUI_CHECKED)
-		GUICtrlSetState($checkPDF, $GUI_CHECKED)
-		GUICtrlSetState($checkARM, $GUI_CHECKED)
-		GUICtrlSetState($checkFNS, $GUI_CHECKED)
-		GUICtrlSetState($checkHASP, $GUI_CHECKED)
-		GUICtrlSetState($checkEnot, $GUI_CHECKED)
-		GUICtrlSetState($checkCSP, $GUI_CHECKED)
-		GUICtrlSetState($checkPKI, $GUI_CHECKED)
-		GUICtrlSetState($checkCerts, $GUI_CHECKED)
-		GUICtrlSetState($checkFF, $GUI_CHECKED)
-		GUICtrlSetState($checkChrome, $GUI_CHECKED)
-		GUICtrlSetState($checkIE, $GUI_CHECKED)
-		GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
+		$iMsgBoxAnswer = MsgBox(33,"Внимание","Вы уверены, что хотите запустить настройку нового рабочего места?")
+		Select
+			Case $iMsgBoxAnswer = 1 ;Ок
+				GUICtrlSetState($checkNet_35, $GUI_CHECKED)
+				GUICtrlSetState($checkC, $GUI_CHECKED)
+				GUICtrlSetState($checkShare, $GUI_CHECKED)
+				GUICtrlSetState($checkWinSet, $GUI_CHECKED)
+				GUICtrlSetState($checkAdobe, $GUI_CHECKED)
+				GUICtrlSetState($checkPDF, $GUI_CHECKED)
+				GUICtrlSetState($checkARM, $GUI_CHECKED)
+				GUICtrlSetState($checkFNS, $GUI_CHECKED)
+				GUICtrlSetState($checkHASP, $GUI_CHECKED)
+				GUICtrlSetState($checkEnot, $GUI_CHECKED)
+				GUICtrlSetState($checkCSP, $GUI_CHECKED)
+				GUICtrlSetState($checkPKI, $GUI_CHECKED)
+				GUICtrlSetState($checkCerts, $GUI_CHECKED)
+				GUICtrlSetState($checkFF, $GUI_CHECKED)
+				GUICtrlSetState($checkChrome, $GUI_CHECKED)
+				GUICtrlSetState($checkIE, $GUI_CHECKED)
+				GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
+		EndSelect
 	EndIf
 
 	For $i = 0 To UBound($AllCheckboxes) - 1 Step 1 ; Проверяем, выбран ли какой-либо пункт меню
