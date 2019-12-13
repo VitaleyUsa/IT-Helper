@@ -16,6 +16,7 @@
 #include <ListboxConstants.au3>
 #include <GuiListView.au3>
 #include <GuiTab.au3>
+#include <WinAPIFiles.au3>
 
 ; For password form
 #Include <WinAPIEx.au3>
@@ -600,8 +601,10 @@ Func WinSetup()
 		Status("Настройка общего доступа, подождите")
 
 		If SoftDownload($dir_software, $share_ds) Then
+			_WinAPI_Wow64EnableWow64FsRedirection(False)
 			Local $cmdPath = Chr(34) & $dir_software & $share_ds & Chr(34)
 			RunWait(@ComSpec & " /c " & $cmdPath, "")
+			_WinAPI_Wow64EnableWow64FsRedirection(True)
 		EndIf
 	EndIf
 
