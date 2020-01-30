@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.40
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.41
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -260,6 +260,18 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$checkNaps2 = GUICtrlCreateCheckbox(" NAPS2", 433, 189, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Бесплатная программа для сканирования в разные форматы")
+
+		$checkSpaceSniffer = GUICtrlCreateCheckbox(" SpaceSniffer", 433, 222, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программа для определения оставшегося свободного места")
+
+		$checkDiskInfo = GUICtrlCreateCheckbox(" CrystalDiskInfo", 433, 255, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программа для определения состояния жесткого диска")
+
+		$checkHWInfo = GUICtrlCreateCheckbox(" HWInfo", 433, 288, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Информация о системе")
 		
 
 #EndRegion ### Конец - Вкладка - Программы ###
@@ -412,7 +424,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[54] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[57] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -423,7 +435,7 @@ Global $AllCheckboxes[54] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
 		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
-		$checkFeedbackTP, $checkNaps2] ; Массив из чекбоксов
+		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then

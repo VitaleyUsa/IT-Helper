@@ -191,7 +191,8 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
-		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2
+		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
+		$checkDiskInfo, $checkHWInfo
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -328,7 +329,11 @@ Func Certificates()
 			FileDelete($dir_tools & $certs_ds)
 
 			$CMD = "cd " & $dir_certs & " && " & "install.bat"
-			RunWait(@ComSpec & " /c " & $CMD, "", $dir_certs, @SW_HIDE) ; Устанавливаем сертификаты тихо
+			if $Start_param_certs Then 
+				RunWait(@ComSpec & " /c " & $CMD, "", $dir_certs, @SW_HIDE) ; Устанавливаем сертификаты тихо
+			Else 
+				RunWait(@ComSpec & " /c " & $CMD)
+			EndIf
 			
 
 			If $Start_param_certs Then
