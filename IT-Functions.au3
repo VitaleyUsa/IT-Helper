@@ -149,6 +149,8 @@ Global $photoviewer = "PhotoViewer.reg"
 Global $naps2_ds = "naps2.msi" ; Сканирование в разные форматы
 Global $sniffer_ds = "SpaceSniffer.exe" ; Space Sniffer
 Global $webkit_ds = "SetupWebKit.exe"
+Global $diskinfo_ds="CrystalDiskMark7.exe"
+Global $hwinfo_ds="HWInfo.exe"
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -1137,6 +1139,19 @@ Func Programs()
 		If SoftDownload($dir_software, $sniffer_ds) Then SoftInstall($dir_software, $sniffer_ds, "run", 0)
 	EndIf
 	
+	; HWInfo
+	If Checked($checkHWInfo) Then
+		Status("Загрузка HWInfo")
+
+		If SoftDownload($dir_software, $hwinfo_ds) Then SoftInstall($dir_software, $hwinfo_ds, "run", 0)
+	EndIf
+
+	; CrystaDisk
+	If Checked($checkDiskInfo) Then
+		Status("Загрузка и установка CrystalDisk Info")
+
+		If SoftDownload($dir_software, $diskinfo_ds) Then SoftInstall($dir_software, $diskinfo_ds, "/silent /norestart", 1)
+	EndIf
 EndFunc   ;==>Programs
 
 ; ----------------------------------------------- EXPRESS FUNC;
