@@ -147,6 +147,8 @@ Global $xmlpad_ds = "XmlNotepad.msi"
 Global $cspclean = "cspclean.exe"
 Global $photoviewer = "PhotoViewer.reg"
 Global $naps2_ds = "naps2.msi" ; Сканирование в разные форматы
+Global $sniffer_ds = "SpaceSniffer.exe" ; Space Sniffer
+Global $webkit_ds = "SetupWebKit.exe"
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -192,7 +194,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
-		$checkDiskInfo, $checkHWInfo
+		$checkDiskInfo, $checkHWInfo, $checkWebKit
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -301,8 +303,6 @@ Func Enot()
 		Status("Установка компонента capicom")
 
 		If SoftDownload($dir_enot, $capicom) Then SoftInstall($dir_enot, $capicom, "/Q", 0)
-	
-		RunWait(@ComSpec & " /c " & $CMD)
 	EndIf
 	
 	If Checked($checkFeedbackTP) Then
@@ -505,6 +505,29 @@ Func ESign()
 		status("Установка Крипто-Про 5.0")
 
 		If SoftDownload($dir_ecp, $csp5setup) Then SoftInstall($dir_ecp, $csp5setup, "csp5")
+
+		; Настройка КриптоПро: Усиленный контроль использования ключей
+		Status("Настройка КриптоПро для работы с ГОСТ 2001")
+
+		If SoftDownload($dir_ecp, $crypto_reg) Then ; Гост 2011
+			Local $hCryptoImport = FileOpen($dir_ecp & "crypto_import.reg", 2)
+
+			Local $hCryptoSites = FileOpen($dir_ecp & $crypto_reg, 0)
+			Local $sCryptoRead = FileRead($hCryptoSites)
+			FileClose($hCryptoSites)
+
+			FileWrite($hCryptoImport, "Windows Registry Editor Version 5.00")
+			Switch @OSArch ; Проверяем разрядность ОС
+				Case "X64"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+	 			Case "X86"
+	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+			EndSwitch
+
+			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
+			FileClose($hCryptoImport)
+			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
+		EndIf
 	EndIf
 
 EndFunc   ;==>ESign
@@ -703,6 +726,29 @@ Func FederalResources()
 				EndIf
 				; /= > Доверенные сайты
 			EndIf
+
+		; Настройка КриптоПро: Усиленный контроль использования ключей
+		Status("Настройка КриптоПро для работы с ГОСТ 2001")
+
+		If SoftDownload($dir_ecp, $crypto_reg) Then ; Гост 2011
+			Local $hCryptoImport = FileOpen($dir_ecp & "crypto_import.reg", 2)
+
+			Local $hCryptoSites = FileOpen($dir_ecp & $crypto_reg, 0)
+			Local $sCryptoRead = FileRead($hCryptoSites)
+			FileClose($hCryptoSites)
+
+			FileWrite($hCryptoImport, "Windows Registry Editor Version 5.00")
+			Switch @OSArch ; Проверяем разрядность ОС
+				Case "X64"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+	 			Case "X86"
+	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+			EndSwitch
+
+			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
+			FileClose($hCryptoImport)
+			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
+		EndIf
 
 		; Плагин для Госуслуг
 		Status("Установка и настройка плагина для Госуслуг")
@@ -1081,8 +1127,16 @@ Func Programs()
 	If checked($checkNaps2) Then
 		Status("Установка Naps2")
 
-		If SoftDownload($dir_software, $naps2_ds) Then	SoftInstall($dir_software, $naps2_ds, "msi")
+		If SoftDownload($dir_software, $naps2_ds) Then SoftInstall($dir_software, $naps2_ds, "msi")
 	EndIf
+
+	; Space sniffer
+	If checked($checkSpaceSniffer) Then
+		Status("Установка SpaceSniffer")
+
+		If SoftDownload($dir_software, $sniffer_ds) Then SoftInstall($dir_software, $sniffer_ds, "run", 0)
+	EndIf
+	
 EndFunc   ;==>Programs
 
 ; ----------------------------------------------- EXPRESS FUNC;
@@ -1115,6 +1169,13 @@ Func Express()
 				RunWait($dir_express & $hasp_ds &  " -i -kp -nomsg")
 		EndIf
 	EndIf
+
+	; Chrome for Express
+	If Checked($checkWebKit) Then
+		Status("Загрузка WebKit для Экспресса")
+
+		If SoftDownload($dir_express, $webkit_ds) Then SoftInstall($dir_express, $webkit_ds, "run", 0)
+	Endif
 EndFunc   ;==>Express
 
 ; ----------------------------------------------- FNS FUNC;

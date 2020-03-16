@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.41
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.43
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -273,6 +273,9 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Информация о системе")
 		
+		$checkWebKit = GUICtrlCreateCheckbox(" Chrome 4 Express", 433, 321, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Осмотр страниц в экспрессе будет работать на движке chrome")
 
 #EndRegion ### Конец - Вкладка - Программы ###
 
@@ -424,7 +427,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[57] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[58] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -435,7 +438,7 @@ Global $AllCheckboxes[57] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
 		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
-		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo] ; Массив из чекбоксов
+		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
