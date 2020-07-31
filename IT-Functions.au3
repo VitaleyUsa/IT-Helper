@@ -908,7 +908,10 @@ Func FederalResources()
 
 		If SoftDownload($dir_federal, $chromeSetup) Then
 			RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\" & $Registry64 & "google\update") ; исключаем ошибки от предыдущих установок
-
+			
+			; Переименовываем предыдущую папку с установленным хромом
+			If FileExists(@LocalAppDataDir & "\Google") Then DirMove(@LocalAppDataDir & "\Google", @LocalAppDataDir & "\Google-backup", 1)
+			
 			SoftInstall($dir_federal, $chromeSetup, "msi") ; Скачиваем и устанавливаем хром
 
 			; Расширение CryptoPro и Blitz
@@ -1206,6 +1209,7 @@ Func FNS()
 			Local $msiErr = ""
 			Local $FnsLink = IniRead($dir_distr & "version.ini", "ФНС", "Ссылка", "")
 
+			DirRemove($dir_ppdgr, 1)
 			If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
 				SoftUnzip($dir_ppdgr, $ds_ppdgr, $dir_ppdgr, "rar") ; Распаковываем ППДГР
 
