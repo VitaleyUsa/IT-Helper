@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.46
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.48
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -99,6 +99,10 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkFeedbackTP = GUICtrlCreateCheckbox(" Обратная связь", 17, 314, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программа для написаний обращений в службы тех. поддержки")
+
+		$checkEnotUpdated = GUICtrlCreateCheckbox(" Енот с обновлениями", 17, 346, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Дистрибутив ЕИС с интегрированными обновлениями. Собрал Александр Кротов (Архангельск)")
 
 	$group_fns = GUICtrlCreateGroup("ФНС", 216, 277, 193, 97)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -427,7 +431,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[58] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[59] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -438,7 +442,7 @@ Global $AllCheckboxes[58] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
 		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
-		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit] ; Массив из чекбоксов
+		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then

@@ -67,6 +67,7 @@ Global $win7patch_x64 = "Windows6.1-KB4019990-x64.msu"
 
 
 Global $Enot_ds = "http://download.triasoft.com/enot/50/Setup.exe" ; Расположение дистрибутива еНот
+Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
 
 Global $MysqlSetup32 = "http://download.triasoft.com/enot/50/SetupDB.exe" ; Mysql 32bit
 Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; Mysql 64bit
@@ -154,6 +155,9 @@ Global $hwinfo_ds="HWInfo.exe"
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
+Global $ActiveTree2 = "ActiveTree2.0.ocx"
+Global $eNotTX15 = "eNoTX15.ocx"
+Global $msvcr120 = "msvcr120.dll"
 Global $TX25 = "TX25.zip"
 
 Global $chromeSetup32 = "GoogleChromeStandaloneEnterprise.msi" ; Chrome x32 distr
@@ -196,7 +200,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
-		$checkDiskInfo, $checkHWInfo, $checkWebKit
+		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -228,11 +232,19 @@ EndFunc   ;==>_install
 
 Func Enot()
 	If Checked($checkEnot) Then ; Дистрибутив Енота
-
 		Status('Производится скачивание дистрибутива Енот')
 
 		; Скачиваем дистрибутив
  		If SoftDownload($dir_enot, $Enot_ds, "wext") Then
+			If Not WinExists("eNot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+		EndIf
+	EndIf
+
+	If Checked($checkEnotUpdated) Then ; Обновленный дистр. Енота
+		Status('Производится скачивание дистрибутива Енот с обновлениями')
+
+		; Скачиваем дистрибутив
+		If SoftDownload($dir_enot, $Enot_updated_ds) Then
 			If Not WinExists("eNot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
 		EndIf
 	EndIf
@@ -273,17 +285,23 @@ Func Enot()
 
 		if Not FileExists($sEnotPath & "\TX25") Then 
 			DirCreate($sEnotPath & "\TX25")
-			If SoftDownload($dir_enot, $TX25) Then	SoftUnzip($dir_enot, $TX25, $sEnotPath & "\TX25")
+			If SoftDownload($dir_enot, $TX25) Then SoftUnzip($dir_enot, $TX25, $sEnotPath & "\TX25")
 		EndIf
 		
 		If SoftDownload($dir_enot, $LibReg) Then ; скачиваем ActiveTree.ocx и скрипт для реги енотовских библиотек
 			If SoftDownload($dir_enot, $ActiveTree) Then FileCopy($dir_enot & $ActiveTree, $WinLib & "\" & $ActiveTree, 1)
+			If SoftDownload($dir_enot, $ActiveTree2) Then FileCopy($dir_enot & $ActiveTree2, $WinLib & "\" & $ActiveTree2, 1)
+			If SoftDownload($dir_enot, $msvcr120) Then FileCopy($dir_enot & $msvcr120, $WinLib & "\" & $msvcr120, 1)
+			If SoftDownload($dir_enot, $eNotTX15) Then FileCopy($dir_enot & $eNotTX15, $sEnotPath & "\TX\" & $msvcr120, 1)
+			
 
 			_FileWriteToLine($dir_enot & $LibReg, 2, "set WinLibDir=" & $WinLib, 1) ; добавляем пути окружения в скрипт
 			_FileWriteToLine($dir_enot & $LibReg, 3, "set eNotPath=" & $sEnotPath, 1)
 
 			ShellExecuteWait($dir_enot & $LibReg, "", "", "")
 		EndIf
+
+		
 	EndIf
 
 	If Checked($checkFindRND) Then ; Утилита для поиска пропущенного значения в РНД
@@ -1200,6 +1218,7 @@ EndFunc   ;==>Express
 
 Func FNS()
 	Local $prog_files = "C:\Program Files\АО ГНИВЦ\ППДГР"
+	Local $prog_files_new = "C:\АО ГНИВЦ\ППДГР"
 	If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
 
 	; FNS Program
@@ -1210,6 +1229,8 @@ Func FNS()
 			Local $FnsLink = IniRead($dir_distr & "version.ini", "ФНС", "Ссылка", "")
 
 			DirRemove($dir_ppdgr, 1)
+			DirRemove($prog_files)
+			DirRemove($prog_files_new)
 			If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
 				SoftUnzip($dir_ppdgr, $ds_ppdgr, $dir_ppdgr, "rar") ; Распаковываем ППДГР
 
@@ -1227,8 +1248,15 @@ Func FNS()
 					Local $PidActwin = WinGetProcess($BPrint)
 					ProcessClose($PidActwin)
 
-					If DirGetSize($prog_files) <> -1 Then ; Проверяем, что ППДГР установлен
+					If DirGetSize($prog_files_new) <> -1  Then ; Проверяем, что ППДГР установлен
+						Local $ppdgr_print_cont = True
+						FileChangeDir($prog_files_new)
+					ElseIf DirGetSize($prog_files) <> -1 And DirGetSize($prog_files_new) == -1 Then ; Проверяем, что ППДГР установлен
+						Local $ppdgr_print_cont = True
 						FileChangeDir($prog_files)
+					EndIf
+					
+					If $ppdgr_print_cont Then
 							Local $hSearch = FileFindFirstFile("*.msi")
 							$sFileName = FileFindNextFile($hSearch)
 							FileClose($hSearch)
@@ -1236,6 +1264,7 @@ Func FNS()
 							Status("Установка и настройка модуля печати ППДГР")
 							RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
 						FileChangeDir($dir_distr)
+						$ppdgr_print_cont = False
 					EndIf
 				EndIf
 			EndIf
@@ -1247,8 +1276,15 @@ Func FNS()
 	If Checked($checkFNS_Print) Then
 		Status("Проверка наличия установленного ПО ППДГР")
 
-		If DirGetSize($prog_files) <> -1 Then ; Проверяем, что ППДГР установлен
+		If DirGetSize($prog_files_new) <> -1  Then ; Проверяем, что ППДГР установлен
+			Local $ppdgr_print_cont = True
+			FileChangeDir($prog_files_new)
+		ElseIf DirGetSize($prog_files) <> -1 And DirGetSize($prog_files_new) == -1 Then ; Проверяем, что ППДГР установлен
+			Local $ppdgr_print_cont = True
 			FileChangeDir($prog_files)
+		EndIf
+
+		If $ppdgr_print_cont Then
 				Local $hSearch = FileFindFirstFile("*.msi")
 				$sFileName = FileFindNextFile($hSearch)
 				FileClose($hSearch)
@@ -1259,6 +1295,7 @@ Func FNS()
 				Status("Установка модуля печати ППДГР")
 				RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
 			FileChangeDir($dir_distr)
+			$ppdgr_print_cont = False
 		EndIf
 	EndIf
 EndFunc
