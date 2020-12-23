@@ -54,6 +54,7 @@ Global $dir_certs     = $dir_tools & "certs\"
 
 Global $dir_ppdgr = $dir_federal & "ppdgr\"
 Global $ds_ppdgr  = "Setup_PPDGR_full.exe" ; Архив с базой и дистром
+Global $ds_ppdgr2  = "SetupPPDGR2.msi" ; Новый дистр (в. 2.0)
 Global $ds_extracted_ppdgr = "Setup_PPDGR.msi" ; Дистр после извлечения
 
 ; Откуда скачиваем дистрибутивы
@@ -65,6 +66,11 @@ Global $_netFramework35 = "dotnetfx35.exe" ; NetFramework v3.5
 Global $win7patch_x32 = "Windows6.1-KB4019990-x86.msu" ; Патч для 7ки для работы с ППДГР
 Global $win7patch_x64 = "Windows6.1-KB4019990-x64.msu"
 
+Global $win7hotfix_3033929_x32="Windows6.1-KB3033929-x86.msu" ; Патч для 7ки KB30303929 | для NGate
+Global $win7hotfix_3033929_x64="Windows6.1-KB3033929-x64.msu"
+
+Global $win7hotfix_4474419_x32="windows6.1-kb4474419-v3-x86.msu" ; Патч для 7ки KB4474419 | для NGate
+Global $win7hotfix_4474419_x64="windows6.1-kb4474419-v3-x64.msu"
 
 Global $Enot_ds = "http://download.triasoft.com/enot/50/Setup.exe" ; Расположение дистрибутива еНот
 Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
@@ -103,6 +109,9 @@ Global $jacarta64 = "Jacarta_64.msi" ; Jacarta x64bit
 
 Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP
 Global $csp5setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0
+Global $NGate32 = "NGateInstallx32.msi" ; Ngate client x32
+Global $NGate64 = "NGateInstallx64.msi" ; Ngate client x64
+Global $NGate_settings = "ngate.reg" ; Настройки для NGate
 Global $armSetup = "CryptoARM.zip" ; CryptoARM
 Global $arm_settings = "arm_settings.reg" ; CryptoARM settings
 Global $actxSetup = "cspcomsetup.msi" ; ActiveX Component + Firefox Plugin
@@ -141,6 +150,7 @@ Global $heidi_ds	 = "HeidiSQL.zip" ; HeidiSQL
 Global $punto_ds = "PuntoSwitcher.zip" ; PuntoSwitcher with config
 Global $access97_ds = "Microsoft_Access_97_SR2.zip" ; Microsoft Access 97 SR2
 Global $win2pdf_ds = "WinScan2PDF.exe" ; Tool to scan 2 PDF
+Global $PDF24_ds = "pdf24.msi" ; Преобразование doc в pdf
 Global $cpuz32_ds = "cpuz_x32.exe" ; CPU _ Z для отчетов о системе
 Global $cpuz64_ds = "cpuz_x64.exe"
 Global $ipscanner_ds = "Advanced_IP_Scanner.exe"
@@ -189,7 +199,7 @@ Global $VersionInfo = "version.ini"
 ; Создаем переменные статуса
 Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
-		$checkEnot, $checkFNS, $checkFNS_Print, _
+		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_35, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
@@ -200,7 +210,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
-		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated
+		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -513,8 +523,8 @@ Func ESign()
 		EndIf
 	EndIf
 
-	If checked($checkjacarta) Then
-		status("Установка Единого клиента Jacarta")
+	If Checked($checkjacarta) Then
+		Status("Установка Единого клиента Jacarta")
 
 		Local $jacarta = $jacarta32
 		If @OSArch = "X64" Then $jacarta = $jacarta64
@@ -550,6 +560,96 @@ Func ESign()
 		EndIf
 	EndIf
 
+	If Checked($checkNGate) Then
+		Status("Установка КриптоПро NGate")
+
+		Local $status_bits = False
+		Local $status_updates = False
+
+		Local $sCrypto
+		Local $NGate = $NGate32
+		Local $win7hotfix_3033929 = $win7hotfix_3033929_x32
+		Local $win7hotfix_4474419 = $win7hotfix_4474419_x32
+		Local $HKLM = "HKLM\"
+
+		If @OSArch = "X64" Then 
+			$NGate = $NGate64
+			$win7hotfix_3033929 = $win7hotfix_3033929_x64
+			$win7hotfix_4474419 = $win7hotfix_4474419_x64
+			$HKLM = "HKLM64\"
+		EndIf
+
+		If @OSVersion = "WIN_7" Then
+			Status("Проверяем наличие необходимых обновлений Win7")
+
+			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "3033929"', @TempDir, @SW_SHOW) ; Проверяем на наличие обновления 3033929
+			If $iRET Then
+				; Проверяем, что включены службы обновления винды
+				If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
+					$status_bits = True
+					RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
+					RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
+				EndIf
+				If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
+					$status_updates = True
+					RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
+					RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
+				EndIf
+
+				If SoftDownload($dir_ecp, $win7hotfix_3033929) Then SoftInstall($dir_ecp, $win7hotfix_3033929, "msi") ; Устанавливаем обновление 3033929
+			EndIf
+
+			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "4474419"', @TempDir, @SW_SHOW) ; Проверяем на наличие обновления 4474419
+			If $iRET Then
+				; Проверяем, что включены службы обновления винды
+				If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
+					$status_bits = True
+					RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
+					RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
+				EndIf
+				If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
+					$status_updates = True
+					RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
+					RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
+				EndIf
+
+				If SoftDownload($dir_ecp, $win7hotfix_4474419) Then SoftInstall($dir_ecp, $win7hotfix_4474419, "msi")  ; Устанавливаем обновление 4474419
+			EndIf
+
+			; Выключаем включенные службы обновления винды
+			If $status_bits Then ; Выключаем службу обновления bits
+				$status_bits = False
+				RunWait(@ComSpec & ' /c sc config bits start=disabled', '', @SW_HIDE)
+				RunWait(@ComSpec & ' /c net stop bits', '', @SW_HIDE)
+			EndIf
+			If $status_updates Then ; Выключаем службу обновления windows
+				$status_updates = False
+				RunWait(@ComSpec & ' /c sc config wuauserv start=disabled', '', @SW_HIDE)
+				RunWait(@ComSpec & ' /c net stop wuauserv', '', @SW_HIDE)
+			EndIf
+		EndIf
+
+		Status("Обновление КриптоПро CSP")
+
+		$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\08F19F05793DC7340B8C2621D83E5BE5\InstallProperties", "DisplayVersion") ; Если не 5ая версия крипто-про
+		If Not $sCrypto Then
+			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\05480A45343B0B0429E4860F13549069\InstallProperties", "DisplayVersion") ; 3.6?
+			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\68A52D936E5ACF24C9F8FE4A1C830BC8\InstallProperties", "DisplayVersion") ; 3.9?
+			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\7AB5E7046046FB044ACD63458B5F481C\InstallProperties", "DisplayVersion") ; 4.0?
+		
+			If $sCrypto <> "4.0.9963" Then
+				If SoftDownload($dir_ecp, $cspSetup) Then SoftInstall($dir_ecp, $cspSetup, "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb /L*v " & $dir_logs & $cspSetup & ".log""" )
+			EndIf
+		EndIf
+
+		Status("Установка КриптоПро NGate")
+
+		If SoftDownload($dir_ecp, $NGate) Then 
+			SoftInstall($dir_ecp, $NGate, "msi") ; Устанавливаем NGate
+			If SoftDownload($dir_ecp, $NGate_settings) Then RunWait("reg.exe IMPORT " & $dir_ecp & $NGate_settings) ; настройки для NGate
+		EndIf
+
+	EndIf
 EndFunc   ;==>ESign
 
 
@@ -665,6 +765,9 @@ Func WinSetup()
 			ShellExecuteWait($dir_software & $pass_ds)
 			Sleep(1000)
 			Run("notepad.exe " & $dir_software & "CryptoPass.txt", @WindowsDir)
+			FileDelete($dir_software & $pass_ds)
+			FileDelete($dir_software & "CryptoPass.txt")
+		
 			If @error Then MsgBox("","Ошибка","Сохраненных ключей не найдено")
 		EndIf
 	EndIf
@@ -1110,6 +1213,13 @@ Func Programs()
 		EndIf
 	EndIf
 
+	; PDF24
+	If Checked($checkPDF24) Then
+		Status("Установка pdf24")
+
+		If SoftDownload($dir_software, $PDF24_ds) Then SoftInstall($dir_software, $PDF24_ds, "msi")
+	EndIf
+
 	; .Net Framework 3.5
 	If Checked($checkNet_35) Then
 		_InstallDotNet("35")
@@ -1188,7 +1298,7 @@ Func Express()
 
 	; MS XML
 	If Checked($checkXML) Then
-		Status("Установка и настройка MS Xml")
+		Status("Установка и настройка MsXml")
 
 		If SoftDownload($dir_express, $xml_ds) Then SoftInstall($dir_express, $xml_ds, "msi")
 	EndIf
@@ -1219,9 +1329,10 @@ EndFunc   ;==>Express
 Func FNS()
 	Local $prog_files = "C:\Program Files\АО ГНИВЦ\ППДГР"
 	Local $prog_files_new = "C:\АО ГНИВЦ\ППДГР"
+	Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2\"
 	If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
 
-	; FNS Program
+	; FNS Program | v 1.12
 	If Checked($checkFNS) Then
 		; Пакет электронных документов
 		Status("Установка и настройка програм для ФНС")
@@ -1272,16 +1383,59 @@ Func FNS()
 			If $Start_param_FNS Then MsgBox("","Статус", "Программа подготовки документов для государственной регистрации установлена!")
 	EndIf
 
+	; FNS Program | v 2.0
+	If Checked($checkFNS2) Then
+		; Пакет электронных документов
+		Status("Установка и настройка програм для ФНС")
+			Local $msiErr = ""
+			Local $FnsLink = IniRead($dir_distr & "version.ini", "ФНС", "Ссылка2", "")
+
+			DirRemove($dir_ppdgr, 1)
+			DirRemove($prog_files_v2)
+			If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
+
+				_InstallDotNet("47") ; Ставим фреймворк 4.7
+
+				$msiErr = RunWait("msiexec /fa " & $dir_ppdgr & $ds_ppdgr2 & " /qb /passive /norestart REBOOT=ReallySuppress /L*V " & $dir_logs & $ds_ppdgr2 & ".log") ; Обновляем ППДГР
+				If $msiErr = "1605" Then ; ставим ППДГР, если обновить не сумели
+					SoftInstall($dir_ppdgr, $ds_ppdgr2, "msi")
+				Else
+					_FileWriteLog($dir_logs & "Install.log", $ds_ppdgr2 & ": Updated")
+				EndIf
+
+				$BPrint = WinWait("Печать НД", "", 5) ; Установка модуля печати
+				If WinExists($BPrint) Then
+					Local $PidActwin = WinGetProcess($BPrint)
+					ProcessClose($PidActwin)
+
+					If DirGetSize($prog_files_v2) <> -1  Then ; Проверяем, что ППДГР установлен
+						Local $ppdgr_print_cont = True
+						FileChangeDir($prog_files_v2)
+					EndIf
+					
+					If $ppdgr_print_cont Then
+							Local $hSearch = FileFindFirstFile("*.msi")
+							$sFileName = FileFindNextFile($hSearch)
+							FileClose($hSearch)
+
+							Status("Установка и настройка модуля печати ППДГР")
+							RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
+						FileChangeDir($dir_distr)
+						$ppdgr_print_cont = False
+					EndIf
+				EndIf
+			EndIf
+
+			If $Start_param_FNS Then MsgBox("","Статус", "Программа подготовки документов для государственной регистрации установлена!")
+	EndIf
+
 	; Модуль печати ППДГР
 	If Checked($checkFNS_Print) Then
 		Status("Проверка наличия установленного ПО ППДГР")
 
-		If DirGetSize($prog_files_new) <> -1  Then ; Проверяем, что ППДГР установлен
+		If DirGetSize($prog_files_v2) <> -1  Then ; Проверяем, что ППДГР установлен
 			Local $ppdgr_print_cont = True
-			FileChangeDir($prog_files_new)
-		ElseIf DirGetSize($prog_files) <> -1 And DirGetSize($prog_files_new) == -1 Then ; Проверяем, что ППДГР установлен
-			Local $ppdgr_print_cont = True
-			FileChangeDir($prog_files)
+			FileChangeDir($prog_files_v2)
 		EndIf
 
 		If $ppdgr_print_cont Then
@@ -1563,18 +1717,22 @@ Func _update() ; Обновление программы и подготовка
 	FileCopy($dir_logs & "Install.log", $dir_logs & "Install.previous.log", 1)
 	FileDelete($dir_logs & "Install.log")
 
-	If Not SoftDownload($dir_update, $VersionInfo, "raw") Then
-		MsgBox("","Ошибка", "Не удалось загрузить Version.ini")
-		Exit
-	EndIf
 
-	FileMove($dir_update & $VersionInfo, $dir_distr & $VersionInfo, 1)
+	If SoftDownload($dir_update, $VersionInfo, "raw") Then
+		FileCopy($dir_distr & $VersionInfo, $dir_update & $VersionInfo & ".bak")
+		FileMove($dir_update & $VersionInfo, $dir_distr & $VersionInfo, 1)
+	Else
+		FileMove($dir_update & $VersionInfo & ".bak", $dir_distr & $VersionInfo, 1)
+		MsgBox("","Ошибка", "Не удалось загрузить Version.ini")
+		ProcessClose(@AutoItPID)
+	EndIf
 
 	If Not SoftDownload($dir_tools, $wget, "raw") Then _DownloadPortable($dir_tools, $wget, "raw") ; Скачиваем wget
 
 	If Not SoftDownload($dir_tools, $sZip) Then ; Скачиваем 7Zip
+		FileMove($dir_update & $VersionInfo & ".bak", $dir_distr & $VersionInfo, 1)
 		MsgBox("","Ошибка", "Не найден 7za.exe в папке Tools.")
-		Exit
+		ProcessClose(@AutoItPID)
 	EndIf
 
 	SoftDownload($dir_tools, $wRar) ; Скачиваем UnRAR.exe
@@ -1604,8 +1762,11 @@ Func _update() ; Обновление программы и подготовка
 			FileDelete($dir_update & $MainApp)
 				If SoftDownload($dir_update, $MainApp) Then ; скачиваем программу
 					FileMove($dir_update & $MainApp, $dir_update & $MainApp & ".tmp", 1)
-					IniWrite($dir_distr & $VersionInfo, "Version", "Version", $newVersion) ; записываем новую версию в version.ini
+					;IniWrite($dir_distr & $VersionInfo, "Version", "Version", $newVersion) ; записываем новую версию в version.ini
 					_ScriptRestart() ; перезапускаем скрипт
+				Else
+					FileDelete($dir_update & $MainApp)
+					FileDelete($dir_update & $MainApp & ".tmp")				
 				EndIf
 		EndIf
 	EndIf
@@ -1669,7 +1830,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 				GUICtrlSetState($checkCSP, $GUI_CHECKED)
 				GUICtrlSetState($checkPKI, $GUI_CHECKED)
 				GUICtrlSetState($checkCerts, $GUI_CHECKED)
-				GUICtrlSetState($checkFF, $GUI_CHECKED)
+				;GUICtrlSetState($checkFF, $GUI_CHECKED)
 				GUICtrlSetState($checkChrome, $GUI_CHECKED)
 				GUICtrlSetState($checkIE, $GUI_CHECKED)
 				GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
@@ -1688,12 +1849,13 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 				GUICtrlSetState($checkPDF, $GUI_CHECKED)
 				GUICtrlSetState($checkARM, $GUI_CHECKED)
 				GUICtrlSetState($checkFNS, $GUI_CHECKED)
+				GUICtrlSetState($checkFNS2, $GUI_CHECKED)
 				GUICtrlSetState($checkHASP, $GUI_CHECKED)
 				GUICtrlSetState($checkEnot, $GUI_CHECKED)
 				GUICtrlSetState($checkCSP, $GUI_CHECKED)
 				GUICtrlSetState($checkPKI, $GUI_CHECKED)
 				GUICtrlSetState($checkCerts, $GUI_CHECKED)
-				GUICtrlSetState($checkFF, $GUI_CHECKED)
+				;GUICtrlSetState($checkFF, $GUI_CHECKED)
 				GUICtrlSetState($checkChrome, $GUI_CHECKED)
 				GUICtrlSetState($checkIE, $GUI_CHECKED)
 				GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
@@ -1775,17 +1937,25 @@ Func _Wget($file_url, $folder_to, $ext = "npso") ; Процедура загру
 EndFunc   ;==>_Wget
 
 Func _DownloadPortable($Place, $Soft_ds, $Option)
+	Local $Portable = IniRead($dir_distr & $VersionInfo, "MODE", "Offline", "0")
 	If Not IsDeclared("iMsgBoxAnswer") Then Dim $iMsgBoxAnswer
+
+	If $Portable = 1 Then 
 		$iMsgBoxAnswer = MsgBox(33,"Не найден " & $Soft_ds & " в папке " & $Place, "Переключиться в онлайн режим и скачать его?")
 		Select
 			Case $iMsgBoxAnswer = 1 ;OK
 				IniWrite($dir_distr & $VersionInfo, "MODE", "Offline", 0)
 				SoftDownload($Place, $Soft_ds, $Option)
-				IniWrite($dir_distr & $VersionInfo, "MODE", "Offline", 1)
 
 			Case $iMsgBoxAnswer = 2 ;Cancel
-				Exit
+				FileMove($dir_update & $VersionInfo & ".bak", $dir_distr & $VersionInfo, 1)
+				ProcessClose(@AutoItPID)
 		EndSelect
+	Else
+		FileMove($dir_update & $VersionInfo & ".bak", $dir_distr & $VersionInfo, 1)
+		MsgBox("", "Ошибка", "Не удалось загрузить wget. Работа программы будет завершена.")
+		ProcessClose(@AutoItPID)
+	EndIf
 EndFunc
 
 Func _Download($url, $folder) ; Процедура загрузки файлов (http) с отображением хода прогресса
@@ -1906,23 +2076,24 @@ EndFunc
 
 Func _InstallDotNet($version) ; Устанавливаем netframework, если не установлен
 	Local $arg = False
-	Local $status_bits, $status_updates
+	Local $status_bits = False
+	Local $status_updates = False
+
+	; Проверяем, что включены службы обновления винды
+	If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
+		$status_bits = True
+		RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
+		RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
+	EndIf
+	If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
+		$status_updates = True
+		RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
+		RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
+	EndIf
 
 	Switch $version
 		Case "35"
 			Status("Устанавливаем .Net Framework 3.5")
-
-			; Проверяем, что включены службы обновления винды
-			If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
-				$status_bits = "1"
-				RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
-				RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
-			EndIf
-			If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
-				$status_updates = "1"
-				RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
-				RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
-			EndIf
 
 			If @OSVersion = "Win_7" Then
 				If SoftDownload($dir_software, $_netFramework35) Then
@@ -1939,18 +2110,6 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 
 			RegRead('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', '')
 			If Not @error > 0 Then
-				; Проверяем, что включены службы обновления винды
-			If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
-				$status_bits = "1"
-				RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
-				RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
-			EndIf
-			If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
-				$status_updates = "1"
-				RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
-				RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
-			EndIf
-
 				If SoftDownload($dir_software, $_netFramework40) Then
 					SoftInstall($dir_software, $_netFramework40, "/q /norestart")
 					$arg = True
@@ -1961,19 +2120,7 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 			Status("Устанавливаем .Net Framework 4.7")
 
 			Local $s = RegRead('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release')
-			If Not $s < 460805 Then
-				; Проверяем, что включены службы обновления винды
-				If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
-					$status_bits = "1"
-					RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
-					RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
-				EndIf
-				If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
-					$status_updates = "1"
-					RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
-					RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
-				EndIf
-
+			If $s < 460798 Then
 				If @OSVersion = "Win_7" Then
 					Local $iRET = RunWait(@ComSpec & ' /c WMIC qfe get hotfixid | FIND "' & "4019990" & '"', @TempDir, @SW_HIDE)
 					If Not $iRET Then ; Проверяем, установлено ли обновление
@@ -1992,12 +2139,12 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 
 	; Выключаем включенные службы обновления винды
 	If $status_bits Then ; Выключаем службу обновления bits
-		$status_bits = "0"
+		$status_bits = False
 		RunWait(@ComSpec & ' /c sc config bits start=disabled', '', @SW_HIDE)
 		RunWait(@ComSpec & ' /c net stop bits', '', @SW_HIDE)
 	EndIf
 	If $status_updates Then ; Выключаем службу обновления windows
-		$status_updates = "0"
+		$status_updates = False
 		RunWait(@ComSpec & ' /c sc config wuauserv start=disabled', '', @SW_HIDE)
 		RunWait(@ComSpec & ' /c net stop wuauserv', '', @SW_HIDE)
 	EndIf

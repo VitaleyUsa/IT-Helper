@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.48
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.50
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -62,7 +62,7 @@ GUICtrlSetFont(-1, 10, 400, 0, "Arial")
 
 #Region ### Начало - Вкладка - Нотариат ###
 $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
-	$group_eis = GUICtrlCreateGroup("ЕИС Енот", 8, 37, 193, 337)
+	$group_eis = GUICtrlCreateGroup("ЕИС Енот", 8, 37, 193, 345)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkEnot = GUICtrlCreateCheckbox(" Дистрибутив ЕИС", 17, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
@@ -100,40 +100,30 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программа для написаний обращений в службы тех. поддержки")
 
-		$checkEnotUpdated = GUICtrlCreateCheckbox(" Енот с обновлениями", 17, 346, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkEnotUpdated = GUICtrlCreateCheckbox(" ЕИС Енот | 5.46.2002", 17, 346, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Дистрибутив ЕИС с интегрированными обновлениями. Собрал Александр Кротов (Архангельск)")
-
-	$group_fns = GUICtrlCreateGroup("ФНС", 216, 277, 193, 97)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-
-		$checkFNS = GUICtrlCreateCheckbox(" ППДГР", 225, 297, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-		$checkFNS_Print = GUICtrlCreateCheckbox(" Модуль печати", 225, 330, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Восстанавливает модуль печати для ППДГР")
 
 	$group_browser = GUICtrlCreateGroup("Интернет браузеры", 424, 37, 193, 161)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkFF = GUICtrlCreateCheckbox(" Firefox ESR", 433, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "+ расширения для FF + отключение обновлений")
+		;~ $checkFF = GUICtrlCreateCheckbox(" Firefox ESR", 433, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		;~ GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		;~ GUICtrlSetTip(-1, "+ расширения для FF + отключение обновлений")
 
-		$checkChrome = GUICtrlCreateCheckbox(" Google Chrome", 433, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkChrome = GUICtrlCreateCheckbox(" Google Chrome", 433, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "+ расширения для Chrome")
 
-		$checkIE = GUICtrlCreateCheckbox(" Internet Explorer", 433, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkIE = GUICtrlCreateCheckbox(" Internet Explorer", 433, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Настройка Internet Explorer")
 
-		$checkActx_Browser = GUICtrlCreateCheckbox(" Плагины и расширения", 433, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkActx_Browser = GUICtrlCreateCheckbox(" Плагины и расширения", 433, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "ЕФРСБ, Госуслуги, Федресурс")
 	
-	$group_ecp = GUICtrlCreateGroup("Электронная подпись", 216, 37, 193, 236)
+	$group_ecp = GUICtrlCreateGroup("Электронная подпись", 216, 37, 193, 216)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
@@ -154,7 +144,22 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkPKI = GUICtrlCreateCheckbox(" eToken pki client", 225, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-	$group_crypto = GUICtrlCreateGroup("Крипто утилиты", 424, 205, 193, 169)
+	$group_fns = GUICtrlCreateGroup("ФНС", 216, 257, 193, 125)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkFNS = GUICtrlCreateCheckbox(" ППДГР v. 1", 225, 274, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Старая версия ППДГР")
+
+		$checkFNS2 = GUICtrlCreateCheckbox(" ППДГР v. 2 NEW", 225, 307, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Обновленная версия ППДГР")
+
+		$checkFNS_Print = GUICtrlCreateCheckbox(" Модуль печати", 225, 340, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Восстанавливает модуль печати для ППДГР")
+
+	$group_crypto = GUICtrlCreateGroup("Крипто утилиты", 424, 205, 193, 177)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkARM = GUICtrlCreateCheckbox(" Крипто ARM", 433, 225, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
@@ -166,6 +171,10 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkLine = GUICtrlCreateCheckbox(" Крипто Лайн", 433, 291, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Бесплатный аналог КриптоАРМ (не сертифицированная)")
+
+		$checkNGate = GUICtrlCreateCheckbox(" Крипто NGate - клиент", 433, 324, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Защищенное VPN - соединение")
 #EndRegion ### Конец - Вкладка - Нотариат ###
 
 #Region ### Начало - Вкладка - Программы ###
@@ -245,7 +254,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 	$group_other2 = GUICtrlCreateGroup("Разное - II", 424, 37, 193, 337)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkCSPclean = GUICtrlCreateCheckbox(" Cspclean", 433, 57, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkCSPclean = GUICtrlCreateCheckbox(" CSP Clean", 433, 57, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Утилита очистки следов установки продуктов КриптоПро")
 
@@ -257,9 +266,9 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "")
 
-		$checkPhotoViewer = GUICtrlCreateCheckbox(" Просмотр фотографий", 433, 156, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkPDF24 = GUICtrlCreateCheckbox(" DOC -> PDF24 ", 433, 156, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Возвращает классическое средство Просмотра фотографий в Windows 10")
+		GUICtrlSetTip(-1, "Программа для преобразования офисных файлов в PDF")
 
 		$checkNaps2 = GUICtrlCreateCheckbox(" NAPS2", 433, 189, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
@@ -335,6 +344,9 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 			GUICtrlSetTip(-1, "Очищает все журналы операционной системы")
 		
+		$checkPhotoViewer = GUICtrlCreateCheckbox(" Просмотр фотографий", 226, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+			GUICtrlSetTip(-1, "Возвращает классическое средство Просмотра фотографий в Windows 10")
 
 	$group_folders = GUICtrlCreateGroup("Часто используемые папки", 424, 37, 193, 337) 
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -431,9 +443,9 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[59] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[62] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
-		$checkEnot, $checkFNS, $checkFNS_Print, _
+		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_35, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
@@ -442,7 +454,8 @@ Global $AllCheckboxes[59] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
 		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
-		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated] ; Массив из чекбоксов
+		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
+		$checkNGate, $checkPDF24] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
@@ -526,8 +539,8 @@ While 1
 					"it@npso66.ru")
 
 		; История изменений
-		Case $menuChangelog
-			ShellExecute("http://" & $User & ":" &$Pass & "@" & $Server & "/Statistic/index.html")
+		;~ Case $menuChangelog
+		;~ 	ShellExecute("http://" & $User & ":" &$Pass & "@" & $Server & "/Statistic/index.html")
 
 		; Часто используемые папки
 		Case $L_NotaryFolder
@@ -607,8 +620,8 @@ While 1
 					"Нотариальная палата Свердловской области" & @CRLF & _
 					"it@npso66.ru")
 
-		Case $iChangelog
-			ShellExecute("http://" & $User & ":" &$Pass & "@" & $Server & "/Statistic/index.html")
+		;~ Case $iChangelog
+		;~ 	ShellExecute("http://" & $User & ":" &$Pass & "@" & $Server & "/Statistic/index.html")
 
 		Case $iExit ; выход
 			Exit
