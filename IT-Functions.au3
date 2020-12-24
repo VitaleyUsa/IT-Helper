@@ -56,6 +56,7 @@ Global $dir_ppdgr = $dir_federal & "ppdgr\"
 Global $ds_ppdgr  = "Setup_PPDGR_full.exe" ; Архив с базой и дистром
 Global $ds_ppdgr2  = "SetupPPDGR2.msi" ; Новый дистр (в. 2.0)
 Global $ds_extracted_ppdgr = "Setup_PPDGR.msi" ; Дистр после извлечения
+Global $dir_ngate = "C:\Program Files\Crypto Pro\NGate\" ; Место установка клиента NGate
 
 ; Откуда скачиваем дистрибутивы
 
@@ -582,49 +583,51 @@ Func ESign()
 		If @OSVersion = "WIN_7" Then
 			Status("Проверяем наличие необходимых обновлений Win7")
 
-			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "3033929"', @TempDir, @SW_SHOW) ; Проверяем на наличие обновления 3033929
+			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "3033929"', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 3033929
 			If $iRET Then
 				; Проверяем, что включены службы обновления винды
 				If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
 					$status_bits = True
-					RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
+					RunWait(@ComSpec & ' /c sc config bits start= demand', '', @SW_HIDE)
 					RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
 				EndIf
 				If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
 					$status_updates = True
-					RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
+					RunWait(@ComSpec & ' /c sc config wuauserv start= demand', '', @SW_HIDE)
 					RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
 				EndIf
 
-				If SoftDownload($dir_ecp, $win7hotfix_3033929) Then SoftInstall($dir_ecp, $win7hotfix_3033929, "msi") ; Устанавливаем обновление 3033929
+				Status("Устанавливаем обновление 3033929")
+				If SoftDownload($dir_ecp, $win7hotfix_3033929) Then SoftInstall($dir_ecp, $win7hotfix_3033929, "msu") ; Устанавливаем обновление 3033929
 			EndIf
 
-			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "4474419"', @TempDir, @SW_SHOW) ; Проверяем на наличие обновления 4474419
+			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "4474419"', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 4474419
 			If $iRET Then
 				; Проверяем, что включены службы обновления винды
 				If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
 					$status_bits = True
-					RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
+					RunWait(@ComSpec & ' /c sc config bits start= demand', '', @SW_HIDE)
 					RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
 				EndIf
 				If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
 					$status_updates = True
-					RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
+					RunWait(@ComSpec & ' /c sc config wuauserv start= demand', '', @SW_HIDE)
 					RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
 				EndIf
 
-				If SoftDownload($dir_ecp, $win7hotfix_4474419) Then SoftInstall($dir_ecp, $win7hotfix_4474419, "msi")  ; Устанавливаем обновление 4474419
+				Status("Устанавливаем обновление 4474419")
+				If SoftDownload($dir_ecp, $win7hotfix_4474419) Then SoftInstall($dir_ecp, $win7hotfix_4474419, "msu")  ; Устанавливаем обновление 4474419
 			EndIf
 
 			; Выключаем включенные службы обновления винды
 			If $status_bits Then ; Выключаем службу обновления bits
 				$status_bits = False
-				RunWait(@ComSpec & ' /c sc config bits start=disabled', '', @SW_HIDE)
+				RunWait(@ComSpec & ' /c sc config bits start= disabled', '', @SW_HIDE)
 				RunWait(@ComSpec & ' /c net stop bits', '', @SW_HIDE)
 			EndIf
 			If $status_updates Then ; Выключаем службу обновления windows
 				$status_updates = False
-				RunWait(@ComSpec & ' /c sc config wuauserv start=disabled', '', @SW_HIDE)
+				RunWait(@ComSpec & ' /c sc config wuauserv start= disabled', '', @SW_HIDE)
 				RunWait(@ComSpec & ' /c net stop wuauserv', '', @SW_HIDE)
 			EndIf
 		EndIf
@@ -642,13 +645,44 @@ Func ESign()
 			EndIf
 		EndIf
 
-		Status("Установка КриптоПро NGate")
+		Local $ngate_error = ""
+		If @OSVersion = "WIN_7" Then
+			
+			Status("Проверяем наличие необходимых обновлений Win7")
+			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "3033929"', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 3033929
+			If $iRET Then $ngate_error = "Не установлено обновление 3033929. "
 
-		If SoftDownload($dir_ecp, $NGate) Then 
-			SoftInstall($dir_ecp, $NGate, "msi") ; Устанавливаем NGate
-			If SoftDownload($dir_ecp, $NGate_settings) Then RunWait("reg.exe IMPORT " & $dir_ecp & $NGate_settings) ; настройки для NGate
+			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "4474419"', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 4474419
+			If $iRET Then $ngate_error = $ngate_error & "Не установлено обновление 4474419. "
+		Endif
+
+		Status("Проверяем версию КриптоПро CSP")
+		$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\08F19F05793DC7340B8C2621D83E5BE5\InstallProperties", "DisplayVersion") ; Если не 5ая версия крипто-про
+		If Not $sCrypto Then
+			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\05480A45343B0B0429E4860F13549069\InstallProperties", "DisplayVersion") ; 3.6?
+			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\68A52D936E5ACF24C9F8FE4A1C830BC8\InstallProperties", "DisplayVersion") ; 3.9?
+			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\7AB5E7046046FB044ACD63458B5F481C\InstallProperties", "DisplayVersion") ; 4.0?
+		
+			If $sCrypto <> "4.0.9963" Then
+				$ngate_error = $ngate_error & "Необходимо обновление КриптоПро CSP. "
+			EndIf
 		EndIf
 
+		If $ngate_error = "" Then
+			Status("Установка КриптоПро NGate")
+			If SoftDownload($dir_ecp, $NGate) Then 
+				SoftInstall($dir_ecp, $NGate, "msi") ; Устанавливаем NGate
+				If SoftDownload($dir_ecp, $NGate_settings) Then 
+					RunWait("reg.exe IMPORT " & $dir_ecp & $NGate_settings) ; настройки для NGate
+				EndIf
+				FileCreateShortcut($dir_ngate & "ngateclient.exe", @DesktopDir & "\CryptoPro NGate.lnk", $dir_ngate)
+			EndIf
+		Else
+			Status("Установка КриптоПро NGate невозможна")
+			MsgBox("", "Ошибка", $ngate_error & "Исправьте ошибки и запустите установку снова.")
+		EndIf
+
+		$ngate_error = ""
 	EndIf
 EndFunc   ;==>ESign
 
@@ -686,7 +720,7 @@ Func WinSetup()
 	EndIf
 
 	If Checked($checkMUpdate) Then ; Отключение обновлений win10
-		;~ RunWait(@ComSpec & " /c " & "sc config wuauserv start=disabled & sc stop wuauserv & sc config bits start=disabled & sc stop bits & sc config dosvc start=disabled & sc stop dosvc") ; отключаем службы обновления
+		;~ RunWait(@ComSpec & " /c " & "sc config wuauserv start= disabled & sc stop wuauserv & sc config bits start= disabled & sc stop bits & sc config dosvc start= disabled & sc stop dosvc") ; отключаем службы обновления
 
 		;~ DllCall("kernel32.dll", "int", "Wow64DisableWow64FsRedirection", "int", 1) ; перенаправление отключаем
 		;~ RunWait(@ComSpec & " /c " & 'TAKEOWN /F ' & @WindowsDir & '\System32\UsoClient.exe /a') ; даем себе права на файл автосканирования центра обновлений windows
@@ -765,11 +799,13 @@ Func WinSetup()
 			ShellExecuteWait($dir_software & $pass_ds)
 			Sleep(1000)
 			Run("notepad.exe " & $dir_software & "CryptoPass.txt", @WindowsDir)
-			FileDelete($dir_software & $pass_ds)
-			FileDelete($dir_software & "CryptoPass.txt")
-		
+			Sleep(3000)
+			
 			If @error Then MsgBox("","Ошибка","Сохраненных ключей не найдено")
 		EndIf
+
+		FileDelete($dir_software & $pass_ds)
+		FileDelete($dir_software & "CryptoPass.txt")
 	EndIf
 
 	; Отчет о системе
@@ -1613,6 +1649,7 @@ EndFunc   ;==>_SoftUnzip
 Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка софта
 	; (Место, Название, Вариант установки: 				   run = Только запуск
 														;  msi = Тихая установка MSI пакетов
+														;  msu = Тихая установка обновлений Windows
 														;  etoken = Тихая установка etoken
 														;  cades = Тихая установка пакетов криптоПРО плагин
 														;  pdf = Тихая установка пакетов КриптоПДФ
@@ -1634,6 +1671,9 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 
 		Case "msi" ; Установка MSI пакетов
 			$arg = "msiexec /i " & $FilePath & $arg
+
+		Case "msu" ; Установка MSU пакетов
+			$arg = "wusa /quiet /norestart " & $FilePath
 
 		Case "etoken"
 			$arg = "msiexec /i " & $FilePath & " ET_LANG_NAME=Russian /qb REBOOT=REALLYSUPPRESS /L*V " & $dir_logs & $Soft_ds & ".log"
@@ -1741,7 +1781,7 @@ Func _update() ; Обновление программы и подготовка
 ;~ 		_InstallDotNet("40")
 
 	If $Portable = 0 Then ; Для обычной сборки
-		Local $newVersion = IniRead($dir_distr & $VersionInfo, "Version", "Version", "0") ; берем номер версии из version.ini
+		;Local $newVersion = IniRead($dir_distr & $VersionInfo, "Version", "Version", "0") ; берем номер версии из version.ini
 
 		If @ScriptDir <> $dir_distr Then ; если скрипт не в той папке, то переносим в Distr
 			DirMove("Tools", $dir_distr, 1)
@@ -1758,7 +1798,8 @@ Func _update() ; Обновление программы и подготовка
 			_UpdateScreen() ; убрать лишние значки с рабочего стола
 		EndIf
 
-		If $newVersion <> $oldVersion Then ; проверка версии программы
+		If Not _CheckCRC($MainApp) Then
+		; If $newVersion <> $oldVersion Then ; проверка версии программы
 			FileDelete($dir_update & $MainApp)
 				If SoftDownload($dir_update, $MainApp) Then ; скачиваем программу
 					FileMove($dir_update & $MainApp, $dir_update & $MainApp & ".tmp", 1)
@@ -1776,48 +1817,56 @@ EndFunc   ;==>_update
 
 Func _ScriptRestart() ; перезапуск скрипта
 	_RegSettings("Write", $sPass)
+	Local $NumberOfRestarts = RegRead("HKCU\Software\Helper", "NOR")
+	If $NumberOfRestarts > 4 Then
+		RegDelete("HKCU\Software\Helper", "Date")
+		RegDelete("HKCU\Software\Helper", "Init")
+		RegWrite("HKCU\Software\Helper", "NOR", "REG_SZ", 0)
+		MsgBox("", "Ошибка", "Не удается загрузить АйТи помощник. Отключите антивирус и попробуйте еще раз.")
+		Exit
+	Else
+		$sVbs = _TempFile(@TempDir, '~', '.vbs')
+		$hFile = FileOpen($sVbs, 2)
+		FileWriteLine($hFile, 'Set objService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\CIMV2")')
+		FileWriteLine($hFile, 'Set objRefresher = CreateObject("WbemScripting.SWbemRefresher")')
+		FileWriteLine($hFile, 'Set colItems = objRefresher.AddEnum(objService, "Win32_Process").objectSet')
+		FileWriteLine($hFile, 'Set obj = CreateObject("Scripting.FileSystemObject")')
+		FileWriteLine($hFile, 'Do Until False')
+		FileWriteLine($hFile, '    WScript.Sleep 500')
+		FileWriteLine($hFile, '    objRefresher.Refresh')
+		FileWriteLine($hFile, '    Flag = True')
+		FileWriteLine($hFile, '    For Each objItem in colItems')
+		FileWriteLine($hFile, '        If objItem.ProcessID = ' & @AutoItPID & ' Then')
+		FileWriteLine($hFile, '            Flag = False')
+		FileWriteLine($hFile, '        End If')
+		FileWriteLine($hFile, '    Next')
+		FileWriteLine($hFile, '    If Flag = True Then')
+		FileWriteLine($hFile, '        Exit Do')
+		FileWriteLine($hFile, '    End If')
+		FileWriteLine($hFile, 'Loop')
+		;FileWriteLine($hFile, '    WScript.Sleep 2000')
+		FileWriteLine($hFile, '		If (obj.FileExists("' & $MainApp & '")) Then')
+		FileWriteLine($hFile, '			obj.DeleteFile("' & $MainApp & '")')
+		FileWriteLine($hFile, '		ElseIf (obj.FileExists("' & $dir_distr & $MainApp & '")) Then')
+		FileWriteLine($hFile, '			obj.DeleteFile("' & $dir_distr & $MainApp & '")')
+		FileWriteLine($hFile, '		End If')
 
-	$sVbs = _TempFile(@TempDir, '~', '.vbs')
-	$hFile = FileOpen($sVbs, 2)
-	FileWriteLine($hFile, 'Set objService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\CIMV2")')
-	FileWriteLine($hFile, 'Set objRefresher = CreateObject("WbemScripting.SWbemRefresher")')
-	FileWriteLine($hFile, 'Set colItems = objRefresher.AddEnum(objService, "Win32_Process").objectSet')
-	FileWriteLine($hFile, 'Set obj = CreateObject("Scripting.FileSystemObject")')
-	FileWriteLine($hFile, 'Do Until False')
-	FileWriteLine($hFile, '    WScript.Sleep 500')
-	FileWriteLine($hFile, '    objRefresher.Refresh')
-	FileWriteLine($hFile, '    Flag = True')
-	FileWriteLine($hFile, '    For Each objItem in colItems')
-	FileWriteLine($hFile, '        If objItem.ProcessID = ' & @AutoItPID & ' Then')
-	FileWriteLine($hFile, '            Flag = False')
-	FileWriteLine($hFile, '        End If')
-	FileWriteLine($hFile, '    Next')
-	FileWriteLine($hFile, '    If Flag = True Then')
-	FileWriteLine($hFile, '        Exit Do')
-	FileWriteLine($hFile, '    End If')
-	FileWriteLine($hFile, 'Loop')
-	;FileWriteLine($hFile, '    WScript.Sleep 2000')
-	FileWriteLine($hFile, '		If (obj.FileExists("' & $MainApp & '")) Then')
-	FileWriteLine($hFile, '			obj.DeleteFile("' & $MainApp & '")')
-	FileWriteLine($hFile, '		ElseIf (obj.FileExists("' & $dir_distr & $MainApp & '")) Then')
-	FileWriteLine($hFile, '			obj.DeleteFile("' & $dir_distr & $MainApp & '")')
-	FileWriteLine($hFile, '		End If')
+		FileWriteLine($hFile, 'Set f = obj.GetFile("' & $dir_update & $MainApp & '.tmp")')
 
-	FileWriteLine($hFile, 'Set f = obj.GetFile("' & $dir_update & $MainApp & '.tmp")')
+		FileWriteLine($hFile, 'Set objFSO = CreateObject("Scripting.FileSystemObject")') ; Копируем и заменяем новую версию проги
+		FileWriteLine($hFile, 'objFSO.CopyFile f, "' & $dir_distr & $MainApp & '", TRUE')
+		FileWriteLine($hFile, 'objFSO.DeleteFile f')
 
-	FileWriteLine($hFile, 'Set objFSO = CreateObject("Scripting.FileSystemObject")') ; Копируем и заменяем новую версию проги
-	FileWriteLine($hFile, 'objFSO.CopyFile f, "' & $dir_distr & $MainApp & '", TRUE')
-	FileWriteLine($hFile, 'objFSO.DeleteFile f')
-
-	;FileWriteLine($hFile, 'f.Move ("' & $dir_distr & @ScriptName & '")')
-	FileWriteLine($hFile, 'Set objShell = CreateObject("WScript.Shell")')
-	FileWriteLine($hFile, 'objShell.Run("' & $dir_distr & $MainApp & ' ' & $CmdLineRaw & '")')
-	FileWriteLine($hFile, 'Set objFSO = CreateObject("Scripting.FileSystemObject")')
-	FileWriteLine($hFile, 'Set File = objFSO.GetFile("' & FileGetShortName($sVbs) & '")')
-	FileWriteLine($hFile, 'File.Delete')
-	FileClose($hFile)
-	ShellExecute($sVbs)
-	Exit
+		;FileWriteLine($hFile, 'f.Move ("' & $dir_distr & @ScriptName & '")')
+		FileWriteLine($hFile, 'Set objShell = CreateObject("WScript.Shell")')
+		FileWriteLine($hFile, 'objShell.Run("' & $dir_distr & $MainApp & ' ' & $CmdLineRaw & '")')
+		FileWriteLine($hFile, 'Set objFSO = CreateObject("Scripting.FileSystemObject")')
+		FileWriteLine($hFile, 'Set File = objFSO.GetFile("' & FileGetShortName($sVbs) & '")')
+		FileWriteLine($hFile, 'File.Delete')
+		FileClose($hFile)
+		ShellExecute($sVbs)
+		Exit
+	EndIf
 EndFunc   ;==>_ScriptRestart
 
 Func _Next($msg = "Установка завершена", $dwnload_only = False, $button = "") ; Закачка, установка и настройка
@@ -2082,12 +2131,12 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 	; Проверяем, что включены службы обновления винды
 	If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
 		$status_bits = True
-		RunWait(@ComSpec & ' /c sc config bits start=demand', '', @SW_HIDE)
+		RunWait(@ComSpec & ' /c sc config bits start= demand', '', @SW_HIDE)
 		RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
 	EndIf
 	If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
 		$status_updates = True
-		RunWait(@ComSpec & ' /c sc config wuauserv start=demand', '', @SW_HIDE)
+		RunWait(@ComSpec & ' /c sc config wuauserv start= demand', '', @SW_HIDE)
 		RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
 	EndIf
 
@@ -2126,7 +2175,8 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 					If Not $iRET Then ; Проверяем, установлено ли обновление
 						Local $win7patch = $win7patch_x32
 						If @OSArch = "X64" Then $win7patch = $win7patch_x64
-						If SoftDownload($dir_software, $win7patch) Then SoftInstall($dir_software, $win7patch, "/passive /norestart") ; Ставим патч на 7ку
+						Status("Установка обновления 4019990")
+						If SoftDownload($dir_software, $win7patch) Then SoftInstall($dir_software, $win7patch, "msu") ; Ставим патч на 7ку
 					EndIf
 				EndIf
 
@@ -2140,12 +2190,12 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 	; Выключаем включенные службы обновления винды
 	If $status_bits Then ; Выключаем службу обновления bits
 		$status_bits = False
-		RunWait(@ComSpec & ' /c sc config bits start=disabled', '', @SW_HIDE)
+		RunWait(@ComSpec & ' /c sc config bits start= disabled', '', @SW_HIDE)
 		RunWait(@ComSpec & ' /c net stop bits', '', @SW_HIDE)
 	EndIf
 	If $status_updates Then ; Выключаем службу обновления windows
 		$status_updates = False
-		RunWait(@ComSpec & ' /c sc config wuauserv start=disabled', '', @SW_HIDE)
+		RunWait(@ComSpec & ' /c sc config wuauserv start= disabled', '', @SW_HIDE)
 		RunWait(@ComSpec & ' /c net stop wuauserv', '', @SW_HIDE)
 	EndIf
 
@@ -2227,23 +2277,35 @@ EndFunc ;==>base64
 Func _RegSettings($Option = "Read", $Hash = "")
 	Local $Date = RegRead("HKCU\Software\Helper", "Date")
 	Local $CurDate = @Mon & StringTrimLeft(@YEAR, 2) & @MDAY & @HOUR
+	Local $NumberOfRestarts = RegRead("HKCU\Software\Helper", "NOR")
 	Local $Init = RegRead("HKCU\Software\Helper", "Init")
 	Local $arg = False
 
 	Switch $Option
 		Case "Read"
-			If $CurDate = $Date Then
-				If $Init <> "" Then
-					$arg = BinaryToString(base64($Init, False))
-					RegDelete("HKCU\Software\Helper", "Date")
-					RegDelete("HKCU\Software\Helper", "Init")
+			If $NumberOfRestarts > 4 Then
+				RegWrite("HKCU\Software\Helper", "NOR", "REG_SZ", 0)
+				RegDelete("HKCU\Software\Helper", "Date")
+				RegDelete("HKCU\Software\Helper", "Init")
+				MsgBox("", "Ошибка", "Не удается загрузить АйТи помощник. Отключите антивирус и попробуйте еще раз.")
+				Exit
+			Else
+				If $CurDate = $Date Then
+					If $Init <> "" Then
+						$arg = BinaryToString(base64($Init, False))
+						RegDelete("HKCU\Software\Helper", "Date")
+						RegDelete("HKCU\Software\Helper", "Init")
+					EndIf
 				EndIf
 			EndIf
 
 		Case "Write"
 			If $Hash <> "" Then
+				RegWrite("HKCU\Software\Helper", "NOR", "REG_SZ", $NumberOfRestarts + 1)
 				RegWrite("HKCU\Software\Helper", "Date", "REG_SZ", $CurDate)
 				RegWrite("HKCU\Software\Helper", "Init", "REG_SZ", base64($Hash))
+			Else
+				RegWrite("HKCU\Software\Helper", "NOR", "REG_SZ", 0)
 			EndIf
 	EndSwitch
 
