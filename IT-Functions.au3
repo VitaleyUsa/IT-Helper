@@ -61,20 +61,36 @@ Global $dir_ngate = "C:\Program Files\Crypto Pro\NGate\" ; Место устан
 ; Откуда скачиваем дистрибутивы
 
 Global $_netFramework40 = "dotNetFx40_Full_x86_x64.exe" ; NetFramework v4
-Global $_netFramework47 = "NDP471-KB4033342-x86-x64-AllOS-ENU.exe" ; NetFramework v4.7
+Global $_netFramework47 = "ndp48-x86-x64-allos-enu.exe" ; NetFramework v4.7
+Global $_netFramework48 = "ndp48-x86-x64-allos-enu.exe" ; NetFramework v4.8
 Global $_netFramework35 = "dotnetfx35.exe" ; NetFramework v3.5
 
-Global $win7patch_x32 = "Windows6.1-KB4019990-x86.msu" ; Патч для 7ки для работы с ППДГР
-Global $win7patch_x64 = "Windows6.1-KB4019990-x64.msu"
+Global $win7patch_x32 = "Windows6.1-KB4019990-x86.cab" ; Патч для 7ки для работы с ППДГР
+Global $win7patch_x64 = "Windows6.1-KB4019990-x64.cab"
 
-Global $win7hotfix_3033929_x32="Windows6.1-KB3033929-x86.msu" ; Патч для 7ки KB30303929 | для NGate
-Global $win7hotfix_3033929_x64="Windows6.1-KB3033929-x64.msu"
+Global $win8to81 = "https://www.microsoft.com/ru-ru/download/details.aspx?id=42327"
+If @OSArch = "X64" Then Global $win8to81 = "https://www.microsoft.com/ru-RU/download/details.aspx?id=42335"
 
-Global $win7hotfix_4474419_x32="windows6.1-kb4474419-v3-x86.msu" ; Патч для 7ки KB4474419 | для NGate
-Global $win7hotfix_4474419_x64="windows6.1-kb4474419-v3-x64.msu"
+Global $win10upgrade = "Windows10Upgrade.exe" ; Win10 Upgrade Assistant
+Global $winsettings_ds = "WinSettings.bat" ; WindowsSettings
+
+Global $hotfixes_sha2_3033929 = """3033929 3185330 3197868 4015549 4019264 4022719 4025341 4034664 4038777 4041681""" ; Список обновлений для sha-2 - 3033929
+
+Global $win7hotfix_3035131_x32="Windows6.1-KB3035131-x86.cab" ; Патч для 7ки KB3035131 | для NGate
+Global $win7hotfix_3035131_x64="Windows6.1-KB3035131-x64.cab"
+
+Global $win7hotfix_3033929_x32="Windows6.1-KB3033929-x86.cab" ; Патч для 7ки KB30303929 | для NGate
+Global $win7hotfix_3033929_x64="Windows6.1-KB3033929-x64.cab"
+
+Global $win7hotfix_4474419_x32="windows6.1-kb4474419-v3-x86.cab" ; Патч для 7ки KB4474419 | для NGate
+Global $win7hotfix_4474419_x64="windows6.1-kb4474419-v3-x64.cab"
 
 Global $Enot_ds = "http://download.triasoft.com/enot/50/Setup.exe" ; Расположение дистрибутива еНот
 Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
+
+Global $KLEIS_ds = "https://fciit.ru/files/EISClient.exe" ; Клиент ЕИС для основного пк
+Global $KLEIS_Sec_ds = "https://fciit.ru/files/EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
+Global $KLEIS_Diagnostic_ds = "http://notpalatarb.ru/files/DiagnosticsAndBackupEISClient/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС
 
 Global $MysqlSetup32 = "http://download.triasoft.com/enot/50/SetupDB.exe" ; Mysql 32bit
 Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; Mysql 64bit
@@ -202,7 +218,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
-		$checkFF, $checkC, $checkNet_35, _
+		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
 		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
 		$checkXML, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
@@ -211,7 +227,8 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
-		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24
+		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
+		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -346,6 +363,34 @@ Func Enot()
 			SoftInstall($dir_enot, $feedback, "run", 0)
 		EndIf
 	EndIf
+
+	; Клиент ЕИС для основного ПК
+	If Checked($checkKLEIS_Main) Then
+		Status("Загрузка клиента ЕИС для основного пк")
+
+		If SoftDownload($dir_enot, $KLEIS_ds, "wext") Then SoftInstall($dir_enot, "EISClient.exe", "/qb")
+	Endif
+
+	; Клиент ЕИС для второстепенного ПК
+	If Checked($checkKLEIS_Sec) Then
+		Status("Загрузка клиента ЕИС для второстепенного пк")
+
+		If SoftDownload($dir_enot, $KLEIS_Sec_ds, "wext") Then SoftInstall($dir_enot, "EISClientStaff.exe", "/qb")
+	Endif
+
+	; Помощник КЛЕИС
+	If Checked($checkKLEIS_Helper) Then
+		Status("Запуск помощника КЛЕИС")
+
+		ShellExecute("C:\Program Files\Internet Explorer\iexplore.exe", "https://it.npso66.ru")
+	Endif
+
+	; Диагностика клиента ЕИС
+	If Checked($checkKLEIS_Diagnostic) Then
+		Status("Загрузка и запуск диагностики клиента ЕИС")
+
+		If SoftDownload($dir_enot, $KLEIS_Diagnostic_ds, "wext") Then SoftInstall($dir_enot, "DiagnosticsAndBackupEISClient.exe", "run", 0)
+	Endif
 EndFunc   ;==>Enot
 
 ; ----------------------------------------------- CERTS FUNC;
@@ -569,67 +614,67 @@ Func ESign()
 
 		Local $sCrypto
 		Local $NGate = $NGate32
+		Local $win7hotfix_3035131 = $win7hotfix_3035131_x32
 		Local $win7hotfix_3033929 = $win7hotfix_3033929_x32
 		Local $win7hotfix_4474419 = $win7hotfix_4474419_x32
 		Local $HKLM = "HKLM\"
 
 		If @OSArch = "X64" Then 
 			$NGate = $NGate64
+			$win7hotfix_3035131 = $win7hotfix_3035131_x64
 			$win7hotfix_3033929 = $win7hotfix_3033929_x64
 			$win7hotfix_4474419 = $win7hotfix_4474419_x64
 			$HKLM = "HKLM64\"
 		EndIf
 
 		If @OSVersion = "WIN_7" Then
+			Local $win_7_sp1 = False
+
 			Status("Проверяем наличие необходимых обновлений Win7")
+			FileChangeDir($dir_ecp)
 
-			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "3033929"', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 3033929
-			If $iRET Then
-				; Проверяем, что включены службы обновления винды
-				If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
-					$status_bits = True
-					RunWait(@ComSpec & ' /c sc config bits start= demand', '', @SW_HIDE)
-					RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
+			; Проверка на SP1
+			If @OSServicePack <> "Service Pack 1" Then
+				$prompt = MsgBox(3, "Увага!", "Не обнаружен Service Pack для Windows 7. Нажмите ""Да"", чтобы вручную установить обновление, ""Нет"", если уверены, что Service Pack1 установлен и нужно продолжить установку, ""Отмена"" для отмены установки NGate")
+				If $prompt = "2" Then Exit ; Отмена
+				If $prompt = "6" Then ; Да
+					ShellExecute("https://www.catalog.update.microsoft.com/Search.aspx?q=KB976932")
+					Exit
 				EndIf
-				If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
-					$status_updates = True
-					RunWait(@ComSpec & ' /c sc config wuauserv start= demand', '', @SW_HIDE)
-					RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
-				EndIf
-
-				Status("Устанавливаем обновление 3033929")
-				If SoftDownload($dir_ecp, $win7hotfix_3033929) Then SoftInstall($dir_ecp, $win7hotfix_3033929, "msu") ; Устанавливаем обновление 3033929
+				If $prompt = 7 Then $win_7_sp1 = True ; Нет
+			Else
+				$win_7_sp1 = True
 			EndIf
 
-			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "4474419"', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 4474419
-			If $iRET Then
-				; Проверяем, что включены службы обновления винды
-				If _RetrieveServiceState("bits") <> "Running" Then ; Включаем службу обновления bits
-					$status_bits = True
-					RunWait(@ComSpec & ' /c sc config bits start= demand', '', @SW_HIDE)
-					RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
-				EndIf
-				If _RetrieveServiceState("wuauserv") <> "Running" Then ; Включаем службу обновления windows
-					$status_updates = True
-					RunWait(@ComSpec & ' /c sc config wuauserv start= demand', '', @SW_HIDE)
-					RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
+			If $win_7_sp1 Then
+				RunWait(@ComSpec & ' /c WMIC qfe | FIND /v """" > ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Экспортим список обновлений в файл для ускорения поиска
+
+				$iRET = RunWait(@ComSpec & ' /c findstr /i ' & $hotfixes_sha2_3033929 & ' ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновлений 3033929
+				If $iRET Then
+					_WindowsUpdateFix()
+
+					$iRET = RunWait(@ComSpec & ' /c findstr /i 3035131 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Обновление 3035131
+					If $iRET Then
+						Status("Устанавливаем обновление 3035131")
+						If SoftDownload($dir_ecp, $win7hotfix_3035131) Then SoftInstall($dir_ecp, $win7hotfix_3035131, "cab") ; Устанавливаем обновление 3035131
+					EndIf
+
+					$iRET = RunWait(@ComSpec & ' /c findstr /i 3033929 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Обновление 3033929
+					If $iRET Then
+						Status("Устанавливаем обновление 3033929")
+						If SoftDownload($dir_ecp, $win7hotfix_3033929) Then SoftInstall($dir_ecp, $win7hotfix_3033929, "cab") ; Устанавливаем обновление 3033929
+					EndIf
 				EndIf
 
-				Status("Устанавливаем обновление 4474419")
-				If SoftDownload($dir_ecp, $win7hotfix_4474419) Then SoftInstall($dir_ecp, $win7hotfix_4474419, "msu")  ; Устанавливаем обновление 4474419
+				$iRET = RunWait(@ComSpec & ' /c findstr /i 4474419 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Обновление 4474419
+				If $iRET Then
+					Status("Устанавливаем обновление 4474419")
+					If SoftDownload($dir_ecp, $win7hotfix_4474419) Then SoftInstall($dir_ecp, $win7hotfix_4474419, "cab") ; Устанавливаем обновление 4474419
+				EndIf
 			EndIf
 
-			; Выключаем включенные службы обновления винды
-			If $status_bits Then ; Выключаем службу обновления bits
-				$status_bits = False
-				RunWait(@ComSpec & ' /c sc config bits start= disabled', '', @SW_HIDE)
-				RunWait(@ComSpec & ' /c net stop bits', '', @SW_HIDE)
-			EndIf
-			If $status_updates Then ; Выключаем службу обновления windows
-				$status_updates = False
-				RunWait(@ComSpec & ' /c sc config wuauserv start= disabled', '', @SW_HIDE)
-				RunWait(@ComSpec & ' /c net stop wuauserv', '', @SW_HIDE)
-			EndIf
+			$win_7_sp1 = False
+			FileChangeDir($dir_distr)
 		EndIf
 
 		Status("Обновление КриптоПро CSP")
@@ -649,10 +694,19 @@ Func ESign()
 		If @OSVersion = "WIN_7" Then
 			
 			Status("Проверяем наличие необходимых обновлений Win7")
-			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "3033929"', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 3033929
-			If $iRET Then $ngate_error = "Не установлено обновление 3033929. "
+			FileDelete($dir_ecp & 'hotfixes.txt') ; Удаляем старый список обновлений
+			RunWait(@ComSpec & ' /c WMIC qfe | FIND /v """" > ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Экспортим список обновлений в файл для ускорения поиска
 
-			$iRET = RunWait(@ComSpec & ' /c WMIC qfe | FIND "4474419"', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 4474419
+			$iRET = RunWait(@ComSpec & ' /c findstr /i ' & $hotfixes_sha2_3033929 & ' ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновлений 3033929
+			If $iRET Then
+				$iRET = RunWait(@ComSpec & ' /c findstr /i 3035131 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 3035131
+				If $iRET Then $ngate_error = "Не установлено обновление 3035131. "
+
+				$iRET = RunWait(@ComSpec & ' /c findstr /i 3033929 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 3033929
+				If $iRET Then $ngate_error = "Не установлено обновление 3033929. "
+			EndIf
+
+			$iRET = RunWait(@ComSpec & ' /c findstr /i 4474419 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 4474419
 			If $iRET Then $ngate_error = $ngate_error & "Не установлено обновление 4474419. "
 		Endif
 
@@ -671,6 +725,8 @@ Func ESign()
 		If $ngate_error = "" Then
 			Status("Установка КриптоПро NGate")
 			If SoftDownload($dir_ecp, $NGate) Then 
+				RunWait("msiexec /x """ & $dir_ecp & $NGate & """ /qn")
+
 				SoftInstall($dir_ecp, $NGate, "msi") ; Устанавливаем NGate
 				If SoftDownload($dir_ecp, $NGate_settings) Then 
 					RunWait("reg.exe IMPORT " & $dir_ecp & $NGate_settings) ; настройки для NGate
@@ -679,7 +735,8 @@ Func ESign()
 			EndIf
 		Else
 			Status("Установка КриптоПро NGate невозможна")
-			MsgBox("", "Ошибка", $ngate_error & "Исправьте ошибки и запустите установку снова.")
+			$prompt = MsgBox(4, "Ошибка", $ngate_error & "Попробуйте перезагрузить компьютер и запустить установку снова.")
+			
 		EndIf
 
 		$ngate_error = ""
@@ -691,32 +748,10 @@ EndFunc   ;==>ESign
 
 Func WinSetup()
 	If Checked($checkWinSet) Then ; Настройка Windows
-		; Открываем порт для mysql
-		Local $CMD = "netsh advfirewall firewall add rule name=MySQL dir=in action=allow protocol=TCP localport=3306"
-		RunWait(@ComSpec & " /c " & $CMD)
-
-		; Включаем схему электропитания на быстродействие
-		$CMD = "powercfg -SETACTIVE SCHEME_MIN"
-		RunWait(@ComSpec & " /c " & $CMD)
-
-		; Отключаем выключение usb при простое
-		$CMD = "powercfg /SETACVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0"
-		RunWait(@ComSpec & " /c " & $CMD)
-
-		; Отключаем выключение hdd при простое
-		$CMD = "powercfg /SETACVALUEINDEX SCHEME_CURRENT 0012ee47-9041-4b5d-9b77-535fba8b1442 6738e2c4-e8a5-4a42-b16a-e040e769756e 0"
-		RunWait(@ComSpec & " /c " & $CMD)
-
-		; Включаем показ расширений
-		RegWrite("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "HideFileExt", "REG_DWORD", "0")
-	
-		; Добавляем в исключения папки с енотом / нотариальным помощником
-		Local $HKLM = "HKLM\"
-		If @OSArch = "X64" Then $HKLM = "HKLM64\"
-
-		RegWrite($HKLM & "SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths", "C:\Triasoft\eNot", "REG_DWORD", "0")
-		RegWrite($HKLM & "SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths", "C:\Triasoft\Express", "REG_DWORD", "0")
-		RegWrite($HKLM & "SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths", "C:\Distr\Notary", "REG_DWORD", "0")
+		Status('Настройка Windows')
+		If SoftDownload($dir_software, $winsettings_ds) Then 
+			ShellExecuteWait($dir_software & $winsettings_ds)
+		EndIf
 	EndIf
 
 	If Checked($checkMUpdate) Then ; Отключение обновлений win10
@@ -1256,9 +1291,9 @@ Func Programs()
 		If SoftDownload($dir_software, $PDF24_ds) Then SoftInstall($dir_software, $PDF24_ds, "msi")
 	EndIf
 
-	; .Net Framework 3.5
-	If Checked($checkNet_35) Then
-		_InstallDotNet("35")
+	; .Net Framework 4.8
+	If Checked($checkNet_48) Then
+		_InstallDotNet("48")
 	EndIf
 
 	; Advanced IP Scanner
@@ -1650,6 +1685,7 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 	; (Место, Название, Вариант установки: 				   run = Только запуск
 														;  msi = Тихая установка MSI пакетов
 														;  msu = Тихая установка обновлений Windows
+														;  cab = Тихая установка cab - пакетов (распакованные обновления Windows)
 														;  etoken = Тихая установка etoken
 														;  cades = Тихая установка пакетов криптоПРО плагин
 														;  pdf = Тихая установка пакетов КриптоПДФ
@@ -1675,6 +1711,9 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 		Case "msu" ; Установка MSU пакетов
 			$arg = "wusa /quiet /norestart " & $FilePath
 
+		Case "cab" ; Установка cab пакетов
+			$arg = "dism /online /Add-Package /PackagePath:""" & $Place & $Soft_ds & """ /quiet /norestart /logpath:" & $dir_logs & $Soft_ds & ".log"
+
 		Case "etoken"
 			$arg = "msiexec /i " & $FilePath & " ET_LANG_NAME=Russian /qb REBOOT=REALLYSUPPRESS /L*V " & $dir_logs & $Soft_ds & ".log"
 
@@ -1695,7 +1734,17 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 	EndSwitch
 
 	If $Wait = "1" Then ; Ждем завершения программы или нет?
-		RunWait($arg)
+		If ($Option = "cab") Then
+			If @OSArch="X64" Then
+				_WinAPI_Wow64EnableWow64FsRedirection(False)
+					RunWait($arg)
+				_WinAPI_Wow64EnableWow64FsRedirection(True)
+			Else
+				RunWait($arg)
+			EndIf
+		Else
+			RunWait($arg)
+		EndIf
 	Else
 		Run($arg)
 	EndIf
@@ -1717,12 +1766,11 @@ Func _update() ; Обновление программы и подготовка
 	Local $title = "АйТи помощник "  & FileGetVersion(@ScriptFullPath)
 	Local $CurPath = StringTrimRight(@ScriptFullPath, StringLen($MainApp))
 	Local $Portable = IniRead($CurPath & "\" & $VersionInfo, "MODE", "Offline", "0")
-	Local $oldVersion = IniRead($CurPath & "\" & $VersionInfo, "Version", "Version", "")
+	;Local $oldVersion = IniRead($CurPath & "\" & $VersionInfo, "Version", "Version", "")
 
 	FileDelete(@DesktopDir & "\Нотариальный помощник.lnk") ; Временное решение для удаления версии хелпера 2.х
 	FileDelete($dir_distr & "_main.exe") ; Временное решение для удаления версии хелпера 2.х
 	FileDelete($dir_update & "_main.exe") ; Временное решение для удаления версии хелпера 2.х
-
 
 	If $Portable = 1 Then
 		$title = $title & " | Оффлайн режим"
@@ -1798,16 +1846,14 @@ Func _update() ; Обновление программы и подготовка
 			_UpdateScreen() ; убрать лишние значки с рабочего стола
 		EndIf
 
-		If Not _CheckCRC($MainApp) Then
+		If Not _CheckCRC($dir_distr & $MainApp) Then
 		; If $newVersion <> $oldVersion Then ; проверка версии программы
 			FileDelete($dir_update & $MainApp)
+			FileDelete($dir_update & $MainApp & ".tmp")	
 				If SoftDownload($dir_update, $MainApp) Then ; скачиваем программу
 					FileMove($dir_update & $MainApp, $dir_update & $MainApp & ".tmp", 1)
 					;IniWrite($dir_distr & $VersionInfo, "Version", "Version", $newVersion) ; записываем новую версию в version.ini
-					_ScriptRestart() ; перезапускаем скрипт
-				Else
-					FileDelete($dir_update & $MainApp)
-					FileDelete($dir_update & $MainApp & ".tmp")				
+					_ScriptRestart() ; перезапускаем скрипт			
 				EndIf
 		EndIf
 	EndIf
@@ -1872,6 +1918,8 @@ EndFunc   ;==>_ScriptRestart
 Func _Next($msg = "Установка завершена", $dwnload_only = False, $button = "") ; Закачка, установка и настройка
 	Local $continue = False
 
+	If Checked($checkNGate) Then GUICtrlSetState($checkCerts, $GUI_CHECKED)
+
 	If $button = "Specialist" Then ; Настройка кнопки "Тех. работник"
 		$iMsgBoxAnswer = MsgBox(33,"Внимание","Вы уверены, что хотите запустить настройку рабочего места тех. работника?")
 		Select
@@ -1890,7 +1938,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 		$iMsgBoxAnswer = MsgBox(33,"Внимание","Вы уверены, что хотите запустить настройку нового рабочего места?")
 		Select
 			Case $iMsgBoxAnswer = 1 ;Ок
-				GUICtrlSetState($checkNet_35, $GUI_CHECKED)
+				; GUICtrlSetState($checkNet_48, $GUI_CHECKED)
 				GUICtrlSetState($checkC, $GUI_CHECKED)
 				GUICtrlSetState($checkShare, $GUI_CHECKED)
 				GUICtrlSetState($checkWinSet, $GUI_CHECKED)
@@ -2150,8 +2198,10 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 					$arg = True
 				EndIf
 			Else
+				If @OSArch="X64" Then _WinAPI_Wow64EnableWow64FsRedirection(False)
 				RunWait(@ComSpec & " /c " & "DISM /Online /Enable-Feature /FeatureName:NetFx3 /All")
 				$arg = True
+				_WinAPI_Wow64EnableWow64FsRedirection(True)
 			EndIf
 
 		Case "40"
@@ -2185,6 +2235,49 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 					$arg = True
 				EndIf
 			EndIf
+		
+			Case "48"
+				Status("Устанавливаем .Net Framework 4.8")
+				Local $yes = true
+				Local $s = RegRead('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release')
+				If $s < 528040 Then
+					If @OSVersion = "Win_7" Then
+						Local $iRET = RunWait(@ComSpec & ' /c WMIC qfe get hotfixid | FIND "' & "4019990" & '"', @TempDir, @SW_HIDE)
+						If Not $iRET Then ; Проверяем, установлено ли обновление
+							Local $win7patch = $win7patch_x32
+							If @OSArch = "X64" Then $win7patch = $win7patch_x64
+							Status("Установка обновления 4019990")
+							If SoftDownload($dir_software, $win7patch) Then SoftInstall($dir_software, $win7patch, "cab") ; Ставим патч на 7ку
+						EndIf
+					EndIf
+					
+					If @OSVersion = "WIN_8" Then
+							$prompt = MsgBox(3, "Увага!", "Необходимо обновить вашу операционную систему. Нажмите ""Да"", чтобы скачать обновление.")
+							If $prompt = "6" Then ; Да
+								ShellExecute($win8to81)
+							EndIf	
+							$yes = false
+					EndIf
+
+					If @OSVersion = "WIN_10" Then
+						If Int(RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId")) < 14393 Then
+							$prompt = MsgBox(3, "Увага!", "Необходимо обновить вашу операционную систему. Нажмите ""Да"", чтобы скачать и установить обновление. Внимание! Перед процедурой сохраните ваши документы и закройте все программы.")
+							If $prompt = "6" Then ; Да
+								Status("Обновление операционной системы!")
+								If SoftDownload($dir_software, $win10upgrade) Then SoftInstall($dir_software, $win10upgrade, "/skipeula /auto upgrade")
+							EndIf
+							$yes = false
+						EndIf
+					EndIf
+
+					If $yes Then 
+						If SoftDownload($dir_software, $_netFramework48) Then
+							SoftInstall($dir_software, $_netFramework48, "/passive /norestart")
+							$arg = True
+						EndIf
+					EndIf
+				EndIf
+					
 	EndSwitch
 
 	; Выключаем включенные службы обновления винды
@@ -2224,6 +2317,68 @@ Func _RetrieveServiceState($s_ServiceName) ; получение статуса �
 		Next
 	EndIf
 EndFunc   ;==>_RetrieveServiceState
+
+Func _WindowsUpdateFix()
+	; Windows FIX
+	ProcessClose("iexplore.exe")
+
+	RunWait(@ComSpec & ' /c net stop wuauserv', '', @SW_HIDE) ; Останавливаем службу обновлений Windows
+	RunWait(@ComSpec & ' /c net stop bits', '', @SW_HIDE) ; Останавливаем службу обновления bits
+
+	; Удаляем логи Windows Update
+	If FileExists(@WindowsDir & "\WindowsUpdate.log") Then FileDelete(@WindowsDir & "\WindowsUpdate.log")
+	If FileExists(@WindowsDir & "\Windows Update.log") Then FileDelete(@WindowsDir & "\Windows Update.log")
+
+	; Удаляем SoftwareDistribution
+	DirRemove(@WindowsDir & "\SoftwareDistribution", 1)
+
+	; Перерегистрируем MSXML3.dll
+	RunWait("regsvr32 /s msxml3.dll")
+	; Перерегистрируем wuapi.dll
+	Run("regsvr32 /s wuapi.dll")
+	; Перерегистрируем wups.dll
+	Run("regsvr32 /s wups.dll")
+	; Перерегистрируем wuaueng.dll
+	Run("regsvr32 /s wuaueng.dll")
+	; Перерегистрируем wuaueng1.dll
+	Run("regsvr32 /s wuaueng1.dll")
+	; Перерегистрируем wucltui.dll
+	Run("regsvr32 /s wucltui.dll")
+	; Перерегистрируем wuweb.dll
+	Run("regsvr32 /s wuweb.dll")
+	; Перерегистрируем qmgr.dll
+	Run("regsvr32 /s qmgr.dll")
+	; Перерегистрируем qmgrprxy.dll
+	Run("regsvr32 /s qmgrprxy.dll")
+	; Перерегистрируем jscript.dll
+	Run("regsvr32 /s jscript.dll")
+
+	; WinSxS права на папки
+	RunWait(@ComSpec & ' /c Takeown /F ' & @WindowsDir & '\WinSxS /A', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /inheritance:d', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /remove:g Все', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & ' /remove Все', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /remove:g Пользователи', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /grant Пользователи:(OI)(CI)RX', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /remove:g ""NT SERVICE\TrustedInstaller""', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /grant ""NT SERVICE\TrustedInstaller"":(OI)(CI)F', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /remove:g ""NT AUTHORITY\СИСТЕМА""', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /grant ""NT AUTHORITY\СИСТЕМА"":(OI)(CI)RX', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /grant:r Администраторы (OI)(IO)F', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS /setowner ""NT SERVICE\TrustedInstaller""', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c TAKEOWN /F ' & @WindowsDir & '\WinSxS\*.* /A /R', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS\*.* /remove Все /T', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS\*.* /remove Пользователи /T', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS\*.* /remove ""NT AUTHORITY\СИСТЕМА"" /T', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS\*.* /remove ""NT SERVICE\TrustedInstaller"" /T', @TempDir, @SW_HIDE)
+	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS\*.* /inheritance:e /T', @TempDir, @SW_HIDE)
+	
+	; Включаем службу обновлений
+	RunWait(@ComSpec & ' /c sc config bits start= demand', '', @SW_HIDE)
+	RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
+	RunWait(@ComSpec & ' /c sc config wuauserv start= demand', '', @SW_HIDE)
+	RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
+EndFunc
 
 Func _UpdateScreen() ; обновить рабочий стол
 	Local $Opt = Opt('WinSearchChildren', 1)

@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.54
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.63
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -40,16 +40,16 @@ If @Compiled Then
 ; Main application
 
 $width = 628
-$height = 481
+$height = 681
 
 #Region ### START Koda GUI section ### Form=it-helper.kxf
 $HelperForm = GUICreate($title, $width, $height, -1, -1, $GUI_SS_DEFAULT_GUI)
 
 $menuFile = GUICtrlCreateMenu("Файл")
-	$menuOffline = GUICtrlCreateMenuItem("Offline - режим", $menuFile)
+	;$menuOffline = GUICtrlCreateMenuItem("Offline - режим", $menuFile)
 	$menuDelete = GUICtrlCreateMenuItem("Удалить ПО", $menuFile)
 $menuHelp = GUICtrlCreateMenu("Помощь")
-	$menuChangelog = GUICtrlCreateMenuItem("Список изменений", $menuHelp)
+	;$menuChangelog = GUICtrlCreateMenuItem("Список изменений", $menuHelp)
 	$menuAbout = GUICtrlCreateMenuItem("О программе", $menuHelp)
 GUISetFont(12, 400, 0, "Segoe UI")
 ;~  GUISetBkColor(0xBFCDDB)
@@ -57,7 +57,7 @@ GUISetBkColor(0xf85252)
 
 Global $DummyStart = GUICtrlCreateDummy() ; get start of control creation control id
 
-$Tab1 = GUICtrlCreateTab(0, 0, 628, 401)
+$Tab1 = GUICtrlCreateTab(0, 0, 628, 601)
 GUICtrlSetFont(-1, 10, 400, 0, "Arial")
 
 #Region ### Начало - Вкладка - Нотариат ###
@@ -103,6 +103,25 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkEnotUpdated = GUICtrlCreateCheckbox(" ЕИС Енот | 5.46.2002", 17, 346, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Дистрибутив ЕИС с интегрированными обновлениями. Собрал Александр Кротов (Архангельск)")
+
+	$group_kleis = GUICtrlCreateGroup("Клиент ЕИС", 8, 390, 609, 200)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+		
+		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Дистрибутив основного рабочего места КЛЕИС | автоматическая установка", 17, 410, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Клиент ЕИС для основного ПК")
+
+		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Дистрибутив второстепенного рабочего места КЛЕИС | автоматическая установка", 17, 443, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Клиент ЕИС для второстепенного рабочего места")
+
+		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник по КЛЕИС | решение распространенных проблем", 17, 473, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Помощник по КЛЕИС | решение распространенных проблем")
+
+		$checkKLEIS_Diagnostic = GUICtrlCreateCheckbox(" Диагностика клиента ЕИС (разраб. Артём Поляков, Уфа)", 17, 503, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Позволяет диагностировать состояние, а также исправлять ошибки: «Клиент ЕИС», «Служба Синхронизации с ЕИС», «БД EisDB». А так же осуществлять резервное копирование/восстановление БД.")
 
 	$group_browser = GUICtrlCreateGroup("Интернет браузеры", 424, 37, 193, 161)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -209,7 +228,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Архиватор (x32/x64)")
 
-		$checkNet_35 = GUICtrlCreateCheckbox(" .Net Framework 3.5", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkNet_48 = GUICtrlCreateCheckbox(" .Net Framework 4.8", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 	$group_other = GUICtrlCreateGroup("Разное - I", 216, 37, 193, 337)
@@ -378,30 +397,30 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 Global $DummyEnd = GUICtrlCreateDummy()
 
 #Region ### Начало - Кнопки ###
-	$btnNewPk = GUICtrlCreateButton("Новый ПК", 2, 408, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
-	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
-	GUICtrlSetColor(-1, 0x000000)
+	;$btnNewPk = GUICtrlCreateButton("Новый ПК", 2, 608, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
+	;GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
+	;GUICtrlSetColor(-1, 0x000000)
 
-	$btnSpecialist = GUICtrlCreateButton("Тех. работник", 90, 408, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
-	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
-	GUICtrlSetColor(-1, 0x000000)
+	;$btnSpecialist = GUICtrlCreateButton("Тех. работник", 90, 608, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
+	;GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
+	;GUICtrlSetColor(-1, 0x000000)
 
-	$btnDownloadOnly = GUICtrlCreateButton("Скачать", 178, 408, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
-	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
-	GUICtrlSetColor(-1, 0x000000)
+	;$btnDownloadOnly = GUICtrlCreateButton("Скачать", 178, 608, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
+	;GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
+	;GUICtrlSetColor(-1, 0x000000)
 
-	$btnInstall = GUICtrlCreateButton("Продолжить", 493, 404, 131, 33, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
+	$btnInstall = GUICtrlCreateButton("Установить", 493, 604, 131, 33, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
 	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
 	GUICtrlSetColor(-1, 0x000000)
 #EndRegion ### Конец - Кнопки ###
 
 #Region ### Начало - Tray ###
 Local $iSettings = TrayCreateMenu("Настройки") ; Создаем трей меню
-Local $iOffline = TrayCreateItem("Offline - режим", $iSettings)
+;Local $iOffline = TrayCreateItem("Offline - режим", $iSettings)
 Local $iRemove = TrayCreateItem("Удалить ПО", $iSettings)
 TrayCreateItem("")
-Local $iChangelog = TrayCreateItem("Изменения")
-Local $iAbout = TrayCreateItem("О программе")
+;Local $iChangelog = TrayCreateItem("Изменения")
+;Local $iAbout = TrayCreateItem("О программе")
 TrayCreateItem("")
 Local $iExit = TrayCreateItem("Выйти")
 
@@ -443,11 +462,11 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[62] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[66] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
-		$checkFF, $checkC, $checkNet_35, _
+		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
 		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkXML, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
@@ -455,7 +474,8 @@ Global $AllCheckboxes[62] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
 		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
 		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
-		$checkNGate, $checkPDF24] ; Массив из чекбоксов
+		$checkNGate, $checkPDF24, _
+		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
@@ -491,6 +511,7 @@ While 1
 		Case $GUI_EVENT_CLOSE ; Выход
 			Exit
 
+		#comments-start
 		; Оффлайн - режим
 		Case $menuOffline
 			$offline = IniRead($dir_distr & $VersionInfo, "MODE", "Offline", "0")
@@ -504,6 +525,7 @@ While 1
 			EndSwitch
 			WinSetTitle($HelperForm,"",$title)
 			IniWrite($dir_distr & $VersionInfo, "MODE", "Offline", $offline)
+		#comments-end
 
 		; Самоуничтожение программы
 		Case $menuDelete
@@ -536,7 +558,10 @@ While 1
 			MsgBox($MB_SYSTEMMODAL, "", "" & @CRLF & _
 					"Ситников Виталий" & @CRLF & _
 					"Нотариальная палата Свердловской области" & @CRLF & _
-					"it@npso66.ru")
+					"it@npso66.ru" & @CRLF & _
+					"Внесли вклад в разработку:" & @CRLF & _
+					"Поляков Артем | Уфа" & @CRLF & _
+					"Кротов Александр | Архангельск")
 
 		; История изменений
 		;~ Case $menuChangelog
@@ -560,15 +585,15 @@ While 1
 
 		; Кнопки
 
-		Case $btnNewPk ; Кнопка Новый ПК
-			_Next("Настройка ПК завершена", False, "NewPK")
+		;Case $btnNewPk ; Кнопка Новый ПК
+		;	_Next("Настройка ПК завершена", False, "NewPK")
 
-		Case $btnSpecialist ; Кнопка Тех. работник
-			_Next("Рабочее место тех. работника настроено", False, "Specialist")
+		;Case $btnSpecialist ; Кнопка Тех. работник
+		;	_Next("Рабочее место тех. работника настроено", False, "Specialist")
 
-		Case $btnDownloadOnly ; Кнопка СКАЧАТЬ
-			_Next("Загрузка завершена", True)
-;~ 			test()
+		;Case $btnDownloadOnly ; Кнопка СКАЧАТЬ
+		;	_Next("Загрузка завершена", True)
+;~ 		;	test()
 
 		Case $btnInstall ; Кнопка УСТАНОВИТЬ
 			_Next()
@@ -576,6 +601,7 @@ While 1
 	EndSwitch
 
 	Switch TrayGetMsg()
+		#comments-start
 		Case $iOffline
 			$offline = IniRead($dir_distr & $VersionInfo, "MODE", "Offline", "0")
 			Switch $offline
@@ -588,6 +614,7 @@ While 1
 			EndSwitch
 			WinSetTitle($HelperForm,"",$title)
 			IniWrite($dir_distr & $VersionInfo, "MODE", "Offline", $offline)
+		#comments-end
 
 		Case $iRemove
 			If Not IsDeclared("iMsgBoxAnswer") Then Dim $iMsgBoxAnswer
@@ -614,11 +641,13 @@ While 1
 				ContinueCase
 			EndSelect
 
+		#comments-start
 		Case $iAbout 
 			MsgBox($MB_SYSTEMMODAL, "", @CRLF & _
 					"Ситников Виталий" & @CRLF & _
 					"Нотариальная палата Свердловской области" & @CRLF & _
 					"it@npso66.ru")
+		#comments-end
 
 		;~ Case $iChangelog
 		;~ 	ShellExecute("http://" & $User & ":" &$Pass & "@" & $Server & "/Statistic/index.html")
