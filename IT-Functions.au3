@@ -368,6 +368,7 @@ Func Enot()
 	If Checked($checkKLEIS_Main) Then
 		Status("Загрузка клиента ЕИС для основного пк")
 
+		FileDelete($dir_enot & "EISClient.exe")
 		If SoftDownload($dir_enot, $KLEIS_ds, "wext") Then SoftInstall($dir_enot, "EISClient.exe", "/qb")
 	Endif
 
@@ -375,6 +376,7 @@ Func Enot()
 	If Checked($checkKLEIS_Sec) Then
 		Status("Загрузка клиента ЕИС для второстепенного пк")
 
+		FileDelete($dir_enot & "EISClientStaff.exe")
 		If SoftDownload($dir_enot, $KLEIS_Sec_ds, "wext") Then SoftInstall($dir_enot, "EISClientStaff.exe", "/qb")
 	Endif
 
@@ -389,6 +391,7 @@ Func Enot()
 	If Checked($checkKLEIS_Diagnostic) Then
 		Status("Загрузка и запуск диагностики клиента ЕИС")
 
+		FileDelete($dir_enot & "DiagnosticsAndBackupEISClient.exe")
 		If SoftDownload($dir_enot, $KLEIS_Diagnostic_ds, "wext") Then SoftInstall($dir_enot, "DiagnosticsAndBackupEISClient.exe", "run", 0)
 	Endif
 EndFunc   ;==>Enot
