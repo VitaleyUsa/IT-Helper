@@ -582,6 +582,8 @@ Func ESign()
 	If Checked($checkjacarta) Then
 		Status("Установка Единого клиента Jacarta")
 
+		RunWait("MsiExec.exe /X{BC5C2BEB-87AF-4636-9184-CA10C3C740B8} /qn") ; Удаляем eToken Pki Client
+
 		Local $jacarta = $jacarta32
 		If @OSArch = "X64" Then $jacarta = $jacarta64
 		If SoftDownload($dir_ecp, $jacarta) Then SoftInstall($dir_ecp, $jacarta, "msi")
