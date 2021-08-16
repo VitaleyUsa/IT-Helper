@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.69
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.72
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -153,23 +153,30 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	$group_ecp = GUICtrlCreateGroup("Электронная подпись", 216, 37, 193, 216)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0", 225, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "КриптоПро CSP 5.0.11455 (Fury) от 8.05.2019")
 
-		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты", 225, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты", 225, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Сертификаты + списки отзывов РР и ФЦИИТ")
 
-		$checkJacarta = GUICtrlCreateCheckbox(" Единый Клиент JaCarta", 225, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkJacarta = GUICtrlCreateCheckbox(" Единый Клиент JaCarta", 225, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт JaCarta")
 
-		$checkPKI = GUICtrlCreateCheckbox(" eToken pki client", 225, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkRutoken = GUICtrlCreateCheckbox(" Драйвер Rutoken", 225, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Rutoken")
+
+		$checkEsmart = GUICtrlCreateCheckbox(" Драйвер ESmart", 225, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Esmart")
+
+		$checkPKI = GUICtrlCreateCheckbox(" Драйвер eToken pki client", 225, 222, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
+		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Etoken")
+
 
 	$group_fns = GUICtrlCreateGroup("ФНС", 216, 257, 193, 125)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -239,7 +246,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$checkNet_48 = GUICtrlCreateCheckbox(" .Net Framework 4.8", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-	$group_other = GUICtrlCreateGroup("Разное - I", 216, 37, 193, 337)
+	$group_other = GUICtrlCreateGroup("Разное - I", 216, 37, 193, 352)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkTrueConf = GUICtrlCreateCheckbox(" TrueConf", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
@@ -278,7 +285,10 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Блокнот для визуализации XML-файлов")
 
-	$group_other2 = GUICtrlCreateGroup("Разное - II", 424, 37, 193, 337)
+		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", 225, 354, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
+
+	$group_other2 = GUICtrlCreateGroup("Разное - II", 424, 37, 193, 352)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkCSPclean = GUICtrlCreateCheckbox(" CSP Clean", 433, 57, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
@@ -316,6 +326,13 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$checkWebKit = GUICtrlCreateCheckbox(" Chrome 4 Express", 433, 321, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Осмотр страниц в экспрессе будет работать на движке chrome")
+
+	$group_office = GUICtrlCreateGroup("Офисные программы", 8, 385, 609, 50)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+		
+		$check_libre = GUICtrlCreateCheckbox(" LibreOffice | автоматическая установка ", 17, 400, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Бесплатная альтернатива Microsoft Office")
 
 #EndRegion ### Конец - Вкладка - Программы ###
 
@@ -470,7 +487,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[67] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[70] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -480,10 +497,12 @@ Global $AllCheckboxes[67] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
-		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
+		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkRutoken, $checkEsmart, _ 
+		$checkPhotoViewer, $checkFonts, $checkCapicom, _
 		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
-		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata] ; Массив из чекбоксов
+		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _ 
+		$check_libre] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then

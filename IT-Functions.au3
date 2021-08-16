@@ -125,6 +125,9 @@ Global $pkiSetup32 = "PKIClient_x32_5.1_SP1.msi" ; Etoken Pki Client x86bit
 Global $pkiSetup64 = "PKIClient_x64_5.1_SP1.msi" ; Etoken Pki Client x64bit
 Global $jacarta32 = "Jacarta_32.msi" ; Jacarta x86bit
 Global $jacarta64 = "Jacarta_64.msi" ; Jacarta x64bit
+Global $rutoken = "rtDrivers.exe" ; Драйвера рутокен
+Global $esmart32 = "esmart_32.msi" ; Драйвера esmart
+Global $esmart64 = "esmart_64.msi" ; Драйвера esmart
 
 Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP
 Global $csp5setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0
@@ -181,6 +184,8 @@ Global $sniffer_ds = "SpaceSniffer.exe" ; Space Sniffer
 Global $webkit_ds = "SetupWebKit.exe"
 Global $diskinfo_ds="CrystalDiskMark7.exe"
 Global $hwinfo_ds="HWInfo.exe"
+Global $libre_ds_32 = "https://download.documentfoundation.org/libreoffice/stable/7.2.0/win/x86/LibreOffice_7.2.0_Win_x86.msi"		
+Global $libre_ds_64 = "https://download.documentfoundation.org/libreoffice/stable/7.2.0/win/x86_64/LibreOffice_7.2.0_Win_x64.msi"					
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -230,7 +235,8 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
-		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata
+		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
+		$checkRutoken, $checkEsmart, $check_libre
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -551,7 +557,7 @@ Func ESign()
 		If SoftDownload($dir_ecp, $pkiSetup) Then SoftInstall($dir_ecp, $pkiSetup, "etoken")
 	EndIf
 
-	If Checked($checkCSP) Then
+ If Checked($checkCSP) Then
 		Status("Установка CryptoPro CSP")
 
 		If SoftDownload($dir_ecp, $cspSetup) Then SoftInstall($dir_ecp, $cspSetup, "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb /L*v " & $dir_logs & $cspSetup & ".log""" )
@@ -577,8 +583,9 @@ Func ESign()
 			FileClose($hCryptoImport)
 			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
 		EndIf
-	EndIf
+	EndIf 
 
+	; Jacarta драйвера
 	If Checked($checkjacarta) Then
 		Status("Установка Единого клиента Jacarta")
 
@@ -587,6 +594,26 @@ Func ESign()
 		Local $jacarta = $jacarta32
 		If @OSArch = "X64" Then $jacarta = $jacarta64
 		If SoftDownload($dir_ecp, $jacarta) Then SoftInstall($dir_ecp, $jacarta, "msi")
+	EndIf
+
+	; Rutoken драйвера
+	If Checked($checkRutoken) Then
+		Status("Установка драйвера для Rutoken")
+
+		; RunWait("MsiExec.exe /X{BC5C2BEB-87AF-4636-9184-CA10C3C740B8} /qn") ; Удаляем eToken Pki Client
+
+		If SoftDownload($dir_ecp, $rutoken) Then SoftInstall($dir_ecp, $rutoken, "/install /passive /norestart")
+	EndIf
+
+	; Esmart драйвера
+	If Checked($checkEsmart) Then
+		Status("Установка драйвера для ESmart")
+
+		;RunWait("MsiExec.exe /X{BC5C2BEB-87AF-4636-9184-CA10C3C740B8} /qn") ; Удаляем eToken Pki Client
+
+		Local $esmart = $esmart32
+		If @OSArch = "X64" Then $esmart = $esmart64
+		If SoftDownload($dir_ecp, $esmart) Then SoftInstall($dir_ecp, $esmart, "msi")
 	EndIf
 
 	If checked($checkcsp5) Then
@@ -1365,6 +1392,17 @@ Func Programs()
 		Status("Загрузка и установка CrystalDisk Info")
 
 		If SoftDownload($dir_software, $diskinfo_ds) Then SoftInstall($dir_software, $diskinfo_ds, "/silent /norestart", 1)
+	EndIf
+
+	; LibreOffice
+	If Checked($check_libre) Then
+		Status("Загрузка и установка LibreOffice")
+		
+		Local $libre_ds = $libre_ds_32
+		
+		If @OSArch = "X64" Then $libre_ds = $libre_ds_64
+
+		If SoftDownload($dir_software, $libre_ds, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($libre_ds), "msi")
 	EndIf
 EndFunc   ;==>Programs
 
@@ -2397,6 +2435,12 @@ Func _WindowsUpdateFix()
 	RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
 	RunWait(@ComSpec & ' /c sc config wuauserv start= demand', '', @SW_HIDE)
 	RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
+EndFunc
+
+Func _FilenameFromUrl($url)
+	Local $msi_pattern = "(?:.+\/)(.+)"
+
+	Return(StringRegExp($url, $msi_pattern, 1)[0])
 EndFunc
 
 Func _UpdateScreen() ; обновить рабочий стол
