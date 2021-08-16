@@ -92,6 +92,8 @@ Global $KLEIS_ds = "https://fciit.ru/files/EISClient.exe" ; Клиент ЕИС 
 Global $KLEIS_Sec_ds = "https://fciit.ru/files/EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
 Global $KLEIS_Diagnostic_ds = "http://notpalatarb.ru/files/DiagnosticsAndBackupEISClient/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС
 
+Global $check_palata_ds = "http://notpalatarb.ru/files/raccoon-reports/RaccoonReportsSetup.exe" ; Отчеты из енота для палат от Артема
+
 Global $MysqlSetup32 = "http://download.triasoft.com/enot/50/SetupDB.exe" ; Mysql 32bit
 Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; Mysql 64bit
 
@@ -228,7 +230,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
-		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic
+		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -328,8 +330,6 @@ Func Enot()
 
 			ShellExecuteWait($dir_enot & $LibReg, "", "", "")
 		EndIf
-
-		
 	EndIf
 
 	If Checked($checkFindRND) Then ; Утилита для поиска пропущенного значения в РНД
@@ -394,6 +394,13 @@ Func Enot()
 		FileDelete($dir_enot & "DiagnosticsAndBackupEISClient.exe")
 		If SoftDownload($dir_enot, $KLEIS_Diagnostic_ds, "wext") Then SoftInstall($dir_enot, "DiagnosticsAndBackupEISClient.exe", "run", 0)
 	Endif
+
+	; Raccoon_reports 
+	If Checked($check_palata) Then 
+		Status("Идет скачивание программы для создания различных отчетов из Енота")
+
+		If SoftDownload($dir_enot, $check_palata_ds, "wext") Then SoftInstall($dir_enot, "RaccoonReportsSetup.exe", "run", 0)
+	EndIf
 EndFunc   ;==>Enot
 
 ; ----------------------------------------------- CERTS FUNC;
@@ -600,7 +607,7 @@ Func ESign()
 				Case "X64"
 					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
 	 			Case "X86"
-	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")								
 			EndSwitch
 
 			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
@@ -1403,7 +1410,7 @@ EndFunc   ;==>Express
 Func FNS()
 	Local $prog_files = "C:\Program Files\АО ГНИВЦ\ППДГР"
 	Local $prog_files_new = "C:\АО ГНИВЦ\ППДГР"
-	Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2\"
+	Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2"
 	If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
 
 	; FNS Program | v 1.12
@@ -1411,7 +1418,7 @@ Func FNS()
 		; Пакет электронных документов
 		Status("Установка и настройка програм для ФНС")
 			Local $msiErr = ""
-			Local $FnsLink = IniRead($dir_distr & "version.ini", "ФНС", "Ссылка", "")
+			Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link", "")
 
 			DirRemove($dir_ppdgr, 1)
 			DirRemove($prog_files)
@@ -1462,7 +1469,7 @@ Func FNS()
 		; Пакет электронных документов
 		Status("Установка и настройка програм для ФНС")
 			Local $msiErr = ""
-			Local $FnsLink = IniRead($dir_distr & "version.ini", "ФНС", "Ссылка2", "")
+			Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link2", "")
 
 			DirRemove($dir_ppdgr, 1)
 			DirRemove($prog_files_v2)
@@ -1507,9 +1514,16 @@ Func FNS()
 	If Checked($checkFNS_Print) Then
 		Status("Проверка наличия установленного ПО ППДГР")
 
-		If DirGetSize($prog_files_v2) <> -1  Then ; Проверяем, что ППДГР установлен
-			Local $ppdgr_print_cont = True
+		Local $ppdgr_print_cont = False
+		If DirGetSize($prog_files_v2) <> -1  Then ; Проверяем, что ППДГР2 установлен
+			$ppdgr_print_cont = True
 			FileChangeDir($prog_files_v2)
+		ElseIf DirGetSize($prog_files_new) <> -1  Then ; Проверяем, что ППДГР-new установлен
+			$ppdgr_print_cont = True
+			FileChangeDir($prog_files_new)
+		ElseIf DirGetSize($prog_files) <> -1  Then ; Проверяем, что ППДГР-old установлен
+			$ppdgr_print_cont = True
+			FileChangeDir($prog_files)
 		EndIf
 
 		If $ppdgr_print_cont Then

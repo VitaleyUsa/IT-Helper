@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.64
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.68
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -104,22 +104,30 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Дистрибутив ЕИС с интегрированными обновлениями. Собрал Александр Кротов (Архангельск)")
 
-	$group_kleis = GUICtrlCreateGroup("Клиент ЕИС", 8, 390, 609, 200)
+	$group_palata = GUICtrlCreateGroup("Нотариальная палата", 8, 385, 609, 50)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 		
-		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Дистрибутив основного рабочего места КЛЕИС | автоматическая установка", 17, 410, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$check_palata = GUICtrlCreateCheckbox(" Отчеты ЕИС 'Енот' для палат | (разраб. Артём Поляков, Уфа) ", 17, 400, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Различные отчеты из Енота для палат")
+
+
+	$group_kleis = GUICtrlCreateGroup("Клиент ЕИС", 8, 440, 609, 150)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+		
+		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Дистрибутив основного рабочего места КЛЕИС | автоматическая установка", 17, 460, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Клиент ЕИС для основного ПК")
 
-		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Дистрибутив второстепенного рабочего места КЛЕИС | автоматическая установка", 17, 443, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Дистрибутив второстепенного рабочего места КЛЕИС | автоматическая установка", 17, 493, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Клиент ЕИС для второстепенного рабочего места")
 
-		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник по КЛЕИС | решение распространенных проблем", 17, 473, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник по КЛЕИС | решение распространенных проблем", 17, 523, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Помощник по КЛЕИС | решение распространенных проблем")
 
-		$checkKLEIS_Diagnostic = GUICtrlCreateCheckbox(" Диагностика клиента ЕИС (разраб. Артём Поляков, Уфа)", 17, 503, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Diagnostic = GUICtrlCreateCheckbox(" Диагностика клиента ЕИС (разраб. Артём Поляков, Уфа)", 17, 553, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Позволяет диагностировать состояние, а также исправлять ошибки: «Клиент ЕИС», «Служба Синхронизации с ЕИС», «БД EisDB». А так же осуществлять резервное копирование/восстановление БД.")
 
@@ -462,7 +470,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[66] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[67] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -475,7 +483,7 @@ Global $AllCheckboxes[66] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkPhotoViewer, $checkFonts, $checkCapicom, _
 		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
-		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic] ; Массив из чекбоксов
+		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
