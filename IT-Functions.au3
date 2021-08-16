@@ -125,6 +125,9 @@ Global $pkiSetup32 = "PKIClient_x32_5.1_SP1.msi" ; Etoken Pki Client x86bit
 Global $pkiSetup64 = "PKIClient_x64_5.1_SP1.msi" ; Etoken Pki Client x64bit
 Global $jacarta32 = "Jacarta_32.msi" ; Jacarta x86bit
 Global $jacarta64 = "Jacarta_64.msi" ; Jacarta x64bit
+Global $rutoken = "rtDrivers.exe" ; Драйвера рутокен
+Global $esmart32 = "esmart_32.msi" ; Драйвера esmart
+Global $esmart64 = "esmart_64.msi" ; Драйвера esmart
 
 Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP
 Global $csp5setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0
@@ -230,7 +233,8 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
-		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata
+		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
+		$checkRutoken, $checkEsmart
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -551,7 +555,8 @@ Func ESign()
 		If SoftDownload($dir_ecp, $pkiSetup) Then SoftInstall($dir_ecp, $pkiSetup, "etoken")
 	EndIf
 
-	If Checked($checkCSP) Then
+#cs
+ If Checked($checkCSP) Then
 		Status("Установка CryptoPro CSP")
 
 		If SoftDownload($dir_ecp, $cspSetup) Then SoftInstall($dir_ecp, $cspSetup, "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb /L*v " & $dir_logs & $cspSetup & ".log""" )
@@ -577,8 +582,10 @@ Func ESign()
 			FileClose($hCryptoImport)
 			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
 		EndIf
-	EndIf
+	EndIf 
+#ce
 
+	; Jacarta драйвера
 	If Checked($checkjacarta) Then
 		Status("Установка Единого клиента Jacarta")
 
@@ -587,6 +594,26 @@ Func ESign()
 		Local $jacarta = $jacarta32
 		If @OSArch = "X64" Then $jacarta = $jacarta64
 		If SoftDownload($dir_ecp, $jacarta) Then SoftInstall($dir_ecp, $jacarta, "msi")
+	EndIf
+
+	; Rutoken драйвера
+	If Checked($checkRutoken) Then
+		Status("Установка драйвера для Rutoken")
+
+		; RunWait("MsiExec.exe /X{BC5C2BEB-87AF-4636-9184-CA10C3C740B8} /qn") ; Удаляем eToken Pki Client
+
+		If SoftDownload($dir_ecp, $rutoken) Then SoftInstall($dir_ecp, $rutoken, "/install /passive /norestart")
+	EndIf
+
+	; Esmart драйвера
+	If Checked($checkEsmart) Then
+		Status("Установка драйвера для ESmart")
+
+		;RunWait("MsiExec.exe /X{BC5C2BEB-87AF-4636-9184-CA10C3C740B8} /qn") ; Удаляем eToken Pki Client
+
+		Local $esmart = $esmart32
+		If @OSArch = "X64" Then $esmart = $esmart64
+		If SoftDownload($dir_ecp, $esmart) Then SoftInstall($dir_ecp, $esmart, "msi")
 	EndIf
 
 	If checked($checkcsp5) Then
