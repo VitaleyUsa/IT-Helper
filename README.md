@@ -5,4 +5,3 @@
 
 Связаться со мной: it@npso66.ru
 
--- CI/CD Branch for tests --
