@@ -1874,13 +1874,13 @@ Func _update() ; Обновление программы и подготовка
 
 	If Not SoftDownload($dir_tools, $wget, "raw") Then _DownloadPortable($dir_tools, $wget, "raw") ; Скачиваем wget
 
-	If Not SoftDownload($dir_tools, $sZip) Then ; Скачиваем 7Zip
+	If Not SoftDownload($dir_tools, $sZip, "raw") Then ; Скачиваем 7Zip
 		FileMove($dir_update & $VersionInfo & ".bak", $dir_distr & $VersionInfo, 1)
 		MsgBox("","Ошибка", "Не найден 7za.exe в папке Tools.")
 		ProcessClose(@AutoItPID)
 	EndIf
 
-	SoftDownload($dir_tools, $wRar) ; Скачиваем UnRAR.exe
+	SoftDownload($dir_tools, $wRar, "raw") ; Скачиваем UnRAR.exe
 
 	; Компоненты для дальнейшей работы
 ;~ 		_InstallDotNet("40")
@@ -1907,7 +1907,7 @@ Func _update() ; Обновление программы и подготовка
 		; If $newVersion <> $oldVersion Then ; проверка версии программы
 			FileDelete($dir_update & $MainApp)
 			FileDelete($dir_update & $MainApp & ".tmp")	
-				If SoftDownload($dir_update, $MainApp) Then ; скачиваем программу
+				If SoftDownload($dir_update, $MainApp, "raw") Then ; скачиваем программу
 					FileMove($dir_update & $MainApp, $dir_update & $MainApp & ".tmp", 1)
 					;IniWrite($dir_distr & $VersionInfo, "Version", "Version", $newVersion) ; записываем новую версию в version.ini
 					_ScriptRestart() ; перезапускаем скрипт			
