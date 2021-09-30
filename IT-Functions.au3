@@ -88,8 +88,8 @@ Global $win7hotfix_4474419_x64="windows6.1-kb4474419-v3-x64.cab"
 Global $Enot_ds = "http://download.triasoft.com/enot/50/Setup.exe" ; Расположение дистрибутива еНот
 Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
 
-Global $KLEIS_ds = "https://fciit.ru/files/EISClient.exe" ; Клиент ЕИС для основного пк
-Global $KLEIS_Sec_ds = "https://fciit.ru/files/EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
+Global $KLEIS_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
+Global $KLEIS_Sec_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
 Global $KLEIS_Diagnostic_ds = "http://notpalatarb.ru/files/DiagnosticsAndBackupEISClient/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС
 
 Global $check_palata_ds = "http://notpalatarb.ru/files/raccoon-reports/RaccoonReportsSetup.exe" ; Отчеты из енота для палат от Артема
@@ -375,7 +375,7 @@ Func Enot()
 		Status("Загрузка клиента ЕИС для основного пк")
 
 		FileDelete($dir_enot & "EISClient.exe")
-		If SoftDownload($dir_enot, $KLEIS_ds, "wext") Then SoftInstall($dir_enot, "EISClient.exe", "/qb")
+		If SoftDownload($dir_enot, $KLEIS_ds, "ext") Then SoftInstall($dir_enot, "EISClient.exe", "/qb")
 	Endif
 
 	; Клиент ЕИС для второстепенного ПК
@@ -383,7 +383,7 @@ Func Enot()
 		Status("Загрузка клиента ЕИС для второстепенного пк")
 
 		FileDelete($dir_enot & "EISClientStaff.exe")
-		If SoftDownload($dir_enot, $KLEIS_Sec_ds, "wext") Then SoftInstall($dir_enot, "EISClientStaff.exe", "/qb")
+		If SoftDownload($dir_enot, $KLEIS_Sec_ds, "ext") Then SoftInstall($dir_enot, "EISClientStaff.exe", "/qb")
 	Endif
 
 	; Помощник КЛЕИС
@@ -2086,7 +2086,7 @@ Func _Wget($file_url, $folder_to, $ext = "npso") ; Процедура загру
 	If $ext = "ext" Then
 		RunWait($dir_tools & "wget.exe -q --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate " & $file_url & " -P " & $folder_to)
 	ElseIf $ext = "npso" Then
-		RunWait($dir_tools & "wget.exe -q --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user=" & $User & " --password=" & $Pass & " http://" & $Server & "/" & $file_url & " -P " & $folder_to)
+		RunWait($dir_tools & "wget.exe -q --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user=" & $User & " --password=" & $Pass & " http://" & $Server & "/" & $file_url & " -P " & $folder_to)	
 	EndIf
 EndFunc   ;==>_Wget
 
