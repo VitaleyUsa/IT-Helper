@@ -374,7 +374,6 @@ Func Enot()
 	If Checked($checkKLEIS_Main) Then
 		Status("Загрузка клиента ЕИС для основного пк")
 
-		FileDelete($dir_enot & "EISClient.exe")
 		If SoftDownload($dir_enot, $KLEIS_ds, "ext") Then SoftInstall($dir_enot, "EISClient.exe", "/qb")
 	Endif
 
@@ -382,7 +381,6 @@ Func Enot()
 	If Checked($checkKLEIS_Sec) Then
 		Status("Загрузка клиента ЕИС для второстепенного пк")
 
-		FileDelete($dir_enot & "EISClientStaff.exe")
 		If SoftDownload($dir_enot, $KLEIS_Sec_ds, "ext") Then SoftInstall($dir_enot, "EISClientStaff.exe", "/qb")
 	Endif
 
@@ -1690,11 +1688,21 @@ Func SoftDownload($Place, $Soft_ds, $dwnloader = "wget") ; Закачка соф
 					_FileWriteLog($dir_logs & "Install.log", $Soft_ds & ": Done")
 
 				Case "ext"
-					FileDelete($FilePath)
 					$file_name = StringRegExp($Soft_ds, "(?=\w+\.\w{3,4}$).+", 1)
-					_DownloadRawBar($Soft_ds, $Place & $file_name[0])
-					$FileDownloaded = True
-					_FileWriteLog($dir_logs & "Install.log", $Soft_ds & ": Done")
+					
+					; Скачиваем новый файл если сумма не совпадает
+					If (InetGetSize($Soft_ds, 1) <> FileGetSize($Place & $file_name[0])) Then
+						FileDelete($FilePath)
+						_DownloadRawBar($Soft_ds, $Place & $file_name[0])
+					EndIf
+
+					; Проверяем, скачался ли файл
+					If (InetGetSize($Soft_ds, 1) = FileGetSize($Place & $file_name[0])) Then 
+						$FileDownloaded = True
+						_FileWriteLog($dir_logs & "Install.log", $Soft_ds & ": Done")
+					Else
+						$FileDownloaded = False
+					EndIf
 			EndSwitch
 		Else ; Если сумма совпала, продолжаем установку
 			$FileDownloaded = True
@@ -2156,8 +2164,9 @@ Func _DownloadRawBar($from, $to) ; Загрузка с http с прогресс 
 	ProgressOn("Загрузка", $to, "0%")
 	Local $url = $from ; Wget URL
 	$folder = $to
-	$hInet = InetGet($url, $folder, 1, 1)
 	$FileSize = InetGetSize($url)
+	
+	$hInet = InetGet($url, $folder, 1, 1)
 	While Not InetGetInfo($hInet, 2)
 		Sleep(500)
 		$BytesReceived = InetGetInfo($hInet, 0)
