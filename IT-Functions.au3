@@ -106,7 +106,8 @@ Global $capicom = "capicom.exe" ; Microsoft Capicom
 Global $font_micross = "micross.ttf"
 Global $font_sserifer = "sserifer.fon"
 
-
+;Global $kes_ds = "https://aes.s.kaspersky-labs.com/endpoints/keswin11/11.7.0.669/russian-21.4.20.669.0.10.0/3439313836357c44454c7c31/keswin_11.7.0.669_ru_aes256.exe" ; Kaspersky Endpoint security
+;Global $ksc_ds = "https://pdc1.fra5.pdc.kaspersky.com/DownloadManagers/c0/e2/c0e2caa0-dd85-4b8a-b837-05c936b31222/ks4.021.3.10.391ru_25000.exe" ; Kaspersky av (sec. cloud)
 
 ; Файлы на нашей фтпшке
 
@@ -236,7 +237,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
-		$checkRutoken, $checkEsmart, $check_libre
+		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -272,7 +273,8 @@ Func Enot()
 
 		; Скачиваем дистрибутив
  		If SoftDownload($dir_enot, $Enot_ds, "wext") Then
-			If Not WinExists("eNot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+			If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+			WinActivate("enot")
 		EndIf
 	EndIf
 
@@ -281,7 +283,8 @@ Func Enot()
 
 		; Скачиваем дистрибутив
 		If SoftDownload($dir_enot, $Enot_updated_ds) Then
-			If Not WinExists("eNot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+			If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+			WinActivate("enot")
 		EndIf
 	EndIf
 
@@ -295,7 +298,8 @@ Func Enot()
 		If @OSArch = "X64" Then $MysqlSetup = $MysqlSetup64
 		SoftDownload($dir_enot, $MysqlSetup, "wext")
 
-		If Not WinExists("eNot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+		If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+		WinActivate("enot")
 	EndIf
 
 	If Checked($checkCleanUpdates) Then ; Утилита для очистки обновлений ЕИС
@@ -1307,7 +1311,8 @@ Func Programs()
 
 		If SoftDownload($dir_software, $access97_ds) Then
 			SoftUnzip($dir_software, $access97_ds)
-			If Not WinExists("software") Then Run('explorer ' & $dir_software)
+			If Not WinExists("software") Then Run('explorer ' & $dir_software) ; открыть папку с установочным файлом
+			WinActivate("software")
 		EndIf
 	EndIf
 
@@ -1401,6 +1406,30 @@ Func Programs()
 		If @OSArch = "X64" Then $libre_ds = $libre_ds_64
 
 		If SoftDownload($dir_software, $libre_ds, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($libre_ds), "msi")
+	EndIf
+
+	; Kaspersky Endpoint security
+	If Checked($check_kes) Then
+		Status("Загрузка Kaspersky Endpoint Security")
+
+		Local $kes_ds = IniRead($dir_distr & "version.ini", "Kaspersky", "KES", "")
+
+		If SoftDownload($dir_software, $kes_ds, "ext") Then
+			If Not WinExists("software") Then Run('explorer ' & $dir_software) ; открыть папку с установочным файлом
+			WinActivate("software")
+		EndIf
+	EndIf
+
+	; Kaspersky Security Cloud
+	If Checked($check_ksc) Then
+		Status("Загрузка Kaspersky Security Cloud")
+
+		Local $ksc_ds = IniRead($dir_distr & "version.ini", "Kaspersky", "KSC", "")
+
+		If SoftDownload($dir_software, $ksc_ds, "ext") Then
+			If Not WinExists("software") Then Run('explorer ' & $dir_software) ; открыть папку с установочным файлом
+			WinActivate("software")
+		EndIf
 	EndIf
 EndFunc   ;==>Programs
 

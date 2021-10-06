@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.75
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.76
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -223,7 +223,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$checkFastStone = GUICtrlCreateCheckbox(" FastStone Viewer", 17, 226, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-	$group_rdp = GUICtrlCreateGroup("Удаленный доступ", 8, 277, 193, 97)
+	$group_rdp = GUICtrlCreateGroup("Удаленный доступ", 8, 277, 193, 105)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkTM = GUICtrlCreateCheckbox(" TeamViewer QS", 17, 297, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
@@ -291,39 +291,39 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 	$group_other2 = GUICtrlCreateGroup("Разное - II", 424, 37, 193, 352)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkCSPclean = GUICtrlCreateCheckbox(" CSP Clean", 433, 57, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkCSPclean = GUICtrlCreateCheckbox(" CSP Clean", 433, 57, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Утилита очистки следов установки продуктов КриптоПро")
 
-		$checkHasp = GUICtrlCreateCheckbox(" HASP Драйвер", 433, 90, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkHasp = GUICtrlCreateCheckbox(" HASP Драйвер", 433, 90, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Удаляет старые драйверы для ключа hasp и устанавливает новые")
 
-		$checkXML = GUICtrlCreateCheckbox(" MsXML", 433, 123, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkXML = GUICtrlCreateCheckbox(" MsXML", 433, 123, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "")
 
-		$checkPDF24 = GUICtrlCreateCheckbox(" DOC -> PDF24 ", 433, 156, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkPDF24 = GUICtrlCreateCheckbox(" DOC -> PDF24 ", 433, 156, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программа для преобразования офисных файлов в PDF")
 
-		$checkNaps2 = GUICtrlCreateCheckbox(" NAPS2", 433, 189, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkNaps2 = GUICtrlCreateCheckbox(" NAPS2", 433, 189, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Бесплатная программа для сканирования в разные форматы")
 
-		$checkSpaceSniffer = GUICtrlCreateCheckbox(" SpaceSniffer", 433, 222, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkSpaceSniffer = GUICtrlCreateCheckbox(" SpaceSniffer", 433, 222, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программа для определения оставшегося свободного места")
 
-		$checkDiskInfo = GUICtrlCreateCheckbox(" CrystalDiskInfo", 433, 255, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkDiskInfo = GUICtrlCreateCheckbox(" CrystalDiskInfo", 433, 255, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программа для определения состояния жесткого диска")
 
-		$checkHWInfo = GUICtrlCreateCheckbox(" HWInfo", 433, 288, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkHWInfo = GUICtrlCreateCheckbox(" HWInfo", 433, 288, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Информация о системе")
 		
-		$checkWebKit = GUICtrlCreateCheckbox(" Chrome 4 Express", 433, 321, 193, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkWebKit = GUICtrlCreateCheckbox(" Chrome 4 Express", 433, 321, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Осмотр страниц в экспрессе будет работать на движке chrome")
 
@@ -333,6 +333,15 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$check_libre = GUICtrlCreateCheckbox(" LibreOffice | автоматическая установка ", 17, 400, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Бесплатная альтернатива Microsoft Office")
+
+	$group_av = GUICtrlCreateGroup("Антивирусное ПО", 8, 440, 609, 90)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+		
+		$check_kes = GUICtrlCreateCheckbox(" Kaspersky SECURITY ДЛЯ БИЗНЕСА | Сертифицированная защита для ФЗ 152", 17, 460, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+
+		$check_ksc = GUICtrlCreateCheckbox(" Kaspersky Security Cloud Free | Бесплатный антивирус", 17, 493, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 #EndRegion ### Конец - Вкладка - Программы ###
 
@@ -487,7 +496,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[70] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[72] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -502,7 +511,7 @@ Global $AllCheckboxes[70] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _ 
-		$check_libre] ; Массив из чекбоксов
+		$check_libre, $check_kes, $check_ksc] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
