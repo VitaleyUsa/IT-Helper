@@ -132,6 +132,7 @@ Global $esmart64 = "esmart_64.msi" ; Драйвера esmart
 
 Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP
 Global $csp5setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0
+Global $csp5R2setup = "CryptoProCSP-5R2.exe" ; CryptoPro CSP 5.0 R2
 Global $NGate32 = "NGateInstallx32.msi" ; Ngate client x32
 Global $NGate64 = "NGateInstallx64.msi" ; Ngate client x64
 Global $NGate_settings = "ngate.reg" ; Настройки для NGate
@@ -203,6 +204,7 @@ Global $anydesk_ds  = "AnyDesk.exe" ; AnyDesk
 Global $trueconf_ds = "TrueConf.zip" ; TrueConf
 Global $mupdate_ds  = "mupdate.reg" ; Minus Windows 10 Update
 Global $start_ds	= "Startisback.zip" ; Startisback for Win10
+Global $openshell_ds = "OpenShell.exe" ; OpenShell Menu for Win10
 Global $line_ds		= "CryptoLine.msi" ; КриптоЛайн
 Global $pwd_ds		= "pwdcrack.zip" ; PwdCrack
 Global $produkey_ds = "ProduKey.exe" ; ProduKey
@@ -229,7 +231,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
 		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
-		$checkXML, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
+		$checkOpenShell, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
@@ -237,7 +239,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
-		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc
+		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -647,6 +649,35 @@ Func ESign()
 		EndIf
 	EndIf
 
+	If checked($checkCSP5R2) Then
+		status("Установка Крипто-Про 5.0 R2")
+
+		If SoftDownload($dir_ecp, $csp5R2setup) Then SoftInstall($dir_ecp, $csp5R2setup, "csp5")
+
+		; Настройка КриптоПро: Усиленный контроль использования ключей
+		Status("Настройка КриптоПро для работы с ГОСТ 2001")
+
+		If SoftDownload($dir_ecp, $crypto_reg) Then ; Гост 2011
+			Local $hCryptoImport = FileOpen($dir_ecp & "crypto_import.reg", 2)
+
+			Local $hCryptoSites = FileOpen($dir_ecp & $crypto_reg, 0)
+			Local $sCryptoRead = FileRead($hCryptoSites)
+			FileClose($hCryptoSites)
+
+			FileWrite($hCryptoImport, "Windows Registry Editor Version 5.00")
+			Switch @OSArch ; Проверяем разрядность ОС
+				Case "X64"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+	 			Case "X86"
+	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")								
+			EndSwitch
+
+			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
+			FileClose($hCryptoImport)
+			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
+		EndIf
+	EndIf
+
 	If Checked($checkNGate) Then
 		Status("Установка КриптоПро NGate")
 
@@ -668,7 +699,8 @@ Func ESign()
 			$HKLM = "HKLM64\"
 		EndIf
 
-		If @OSVersion = "WIN_7" Then
+		#cs
+ If @OSVersion = "WIN_7" Then
 			Local $win_7_sp1 = False
 
 			Status("Проверяем наличие необходимых обновлений Win7")
@@ -716,7 +748,7 @@ Func ESign()
 
 			$win_7_sp1 = False
 			FileChangeDir($dir_distr)
-		EndIf
+		EndIf 
 
 		Status("Обновление КриптоПро CSP")
 
@@ -762,8 +794,11 @@ Func ESign()
 				$ngate_error = $ngate_error & "Необходимо обновление КриптоПро CSP. "
 			EndIf
 		EndIf
+#ce
 
-		If $ngate_error = "" Then
+		;If $ngate_error = "" Then
+			RunWait("MsiExec.exe /X{187021F4-156B-4111-BF3D-79B212115F08} /qn") ; Удаляем предыдущую версию Ngate
+
 			Status("Установка КриптоПро NGate")
 			If SoftDownload($dir_ecp, $NGate) Then 
 				RunWait("msiexec /x """ & $dir_ecp & $NGate & """ /qn")
@@ -774,11 +809,10 @@ Func ESign()
 				EndIf
 				FileCreateShortcut($dir_ngate & "ngateclient.exe", @DesktopDir & "\CryptoPro NGate.lnk", $dir_ngate)
 			EndIf
-		Else
-			Status("Установка КриптоПро NGate невозможна")
-			$prompt = MsgBox(4, "Ошибка", $ngate_error & "Попробуйте перезагрузить компьютер и запустить установку снова.")
-			
-		EndIf
+		;Else
+		;	Status("Установка КриптоПро NGate невозможна")
+		;	$prompt = MsgBox(4, "Ошибка", $ngate_error & "Попробуйте перезагрузить компьютер и запустить установку снова.")	
+		;EndIf
 
 		$ngate_error = ""
 	EndIf
@@ -1245,6 +1279,14 @@ Func Programs()
 		EndIf
 	EndIf
 
+	; OpenShell
+	If Checked($checkOpenShell) Then
+		Status("Установка и настройка OpenShell для Windows 10")
+
+		If SoftDownload($dir_software, $openshell_ds) Then	SoftInstall($dir_software, $openshell_ds, "/qn ADDLOCAL=StartMenu")
+
+	EndIf
+
 	; MySql Backup
 	If Checked($checkSQLBACKUP) Then
 		Status("Закачка и запуск MySQL Backup")
@@ -1349,11 +1391,13 @@ Func Programs()
 	EndIf
 
 	; XML Notepad
-	If Checked($checkXMLPad) Then
+
+ 	If Checked($checkXMLPad) Then
 		Status("Установка и настройка XML Notepad")
 
 		If SoftDownload($dir_software, $xmlpad_ds) Then	SoftInstall($dir_software, $xmlpad_ds, "msi")
-	EndIf
+	EndIf 
+
 
 	; CSPclean
 	If checked($checkcspclean) Then
@@ -1445,11 +1489,11 @@ Func Express()
 	EndIf
 
 	; MS XML
-	If Checked($checkXML) Then
-		Status("Установка и настройка MsXml")
+	;~ If Checked($checkXML) Then
+	;~ 	Status("Установка и настройка MsXml")
 
-		If SoftDownload($dir_express, $xml_ds) Then SoftInstall($dir_express, $xml_ds, "msi")
-	EndIf
+	;~ 	If SoftDownload($dir_express, $xml_ds) Then SoftInstall($dir_express, $xml_ds, "msi")
+	;~ EndIf
 
 	; Hasp Driver
 	If Checked($checkHASP) Then
