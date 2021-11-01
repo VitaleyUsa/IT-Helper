@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.78
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.76
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -299,10 +299,9 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Удаляет старые драйверы для ключа hasp и устанавливает новые")
 
-		;$checkXML = GUICtrlCreateCheckbox(" MsXML", 433, 123, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		$checkOpenShell = GUICtrlCreateCheckbox(" OpenShell", 433, 123, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkXML = GUICtrlCreateCheckbox(" MsXML", 433, 123, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Бесплатная версия классического меню пуск для Windows10")
+		GUICtrlSetTip(-1, "")
 
 		$checkPDF24 = GUICtrlCreateCheckbox(" DOC -> PDF24 ", 433, 156, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
@@ -327,10 +326,6 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$checkWebKit = GUICtrlCreateCheckbox(" Chrome 4 Express", 433, 321, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Осмотр страниц в экспрессе будет работать на движке chrome")
-
-		$checkCSP5R2 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0 R2", 433, 354, 180, 33)
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "КриптоПро для Windows 11 | ключи от 4 версии не совместимы")
 
 	$group_office = GUICtrlCreateGroup("Офисные программы", 8, 385, 609, 50)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
@@ -501,13 +496,13 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[73] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[72] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
-		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkOpenShell, _
+		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkXML, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
@@ -516,7 +511,7 @@ Global $AllCheckboxes[73] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _ 
-		$check_libre, $check_kes, $check_ksc, $checkCSP5R2] ; Массив из чекбоксов
+		$check_libre, $check_kes, $check_ksc] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
