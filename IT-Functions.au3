@@ -72,7 +72,7 @@ Global $win8to81 = "https://www.microsoft.com/ru-ru/download/details.aspx?id=423
 If @OSArch = "X64" Then Global $win8to81 = "https://www.microsoft.com/ru-RU/download/details.aspx?id=42335"
 
 Global $win10upgrade = "Windows10Upgrade.exe" ; Win10 Upgrade Assistant
-Global $winsettings_ds = "WinSettings.bat" ; WindowsSettings
+Global $winsettings_ds = "WinSettings.zip" ; WindowsSettings
 
 Global $hotfixes_sha2_3033929 = """3033929 3185330 3197868 4015549 4019264 4022719 4025341 4034664 4038777 4041681""" ; Список обновлений для sha-2 - 3033929
 
@@ -825,7 +825,8 @@ Func WinSetup()
 	If Checked($checkWinSet) Then ; Настройка Windows
 		Status('Настройка Windows')
 		If SoftDownload($dir_software, $winsettings_ds) Then 
-			ShellExecuteWait($dir_software & $winsettings_ds)
+			SoftUnzip($dir_software, $winsettings_ds, $dir_software)
+			ShellExecuteWait($dir_software & "WinSettings.bat")
 		EndIf
 	EndIf
 
