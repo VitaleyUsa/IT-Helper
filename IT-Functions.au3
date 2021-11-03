@@ -239,7 +239,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
-		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2
+		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -1411,6 +1411,14 @@ Func Programs()
 		Status("Настройка классического просмотрщика фотографий")
 
 		If SoftDownload($dir_software, $photoviewer) Then RunWait("reg.exe IMPORT " & $dir_software & $photoviewer)
+	EndIf
+
+	; XPS - принтер
+	If checked($checkXPSPrinter) Then
+		Status("Установка XPS - принтера для экспресса")
+
+		RunWait(@ComSpec & " /c " & "Dism /online /Disable-Feature /FeatureName:Printing-XPSServices-Features")
+		RunWait(@ComSpec & " /c " & "Dism /online /Enable-Feature /FeatureName:Printing-XPSServices-Features")
 	EndIf
 
 	; Naps2

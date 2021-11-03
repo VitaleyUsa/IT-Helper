@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.78
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.79
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -115,15 +115,15 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	$group_kleis = GUICtrlCreateGroup("Клиент ЕИС", 8, 440, 609, 150)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 		
-		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Дистрибутив основного рабочего места КЛЕИС | автоматическая установка", 17, 460, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Основное рабочее место КЛЕИС | автоматическая установка", 17, 460, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Клиент ЕИС для основного ПК")
 
-		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Дистрибутив второстепенного рабочего места КЛЕИС | автоматическая установка", 17, 493, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Второстепенное рабочее место КЛЕИС | автоматическая установка", 17, 493, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Клиент ЕИС для второстепенного рабочего места")
 
-		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник по КЛЕИС | решение распространенных проблем", 17, 523, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник КЛЕИС | решение распространенных проблем", 17, 523, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Помощник по КЛЕИС | решение распространенных проблем")
 
@@ -406,6 +406,10 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 			GUICtrlSetTip(-1, "Возвращает классическое средство Просмотра фотографий в Windows 10")
 
+		$checkXPSPrinter = GUICtrlCreateCheckbox(" XPS - принтер", 226, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+			GUICtrlSetTip(-1, "Установка xps - принтера для Экспресс")
+
 	$group_folders = GUICtrlCreateGroup("Часто используемые папки", 424, 37, 193, 337) 
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
@@ -501,7 +505,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[73] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[74] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -516,7 +520,7 @@ Global $AllCheckboxes[73] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _ 
-		$check_libre, $check_kes, $check_ksc, $checkCSP5R2] ; Массив из чекбоксов
+		$check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
