@@ -186,8 +186,8 @@ Global $sniffer_ds = "SpaceSniffer.exe" ; Space Sniffer
 Global $webkit_ds = "SetupWebKit.exe"
 Global $diskinfo_ds="CrystalDiskMark7.exe"
 Global $hwinfo_ds="HWInfo.exe"
-Global $libre_ds_32 = "https://download.documentfoundation.org/libreoffice/stable/7.2.0/win/x86/LibreOffice_7.2.0_Win_x86.msi"		
-Global $libre_ds_64 = "https://download.documentfoundation.org/libreoffice/stable/7.2.0/win/x86_64/LibreOffice_7.2.0_Win_x64.msi"					
+;Global $libre_ds_32 = "https://download.documentfoundation.org/libreoffice/stable/7.2.0/win/x86/LibreOffice_7.2.0_Win_x86.msi"		
+;Global $libre_ds_64 = "https://download.documentfoundation.org/libreoffice/stable/7.2.0/win/x86_64/LibreOffice_7.2.0_Win_x64.msi"					
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -1454,6 +1454,9 @@ Func Programs()
 	If Checked($check_libre) Then
 		Status("Загрузка и установка LibreOffice")
 		
+		Local $libre_ds_32 = IniRead($dir_distr & "version.ini", "LibreOffice", "Libre_32", "")
+		Local $libre_ds_64 = IniRead($dir_distr & "version.ini", "LibreOffice", "Libre_64", "")
+
 		Local $libre_ds = $libre_ds_32
 		
 		If @OSArch = "X64" Then $libre_ds = $libre_ds_64
