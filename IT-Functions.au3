@@ -1418,8 +1418,12 @@ Func Programs()
 	If checked($checkXPSPrinter) Then
 		Status("Установка XPS - принтера для экспресса")
 
-		RunWait(@ComSpec & " /c " & "Dism /online /Disable-Feature /FeatureName:Printing-XPSServices-Features")
-		RunWait(@ComSpec & " /c " & "Dism /online /Enable-Feature /FeatureName:Printing-XPSServices-Features")
+		If @OSArch="X64" Then
+				_WinAPI_Wow64EnableWow64FsRedirection(False)
+					RunWait(@ComSpec & " /c " & "Dism /online /Disable-Feature /FeatureName:Printing-XPSServices-Features")
+					RunWait(@ComSpec & " /c " & "Dism /online /Enable-Feature /FeatureName:Printing-XPSServices-Features")
+				_WinAPI_Wow64EnableWow64FsRedirection(True)
+		EndIf
 	EndIf
 
 	; Naps2
