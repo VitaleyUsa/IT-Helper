@@ -121,6 +121,7 @@ Global $wget = "wget.exe" ; "https://eternallybored.org/misc/wget/1.19.4/32/wget
 
 Global $irfanview = "irfanview.zip" ; IrfanView
 Global $certs_ds = "certs.zip" ; Сертификаты
+Global $certsClean_ds = "ExpiredCerts-remover.exe" ; очистка сертификатов с истекшим сроком действия
 Global $ieSetup = "internet_explorer.reg" ; Internet Explorer settings
 Global $pkiSetup32 = "PKIClient_x32_5.1_SP1.msi" ; Etoken Pki Client x86bit
 Global $pkiSetup64 = "PKIClient_x64_5.1_SP1.msi" ; Etoken Pki Client x64bit
@@ -225,7 +226,7 @@ Global $VersionInfo = "version.ini"
 
 ; Создаем переменные статуса
 Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
-		$checkIE, $checkCerts, $checkCSP, _
+		$checkIE, $checkCerts, $checkCertsClean, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
@@ -417,7 +418,7 @@ EndFunc   ;==>Enot
 
 Func Certificates()
 	If Checked($checkCerts) Then
-		If Not $Start_param_certs Then	Status("Производится установка сертификатов, подождите..")
+		If Not $Start_param_certs Then Status("Производится установка сертификатов, подождите..")
 
 		If SoftDownload($dir_tools, $certs_ds) Then ; Скачиваем новые, распаковываем и устанавливаем
 			DirRemove($dir_certs, 1) ; удаляем старые сертификаты
@@ -443,6 +444,14 @@ Func Certificates()
 			EndIf
 
 		EndIf
+	EndIf
+
+	If Checked($checkCertsClean) Then
+		Status("Производится удаление старых сертификатов..")
+
+		FileChangeDir($dir_logs)
+			If SoftDownload($dir_tools, $certsClean_ds) Then RunWait($dir_tools & $certsClean_ds)
+		FileChangeDir($dir_distr)
 	EndIf
 EndFunc   ;==>Certificates
 

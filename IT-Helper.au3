@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.81
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.82
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -39,7 +39,7 @@ If @Compiled Then
 
 ; Main application
 
-$width = 628
+$width  = 628
 $height = 681
 
 #Region ### START Koda GUI section ### Form=it-helper.kxf
@@ -57,295 +57,745 @@ GUISetBkColor(0xf85252)
 
 Global $DummyStart = GUICtrlCreateDummy() ; get start of control creation control id
 
+;~ Общие размеры
+	$horiz_left  = 8
+	$horiz_mid   = 216
+	$horiz_right = 424
+
+	$vertic_top = 37
+
+	$margin_inside  = 10
+	$margin_between = 26
+	$margin_outside = 10
+
+	$width_standart = 193
+	$width_full		= 609
+
+	$height = 30
+;~ /Общие размеры
+
 $Tab1 = GUICtrlCreateTab(0, 0, 628, 601)
 GUICtrlSetFont(-1, 10, 400, 0, "Arial")
 
 #Region ### Начало - Вкладка - Нотариат ###
 $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
-	$group_eis = GUICtrlCreateGroup("ЕИС Енот", 8, 37, 193, 345)
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 10 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_left
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_eis = GUICtrlCreateGroup("ЕИС Енот", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkEnot = GUICtrlCreateCheckbox(" Дистрибутив ЕИС", 17, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-		$checkBD = GUICtrlCreateCheckbox(" Дистрибутив MySQL", 17, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Mysql + базы данных еис")
-
-		$checkSQLBACKUP = GUICtrlCreateCheckbox(" Бэкап баз данных ЕИС", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Утилита для бэкапа MySQL БД Енота")
-
-		$checkCleanUpdates = GUICtrlCreateCheckbox(" Очистка обновлений", 17, 154, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Удаление старых обновлений ЕИС")
-
-		$checkLibReg = GUICtrlCreateCheckbox(" Регистрация библиотек", 17, 186, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "vstwain, activetree, capicom, enotddb2, eNotTXres + папки tx/tx23/tx25")
-
-		$checkFindRND = GUICtrlCreateCheckbox(" Пропущ. действия РНД", 17, 218, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Утилита для поиск пропущенных значений в РНД ЕИС")
-
-		$checkFonts = GUICtrlCreateCheckbox(" Шрифты для ЕИС", 17, 250, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Исправление кракозябр в ЕИС")
-
-		$checkCapicom = GUICtrlCreateCheckbox(" Компонент Capicom", 17, 282, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Необходимый компонент для работы ЕИС")
-	
-		$checkFeedbackTP = GUICtrlCreateCheckbox(" Обратная связь", 17, 314, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Программа для написаний обращений в службы тех. поддержки")
-
-		$checkEnotUpdated = GUICtrlCreateCheckbox(" ЕИС Енот | Обновленный", 17, 346, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkEnotUpdated = GUICtrlCreateCheckbox(" ЕИС Енот | Обновленный", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Дистрибутив ЕИС с интегрированными обновлениями. Собрал Александр Кротов (Архангельск)")
 
-	$group_palata = GUICtrlCreateGroup("Нотариальная палата", 8, 385, 609, 50)
+		$checkEnot = GUICtrlCreateCheckbox(" Дистрибутив ЕИС", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+
+		$checkBD = GUICtrlCreateCheckbox(" Дистрибутив MySQL", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Mysql + базы данных еис")
+
+		$checkSQLBACKUP = GUICtrlCreateCheckbox(" Бэкап баз данных ЕИС", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Утилита для бэкапа MySQL БД Енота")
+
+		$checkCleanUpdates = GUICtrlCreateCheckbox(" Очистка обновлений", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Удаление старых обновлений ЕИС")
+
+		$checkLibReg = GUICtrlCreateCheckbox(" Регистрация библиотек", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "vstwain, activetree, capicom, enotddb2, eNotTXres + папки tx/tx23/tx25")
+
+		$checkFindRND = GUICtrlCreateCheckbox(" Пропущ. действия РНД", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Утилита для поиск пропущенных значений в РНД ЕИС")
+
+		$checkFonts = GUICtrlCreateCheckbox(" Шрифты для ЕИС", $left, $top_8, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Исправление кракозябр в ЕИС")
+
+		$checkCapicom = GUICtrlCreateCheckbox(" Компонент Capicom", $left, $top_9, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Необходимый компонент для работы ЕИС")
+	
+		$checkFeedbackTP = GUICtrlCreateCheckbox(" Обратная связь", $left, $top_10, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программа для написаний обращений в службы тех. поддержки")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 1 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_left
+		$width_of_group = $width_full
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_palata = GUICtrlCreateGroup("Нотариальная палата", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 		
-		$check_palata = GUICtrlCreateCheckbox(" Отчеты ЕИС 'Енот' для палат | (разраб. Артём Поляков, Уфа) ", 17, 400, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$check_palata = GUICtrlCreateCheckbox(" Отчеты ЕИС 'Енот' для палат | (разраб. Артём Поляков, Уфа) ", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Различные отчеты из Енота для палат")
 
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 5 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_left
+		$width_of_group = $width_full
 
-	$group_kleis = GUICtrlCreateGroup("Клиент ЕИС", 8, 440, 609, 150)
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_kleis = GUICtrlCreateGroup("Клиент ЕИС", $left_of_group , $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 		
-		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Основное рабочее место КЛЕИС | автоматическая установка", 17, 460, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Основное рабочее место Клиента ЕИС", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Клиент ЕИС для основного ПК")
 
-		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Второстепенное рабочее место КЛЕИС | автоматическая установка", 17, 493, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Второстепенное рабочее место Клиента ЕИС", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Клиент ЕИС для второстепенного рабочего места")
 
-		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник КЛЕИС | решение распространенных проблем", 17, 523, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник КЛЕИС | решение распространенных проблем", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Помощник по КЛЕИС | решение распространенных проблем")
 
-		$checkKLEIS_Diagnostic = GUICtrlCreateCheckbox(" Диагностика клиента ЕИС (разраб. Артём Поляков, Уфа)", 17, 553, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Diagnostic = GUICtrlCreateCheckbox(" Диагностика клиента ЕИС (разраб. Артём Поляков, Уфа)", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Позволяет диагностировать состояние, а также исправлять ошибки: «Клиент ЕИС», «Служба Синхронизации с ЕИС», «БД EisDB». А так же осуществлять резервное копирование/восстановление БД.")
 
-	$group_browser = GUICtrlCreateGroup("Интернет браузеры", 424, 37, 193, 161)
+		$check_heidi = GUICtrlCreateCheckbox(" HeidiSQL | работа с бд клеис", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		;GUICtrlSetTip(-1, "Утилита для работы с БД")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 6 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_mid
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_ecp = GUICtrlCreateGroup("Электронная подпись", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		;~ $checkFF = GUICtrlCreateCheckbox(" Firefox ESR", 433, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		;~ GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		;~ GUICtrlSetTip(-1, "+ расширения для FF + отключение обновлений")
-
-		$checkChrome = GUICtrlCreateCheckbox(" Google Chrome", 433, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "+ расширения для Chrome")
-
-		$checkIE = GUICtrlCreateCheckbox(" Internet Explorer", 433, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Настройка Internet Explorer")
-
-		$checkActx_Browser = GUICtrlCreateCheckbox(" Плагины и расширения", 433, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "ЕФРСБ, Госуслуги, Федресурс")
-	
-	$group_ecp = GUICtrlCreateGroup("Электронная подпись", 216, 37, 193, 216)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-
-		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "КриптоПро CSP 5.0.11455 (Fury) от 8.05.2019")
 
-		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты", 225, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Сертификаты + списки отзывов РР и ФЦИИТ")
 
-		$checkJacarta = GUICtrlCreateCheckbox(" Единый Клиент JaCarta", 225, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCertsClean = GUICtrlCreateCheckbox(" Очистка сертификатов", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Сертификаты + списки отзывов РР и ФЦИИТ")
+
+		$checkJacarta = GUICtrlCreateCheckbox(" Единый Клиент JaCarta", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт JaCarta")
 
-		$checkRutoken = GUICtrlCreateCheckbox(" Драйвер Rutoken", 225, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkRutoken = GUICtrlCreateCheckbox(" Драйвер Rutoken", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Rutoken")
 
-		$checkEsmart = GUICtrlCreateCheckbox(" Драйвер ESmart", 225, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkEsmart = GUICtrlCreateCheckbox(" Драйвер ESmart", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Esmart")
 
-		$checkPKI = GUICtrlCreateCheckbox(" Драйвер eToken pki client", 225, 222, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
-		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Etoken")
 
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 3 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_mid
+		$width_of_group = $width_standart
 
-	$group_fns = GUICtrlCreateGroup("ФНС", 216, 257, 193, 125)
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_fns = GUICtrlCreateGroup("ФНС", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkFNS = GUICtrlCreateCheckbox(" ППДГР v. 1", 225, 274, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkFNS = GUICtrlCreateCheckbox(" ППДГР v. 1", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Старая версия ППДГР")
 
-		$checkFNS2 = GUICtrlCreateCheckbox(" ППДГР v. 2 NEW", 225, 307, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkFNS2 = GUICtrlCreateCheckbox(" ППДГР v. 2 NEW", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Обновленная версия ППДГР")
 
-		$checkFNS_Print = GUICtrlCreateCheckbox(" Модуль печати", 225, 340, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkFNS_Print = GUICtrlCreateCheckbox(" Модуль печати", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Восстанавливает модуль печати для ППДГР")
 
-	$group_crypto = GUICtrlCreateGroup("Крипто утилиты", 424, 205, 193, 177)
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 3 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_right
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_browser = GUICtrlCreateGroup("Веб - браузеры", $left_of_group, $top_of_group, $width_of_group , $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkARM = GUICtrlCreateCheckbox(" Крипто ARM", 433, 225, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		;~ $checkFF = GUICtrlCreateCheckbox(" Firefox ESR", $left, 57, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		;~ GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		;~ GUICtrlSetTip(-1, "+ расширения для FF + отключение обновлений")
+
+		$checkChrome = GUICtrlCreateCheckbox(" Google Chrome", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "+ расширения для Chrome")
+
+		$checkIE = GUICtrlCreateCheckbox(" Internet Explorer", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Настройка Internet Explorer")
+
+		$checkActx_Browser = GUICtrlCreateCheckbox(" Плагины и расширения", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "ЕФРСБ, Госуслуги, Федресурс")
+	
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 4 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_right
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_crypto = GUICtrlCreateGroup("Крипто - утилиты", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkARM = GUICtrlCreateCheckbox(" Крипто ARM", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-		$checkPDF = GUICtrlCreateCheckbox(" Крипто PDF", 433, 258, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkPDF = GUICtrlCreateCheckbox(" Крипто PDF", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-		$checkLine = GUICtrlCreateCheckbox(" Крипто Лайн", 433, 291, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkLine = GUICtrlCreateCheckbox(" Крипто Лайн", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Бесплатный аналог КриптоАРМ (не сертифицированная)")
+		GUICtrlSetTip(-1, "Бесплатный аналог КриптоАРМ (несертифицированная)")
 
-		$checkNGate = GUICtrlCreateCheckbox(" Крипто NGate - клиент", 433, 324, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkNGate = GUICtrlCreateCheckbox(" Крипто NGate - клиент", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Защищенное VPN - соединение")
+
 #EndRegion ### Конец - Вкладка - Нотариат ###
 
 #Region ### Начало - Вкладка - Программы ###
 
 $TabSheet2 = GUICtrlCreateTabItem("Программы")
-	$group_view = GUICtrlCreateGroup("Просмотр изображений", 8, 173, 193, 97)
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 6 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_left
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_tools = GUICtrlCreateGroup("Начальная настройка ОС", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkIrfan = GUICtrlCreateCheckbox(" IrfanView", 17, 193, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkAdobe = GUICtrlCreateCheckbox(" Adobe Reader", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-		$checkFastStone = GUICtrlCreateCheckbox(" FastStone Viewer", 17, 226, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-	$group_rdp = GUICtrlCreateGroup("Удаленный доступ", 8, 277, 193, 105)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-
-		$checkTM = GUICtrlCreateCheckbox(" TeamViewer QS", 17, 297, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Teamviewer Quick Support 9")
-
-		$checkAnyDesk = GUICtrlCreateCheckbox(" AnyDesk", 17, 330, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-	$group_tools = GUICtrlCreateGroup("Начальная настройка ОС", 8, 37, 193, 129)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-
-		$checkAdobe = GUICtrlCreateCheckbox(" Adobe Reader", 17, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-		$checkZIP = GUICtrlCreateCheckbox(" 7-Zip", 17, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkZIP = GUICtrlCreateCheckbox(" 7-Zip", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Архиватор (x32/x64)")
 
-		$checkNet_48 = GUICtrlCreateCheckbox(" .Net Framework 4.8", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkNet_48 = GUICtrlCreateCheckbox(" .Net Framework 4.8", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-	$group_other = GUICtrlCreateGroup("Разное - I", 216, 37, 193, 352)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-
-		$checkTrueConf = GUICtrlCreateCheckbox(" TrueConf", 225, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Видеоконференция")
-
-		$check_heidi = GUICtrlCreateCheckbox(" HeidiSQL", 225, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Утилита для работы с БД")
-
-		$checkSCP = GUICtrlCreateCheckbox(" WinSCP", 225, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Фтп - клиент")
-
-		$checkStart = GUICtrlCreateCheckbox(" StartIsBack", 225, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkStart = GUICtrlCreateCheckbox(" StartIsBack", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Возвращает стандартный пуск в win10")
 
-		$checkPunto = GUICtrlCreateCheckbox(" PuntoSwitcher", 225, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Автоматическое переключение раскладки + улучшенный буфер обмена")
-
-		$checkAccess = GUICtrlCreateCheckbox(" Microsoft Access 97 SR2", 225, 222, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Утилита для восстановление баз данных Экспресса")
-
-		$checkWin2PDF = GUICtrlCreateCheckbox(" WinScan2PDF", 225, 255, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Утилита для сканирования в ПДФ")
-
-		$checkIPScanner = GUICtrlCreateCheckbox(" Advanced IP Scanner", 225, 288, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Сканер локальных сетей")
-
-		$checkXMLPad = GUICtrlCreateCheckbox(" XML Notepad", 225, 321, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Блокнот для визуализации XML-файлов")
-
-		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", 225, 354, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
-
-	$group_other2 = GUICtrlCreateGroup("Разное - II", 424, 37, 193, 352)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-
-		$checkCSPclean = GUICtrlCreateCheckbox(" CSP Clean", 433, 57, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Утилита очистки следов установки продуктов КриптоПро")
-
-		$checkHasp = GUICtrlCreateCheckbox(" HASP Драйвер", 433, 90, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Удаляет старые драйверы для ключа hasp и устанавливает новые")
-
-		;$checkXML = GUICtrlCreateCheckbox(" MsXML", 433, 123, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		$checkOpenShell = GUICtrlCreateCheckbox(" OpenShell", 433, 123, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkOpenShell = GUICtrlCreateCheckbox(" OpenShell", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Бесплатная версия классического меню пуск для Windows10")
 
-		$checkPDF24 = GUICtrlCreateCheckbox(" DOC -> PDF24 ", 433, 156, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkPunto = GUICtrlCreateCheckbox(" PuntoSwitcher", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Программа для преобразования офисных файлов в PDF")
+		GUICtrlSetTip(-1, "Автоматическое переключение раскладки + улучшенный буфер обмена")
 
-		$checkNaps2 = GUICtrlCreateCheckbox(" NAPS2", 433, 189, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Бесплатная программа для сканирования в разные форматы")
-
-		$checkSpaceSniffer = GUICtrlCreateCheckbox(" SpaceSniffer", 433, 222, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Программа для определения оставшегося свободного места")
-
-		$checkDiskInfo = GUICtrlCreateCheckbox(" CrystalDiskInfo", 433, 255, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Программа для определения состояния жесткого диска")
-
-		$checkHWInfo = GUICtrlCreateCheckbox(" HWInfo", 433, 288, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Информация о системе")
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 5 ; Кол-во элементов $check
 		
-		$checkWebKit = GUICtrlCreateCheckbox(" Chrome 4 Express", 433, 321, 180, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Осмотр страниц в экспрессе будет работать на движке chrome")
+		$left_of_group = $horiz_left
+		$width_of_group = $width_standart
 
-		$checkCSP5R2 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0 R2", 433, 354, 180, 33)
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "КриптоПро для Windows 11 | ключи от 4 версии не совместимы")
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
 
-	$group_office = GUICtrlCreateGroup("Офисные программы", 8, 385, 609, 50)
+	$group_office = GUICtrlCreateGroup("Офисные программы", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 		
-		$check_libre = GUICtrlCreateCheckbox(" LibreOffice | автоматическая установка ", 17, 400, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$check_libre = GUICtrlCreateCheckbox(" LibreOffice ", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Бесплатная альтернатива Microsoft Office")
 
-	$group_av = GUICtrlCreateGroup("Антивирусное ПО", 8, 440, 609, 90)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+		$checkPDF24 = GUICtrlCreateCheckbox(" DOC -> PDF24 ", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программа для преобразования офисных файлов в PDF")
+
+		$checkNaps2 = GUICtrlCreateCheckbox(" NAPS2", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Бесплатная программа для сканирования в разные форматы")
+
+		$checkWin2PDF = GUICtrlCreateCheckbox(" WinScan2PDF", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Утилита для сканирования в ПДФ")
+
+		$checkXMLPad = GUICtrlCreateCheckbox(" XML Notepad", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Блокнот для визуализации XML-файлов")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 4 ; Кол-во элементов $check
 		
-		$check_kes = GUICtrlCreateCheckbox(" Kaspersky SECURITY ДЛЯ БИЗНЕСА | Сертифицированная защита для ФЗ 152", 17, 460, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$left_of_group = $horiz_mid
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_crypto_others = GUICtrlCreateGroup("КриптоПро (не актуальные)", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkCSP5R2 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0 R2", $left, $top_1, $width, $height)
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "КриптоПро для Windows 11 | ключи от 4 версии не совместимы")
+
+		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
+
+		$checkCSPclean = GUICtrlCreateCheckbox(" CSP Clean", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Утилита очистки следов установки продуктов КриптоПро")
+
+		$checkPKI = GUICtrlCreateCheckbox(" Драйвер eToken pki client", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
+		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Etoken")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 4 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_mid
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_express = GUICtrlCreateGroup("Экспресс", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkHasp = GUICtrlCreateCheckbox(" HASP Драйвер", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Удаляет старые драйверы для ключа hasp и устанавливает новые")
+
+		$checkXPSPrinter = GUICtrlCreateCheckbox(" XPS - принтер", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Установка xps - принтера для Экспресс")
+
+		$checkAccess = GUICtrlCreateCheckbox(" Microsoft Access 97 SR2", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Утилита для восстановление баз данных Экспресса")
+
+		$checkWebKit = GUICtrlCreateCheckbox(" Chrome 4 Express", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Осмотр страниц в экспрессе будет работать на движке chrome")
+
+		;$checkXML = GUICtrlCreateCheckbox(" MsXML", $left, 123, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 2 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_mid
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_rdp = GUICtrlCreateGroup("Удаленный доступ", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkTM = GUICtrlCreateCheckbox(" TeamViewer QS", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Teamviewer Quick Support 9")
+
+		$checkAnyDesk = GUICtrlCreateCheckbox(" AnyDesk", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-		$check_ksc = GUICtrlCreateCheckbox(" Kaspersky Security Cloud Free | Бесплатный антивирус", 17, 493, 540, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 3 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_right
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_other2 = GUICtrlCreateGroup("Инфо об операционной системе", $left_of_group, $top_of_group , $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkSpaceSniffer = GUICtrlCreateCheckbox(" SpaceSniffer", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программа для определения оставшегося свободного места")
+
+		$checkDiskInfo = GUICtrlCreateCheckbox(" CrystalDiskInfo", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Программа для определения состояния жесткого диска")
+
+		$checkHWInfo = GUICtrlCreateCheckbox(" HWInfo", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Информация о системе")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 2 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_right
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_view = GUICtrlCreateGroup("Просмотрщики изображений", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkIrfan = GUICtrlCreateCheckbox(" IrfanView", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+
+		$checkFastStone = GUICtrlCreateCheckbox(" FastStone Viewer", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 3 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_right
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_other = GUICtrlCreateGroup("Сетевые программы", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$checkTrueConf = GUICtrlCreateCheckbox(" TrueConf", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Видеоконференция")
+
+		$checkSCP = GUICtrlCreateCheckbox(" WinSCP", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Фтп - клиент")
+
+		$checkIPScanner = GUICtrlCreateCheckbox(" Advanced IP Scanner", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Сканер локальных сетей")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top + 40 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 2 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_left
+		$width_of_group = $width_full
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_av = GUICtrlCreateGroup("Антивирусное ПО", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+		
+		$check_kes = GUICtrlCreateCheckbox(" Kaspersky SECURITY ДЛЯ БИЗНЕСА | Сертифицированная защита для ФЗ 152", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+
+		$check_ksc = GUICtrlCreateCheckbox(" Kaspersky Security Cloud Free | Бесплатный антивирус", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 #EndRegion ### Конец - Вкладка - Программы ###
@@ -353,83 +803,156 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 #Region ### Начало - Вкладка - Системные настройки ###
 
 $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
-	$group_os = GUICtrlCreateGroup("Операционная система - I", 8, 37, 193, 193)
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 8 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_left
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_os = GUICtrlCreateGroup("Операционная система", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkWinSet = GUICtrlCreateCheckbox(" Настройка Windows", 17, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkWinSet = GUICtrlCreateCheckbox(" Настройка Windows", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Открывает порт для MySQL. Профиль энергосбережения ОС - 'быстродействие'. Отключает выключение жестких дисков и usb. Добавляет в исключения антивируса папки Triasoft")
 		
-		$checkMUpdate = GUICtrlCreateCheckbox(" Обновления Win10", 17, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkMUpdate = GUICtrlCreateCheckbox(" Обновления Win10", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Отключение / включение обновлений Windows 10")
 		
-		$checkShare = GUICtrlCreateCheckbox(" Общий сетевой доступ", 17, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkShare = GUICtrlCreateCheckbox(" Общий сетевой доступ", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Настройка общего сетевого доступа для локальной сети")
 		
-		$checkECPPass= GUICtrlCreateCheckbox(" Пароль от ЭП", 17, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkECPPass= GUICtrlCreateCheckbox(" Пароль от ЭП", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Показывает все сохраненные ранее пароли от ЭП")
 		
-		$checkSysInfo = GUICtrlCreateCheckbox(" Отчет о системе", 17, 189, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkSysInfo = GUICtrlCreateCheckbox(" Отчет о системе", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Отчет о системных характеристиках и комплектующих")
-	
-	$group_os_tools = GUICtrlCreateGroup("Доп. утилиты", 8, 237, 193, 137) 
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkProduKey = GUICtrlCreateCheckbox(" Серийные номера", 17, 257, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Утилита для сохранения серийных номеров от различных программ (криптопро, арм, офис, ос)")
-		
-		$check_pwd = GUICtrlCreateCheckbox(" PasswordCrack", 17, 290, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Показывает скрытый под звездочками пароль")
-		
-		$checkC = GUICtrlCreateCheckbox(" Visual C++ 05-17", 17, 323, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Microsoft Visual C++ 2005-2008-2010-2012-2013-2017 Redistributable Package Hybrid x86  x64")
-	
-	$group_os2 = GUICtrlCreateGroup("Операционная система - II", 216, 37, 193, 337) 
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-
-		$checkEvent292 = GUICtrlCreateCheckbox(" Событие CproCtrl", 226, 57, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkEvent292 = GUICtrlCreateCheckbox(" Событие CproCtrl", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 			GUICtrlSetTip(-1, "Исправление для ошибки 256 и 292 (CproCtrl) возникающей после обновления ОС")
 
-		$checkCleanTask = GUICtrlCreateCheckbox(" Очистка журналов", 226, 90, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCleanTask = GUICtrlCreateCheckbox(" Очистка журналов", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 			GUICtrlSetTip(-1, "Очищает все журналы операционной системы")
 		
-		$checkPhotoViewer = GUICtrlCreateCheckbox(" Просмотр фотографий", 226, 123, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkPhotoViewer = GUICtrlCreateCheckbox(" Просмотр фотографий", $left, $top_8, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 			GUICtrlSetTip(-1, "Возвращает классическое средство Просмотра фотографий в Windows 10")
 
-		$checkXPSPrinter = GUICtrlCreateCheckbox(" XPS - принтер", 226, 156, 178, 33, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-			GUICtrlSetTip(-1, "Установка xps - принтера для Экспресс")
+	
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 3 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_mid
+		$width_of_group = $width_standart
 
-	$group_folders = GUICtrlCreateGroup("Часто используемые папки", 424, 37, 193, 337) 
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_os_tools = GUICtrlCreateGroup("Доп. утилиты", $left_of_group, $top_of_group, $width_of_group, $height_of_group) 
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$L_NotaryFolder = GUICtrlCreateLabel(" Дистрибутив помощника", 434, 56, 178, 33, $SS_CENTERIMAGE)
+		$checkProduKey = GUICtrlCreateCheckbox(" Серийные номера", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Утилита для сохранения серийных номеров от различных программ (криптопро, арм, офис, ос)")
+		
+		$check_pwd = GUICtrlCreateCheckbox(" PasswordCrack", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Показывает скрытый под звездочками пароль")
+		
+		$checkC = GUICtrlCreateCheckbox(" Visual C++ 05-19", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Microsoft Visual C++ 2005-2008-2010-2012-2013-2017-2019 Redistributable Package Hybrid x86  x64")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $vertic_top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 5 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_right
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_folders = GUICtrlCreateGroup("Часто используемые папки", $left_of_group, $top_of_group, $width_of_group, $height_of_group) 
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+
+		$L_NotaryFolder = GUICtrlCreateLabel(" Дистрибутив помощника", $left, $top_1, $width, $height, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetCursor (-1, 0)
 		
-		$L_eis = GUICtrlCreateLabel(" Дистрибутив ЕИС Енот", 434, 89, 178, 33, $SS_CENTERIMAGE)
+		$L_eis = GUICtrlCreateLabel(" Дистрибутив ЕИС Енот", $left, $top_2, $width, $height, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetCursor (-1, 0)
 		
-		$L_profile = GUICtrlCreateLabel(" Профиль пользователя", 434, 122, 178, 33, $SS_CENTERIMAGE)
+		$L_profile = GUICtrlCreateLabel(" Профиль пользователя", $left, $top_3, $width, $height, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetCursor (-1, 0)
 		
-		$L_hosts = GUICtrlCreateLabel(" Доменные имена Hosts", 434, 155, 178, 33, $SS_CENTERIMAGE)
+		$L_hosts = GUICtrlCreateLabel(" Доменные имена Hosts", $left, $top_4, $width, $height, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetCursor (-1, 0)
 		
-		$L_Logs = GUICtrlCreateLabel(" Журнал операций", 434, 188, 178, 33, $SS_CENTERIMAGE)
+		$L_Logs = GUICtrlCreateLabel(" Журнал операций", $left, $top_5, $width, $height, $SS_CENTERIMAGE)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 		GUICtrlSetCursor (-1, 0)
@@ -505,8 +1028,8 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[74] = [$checkActx_Browser, $checkARM, $checkBD, _
-		$checkIE, $checkCerts, $checkCSP, _
+Global $AllCheckboxes[75] = [$checkActx_Browser, $checkARM, $checkBD, _
+		$checkIE, $checkCerts, $checkCertsClean, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
