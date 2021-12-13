@@ -226,7 +226,7 @@ Global $VersionInfo = "version.ini"
 
 ; Создаем переменные статуса
 Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
-		$checkIE, $checkCerts, $checkCertsClean, $checkCSP, _
+		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
@@ -446,8 +446,23 @@ Func Certificates()
 		EndIf
 	EndIf
 
+	If Checked($checkCertsKey) Then
+		Status("Производится установка сертификатов с ключа ЭП")
+
+		Switch @OSArch ; Проверяем разрядность ОС
+				Case "X64"
+					$CryptoPro_path = "C:\Program Files (x86)\Crypto Pro\CSP\"
+				Case "X86"
+					$CryptoPro_path = "C:\Program Files\Crypto Pro\CSP\"
+		EndSwitch
+
+		FileChangeDir($CryptoPro_path)
+			If FileExists("csptest.exe") Then RunWait("csptest.exe -absorb -certs -autoprov", "", @SW_HIDE)
+		FileChangeDir($dir_distr)
+	EndIf
+
 	If Checked($checkCertsClean) Then
-		Status("Производится удаление старых сертификатов..")
+		Status("Производится удаление старых сертификатов")
 
 		FileChangeDir($dir_logs)
 			If SoftDownload($dir_tools, $certsClean_ds) Then RunWait($dir_tools & $certsClean_ds)
@@ -2082,6 +2097,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 	Local $continue = False
 
 	If Checked($checkNGate) Then GUICtrlSetState($checkCerts, $GUI_CHECKED)
+	If Checked($checkCertsKey) Then GUICtrlSetState($checkCertsClean, $GUI_CHECKED)
 
 	If $button = "Specialist" Then ; Настройка кнопки "Тех. работник"
 		$iMsgBoxAnswer = MsgBox(33,"Внимание","Вы уверены, что хотите запустить настройку рабочего места тех. работника?")

@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.82
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.83
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -150,90 +150,8 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
-		$top_of_group = $height_of_group + $top ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 1 ; Кол-во элементов $check
-		
-		$left_of_group = $horiz_left
-		$width_of_group = $width_full
-
-		;~ Пересчитываемые значения
-		
-		$top = $top_of_group + 10
-		$left = $left_of_group + $margin_inside
-		$width = $width_of_group - 11
-		
-		$top_1 = $top + 10
-		$top_2 = $top_1 + $margin_between
-		$top_3 = $top_2 + $margin_between
-		$top_4 = $top_3 + $margin_between
-		$top_5 = $top_4 + $margin_between
-		$top_6 = $top_5 + $margin_between
-		$top_7 = $top_6 + $margin_between
-		$top_8 = $top_7 + $margin_between
-		$top_9 = $top_8 + $margin_between
-		$top_10 = $top_9 + $margin_between
-	;~ /Тупое задание размеров блоков
-
-	$group_palata = GUICtrlCreateGroup("Нотариальная палата", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		
-		$check_palata = GUICtrlCreateCheckbox(" Отчеты ЕИС 'Енот' для палат | (разраб. Артём Поляков, Уфа) ", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Различные отчеты из Енота для палат")
-
-	;~ Тупое задание размеров блоков
-		;~ Явно заданные размеры
-		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 5 ; Кол-во элементов $check
-		
-		$left_of_group = $horiz_left
-		$width_of_group = $width_full
-
-		;~ Пересчитываемые значения
-		
-		$top = $top_of_group + 10
-		$left = $left_of_group + $margin_inside
-		$width = $width_of_group - 11
-		
-		$top_1 = $top + 10
-		$top_2 = $top_1 + $margin_between
-		$top_3 = $top_2 + $margin_between
-		$top_4 = $top_3 + $margin_between
-		$top_5 = $top_4 + $margin_between
-		$top_6 = $top_5 + $margin_between
-		$top_7 = $top_6 + $margin_between
-		$top_8 = $top_7 + $margin_between
-		$top_9 = $top_8 + $margin_between
-		$top_10 = $top_9 + $margin_between
-	;~ /Тупое задание размеров блоков
-
-	$group_kleis = GUICtrlCreateGroup("Клиент ЕИС", $left_of_group , $top_of_group, $width_of_group, $height_of_group)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		
-		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Основное рабочее место Клиента ЕИС", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Клиент ЕИС для основного ПК")
-
-		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Второстепенное рабочее место Клиента ЕИС", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Клиент ЕИС для второстепенного рабочего места")
-
-		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник КЛЕИС | решение распространенных проблем", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Помощник по КЛЕИС | решение распространенных проблем")
-
-		$checkKLEIS_Diagnostic = GUICtrlCreateCheckbox(" Диагностика клиента ЕИС (разраб. Артём Поляков, Уфа)", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Позволяет диагностировать состояние, а также исправлять ошибки: «Клиент ЕИС», «Служба Синхронизации с ЕИС», «БД EisDB». А так же осуществлять резервное копирование/восстановление БД.")
-
-		$check_heidi = GUICtrlCreateCheckbox(" HeidiSQL | работа с бд клеис", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		;GUICtrlSetTip(-1, "Утилита для работы с БД")
-
-	;~ Тупое задание размеров блоков
-		;~ Явно заданные размеры
 		$top_of_group = $vertic_top ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 6 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 7 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_mid
 		$width_of_group = $width_standart
@@ -263,23 +181,27 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "КриптоПро CSP 5.0.11455 (Fury) от 8.05.2019")
 
-		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCerts = GUICtrlCreateCheckbox(" Корневые сертификаты", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Сертификаты + списки отзывов РР и ФЦИИТ")
+		GUICtrlSetTip(-1, "Корневые и промежуточные сертификаты + списки отзывов РР и ФЦИИТ")
 
-		$checkCertsClean = GUICtrlCreateCheckbox(" Очистка сертификатов", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCertsKey = GUICtrlCreateCheckbox(" Сертификаты с эцп", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Сертификаты + списки отзывов РР и ФЦИИТ")
+		GUICtrlSetTip(-1, "Установка сертификатов с ключевого носителя + очистка сертификатов с истекшим сроком действия")
 
-		$checkJacarta = GUICtrlCreateCheckbox(" Единый Клиент JaCarta", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCertsClean = GUICtrlCreateCheckbox(" Очистка сертификатов", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Удаление сертификатов с истекшим сроком действия")
+
+		$checkJacarta = GUICtrlCreateCheckbox(" Единый Клиент JaCarta", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт JaCarta")
 
-		$checkRutoken = GUICtrlCreateCheckbox(" Драйвер Rutoken", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkRutoken = GUICtrlCreateCheckbox(" Драйвер Rutoken", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Rutoken")
 
-		$checkEsmart = GUICtrlCreateCheckbox(" Драйвер ESmart", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkEsmart = GUICtrlCreateCheckbox(" Драйвер ESmart", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Программный комплекс предназначен для настройки и работы со всеми моделями USB-токенов и смарт-карт Esmart")
 
@@ -412,6 +334,88 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkNGate = GUICtrlCreateCheckbox(" Крипто NGate - клиент", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Защищенное VPN - соединение")
+
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 1 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_right
+		$width_of_group = $width_standart
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_palata = GUICtrlCreateGroup("Нотариальная палата", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+		
+		$check_palata = GUICtrlCreateCheckbox(" Отчеты ЕИС 'Енот'", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Отчеты ЕИС 'Енот' для палат | (разраб. Артём Поляков, Уфа)")
+	
+	;~ Тупое задание размеров блоков
+		;~ Явно заданные размеры
+		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 5 ; Кол-во элементов $check
+		
+		$left_of_group = $horiz_left
+		$width_of_group = $width_full
+
+		;~ Пересчитываемые значения
+		
+		$top = $top_of_group + 10
+		$left = $left_of_group + $margin_inside
+		$width = $width_of_group - 11
+		
+		$top_1 = $top + 10
+		$top_2 = $top_1 + $margin_between
+		$top_3 = $top_2 + $margin_between
+		$top_4 = $top_3 + $margin_between
+		$top_5 = $top_4 + $margin_between
+		$top_6 = $top_5 + $margin_between
+		$top_7 = $top_6 + $margin_between
+		$top_8 = $top_7 + $margin_between
+		$top_9 = $top_8 + $margin_between
+		$top_10 = $top_9 + $margin_between
+	;~ /Тупое задание размеров блоков
+
+	$group_kleis = GUICtrlCreateGroup("Клиент ЕИС", $left_of_group , $top_of_group, $width_of_group, $height_of_group)
+		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
+		
+		$checkKLEIS_Main = GUICtrlCreateCheckbox(" Основное рабочее место Клиента ЕИС", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Клиент ЕИС для основного ПК")
+
+		$checkKLEIS_Sec = GUICtrlCreateCheckbox(" Второстепенное рабочее место Клиента ЕИС", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Клиент ЕИС для второстепенного рабочего места")
+
+		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник КЛЕИС | решение распространенных проблем", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Помощник по КЛЕИС | решение распространенных проблем")
+
+		$checkKLEIS_Diagnostic = GUICtrlCreateCheckbox(" Диагностика клиента ЕИС (разраб. Артём Поляков, Уфа)", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Позволяет диагностировать состояние, а также исправлять ошибки: «Клиент ЕИС», «Служба Синхронизации с ЕИС», «БД EisDB». А так же осуществлять резервное копирование/восстановление БД.")
+
+		$check_heidi = GUICtrlCreateCheckbox(" HeidiSQL | работа с бд клеис", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		;GUICtrlSetTip(-1, "Утилита для работы с БД")
 
 #EndRegion ### Конец - Вкладка - Нотариат ###
 
@@ -672,7 +676,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$top_10 = $top_9 + $margin_between
 	;~ /Тупое задание размеров блоков
 
-	$group_other2 = GUICtrlCreateGroup("Инфо об операционной системе", $left_of_group, $top_of_group , $width_of_group, $height_of_group)
+	$group_other2 = GUICtrlCreateGroup("Инфо о системе", $left_of_group, $top_of_group , $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkSpaceSniffer = GUICtrlCreateCheckbox(" SpaceSniffer", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
@@ -713,7 +717,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$top_10 = $top_9 + $margin_between
 	;~ /Тупое задание размеров блоков
 
-	$group_view = GUICtrlCreateGroup("Просмотрщики изображений", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
+	$group_view = GUICtrlCreateGroup("Просмотрщики фото", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
 		$checkIrfan = GUICtrlCreateCheckbox(" IrfanView", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
@@ -1028,8 +1032,8 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[75] = [$checkActx_Browser, $checkARM, $checkBD, _
-		$checkIE, $checkCerts, $checkCertsClean, $checkCSP, _
+Global $AllCheckboxes[76] = [$checkActx_Browser, $checkARM, $checkBD, _
+		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
