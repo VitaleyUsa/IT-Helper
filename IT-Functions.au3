@@ -117,6 +117,7 @@ Global $Pass = 'Ftp-User'
 
 Global $sZip = "7za.exe" ; 7za
 Global $wRar = "UnRAR.exe" ; UnRar for PPDGR
+Global $unArj = "UnArj.exe" ; UnArj for PPDGR
 Global $wget = "wget.exe" ; "https://eternallybored.org/misc/wget/1.19.4/32/wget.exe" ; wget
 
 Global $irfanview = "irfanview.zip" ; IrfanView
@@ -137,7 +138,7 @@ Global $csp5R2setup = "CryptoProCSP-5R2.exe" ; CryptoPro CSP 5.0 R2
 Global $NGate32 = "NGateInstallx32.msi" ; Ngate client x32
 Global $NGate64 = "NGateInstallx64.msi" ; Ngate client x64
 Global $NGate_settings = "ngate.reg" ; Настройки для NGate
-Global $armSetup = "CryptoARM.zip" ; CryptoARM
+Global $armSetup = "trusteddesktop.exe" ; CryptoARM
 Global $arm_settings = "arm_settings.reg" ; CryptoARM settings
 Global $actxSetup = "cspcomsetup.msi" ; ActiveX Component + Firefox Plugin
 Global $pdfSetup = "cppdfsetup.exe" ; CryptoPro PDF
@@ -1621,6 +1622,7 @@ Func FNS()
 		Status("Установка и настройка програм для ФНС")
 			Local $msiErr = ""
 			Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link2", "")
+			Local $SproLink = IniRead($dir_distr & "version.ini", "FNS", "Spro", "")
 
 			DirRemove($dir_ppdgr, 1)
 			DirRemove($prog_files_v2)
@@ -1641,11 +1643,8 @@ Func FNS()
 					ProcessClose($PidActwin)
 
 					If DirGetSize($prog_files_v2) <> -1  Then ; Проверяем, что ППДГР установлен
-						Local $ppdgr_print_cont = True
 						FileChangeDir($prog_files_v2)
-					EndIf
 					
-					If $ppdgr_print_cont Then
 							Local $hSearch = FileFindFirstFile("*.msi")
 							$sFileName = FileFindNextFile($hSearch)
 							FileClose($hSearch)
@@ -1655,6 +1654,14 @@ Func FNS()
 						FileChangeDir($dir_distr)
 						$ppdgr_print_cont = False
 					EndIf
+				EndIf
+
+				If SoftDownload($dir_ppdgr, $SproLink, "wext") Then
+					FileChangeDir($dir_ppdgr)
+						SoftUnzip($dir_ppdgr, "SPRO.ARJ", $dir_ppdgr, "arj") ; Распаковываем ППДГР
+						FileMove("SPRO1.TXT", $prog_files_v2 & "\XML\SPRO1.TXT", 1)
+					FileChangeDir($dir_distr)
+
 				EndIf
 			EndIf
 
@@ -1700,9 +1707,7 @@ Func Programs2Reboot() ; Все программы, которые желате�
 	If Checked($checkARM) Then
 		Status("Установка и настройка CryptoARM")
 
-		If SoftDownload($dir_federal, $armSetup) Then ; Закачка и установка КриптоАРМ
-			If SoftUnzip($dir_federal, $armSetup) Then SoftInstall($dir_federal & "CryptoARM", "setup.exe", "arm")
-		EndIf
+		If SoftDownload($dir_federal, $armSetup) Then SoftInstall($dir_federal, $armSetup, "/qb TDSTANDARD_CMDARGS=""ADDLOCAL=CAdESModule,TSPClient,OCSPClient""") ; Закачка и установка КриптоАРМ
 
 		If SoftDownload($dir_federal, $arm_settings) Then RunWait("reg.exe IMPORT " & $dir_federal & $arm_settings) ; Настройка КриптоАРМ
 	EndIf
@@ -1846,6 +1851,8 @@ Func SoftUnzip($Place, $Soft_ds, $Place_to = $Place, $Option = "zip") ; Извл
 			RunWait($dir_tools & $sZip & ' x -y ' & $FilePath & ' -o' & $Place_to) ; Распаковываем файл с помощью 7Zip
 		Case "rar"
 			RunWait($dir_tools & $wRar & " e -y  " & $FilePath & " " & $Place_to) ; Распаковываем файл с помощью UnRAR.exe
+		Case "arj"
+			RunWait($dir_tools & $unArj & " e " & $FilePath) ; Распаковываем файл с помощью UnArj.exe
 	EndSwitch
 
 	If @error = False Then $FileUnzip = True
@@ -2002,6 +2009,7 @@ Func _update() ; Обновление программы и подготовка
 	EndIf
 
 	SoftDownload($dir_tools, $wRar, "raw") ; Скачиваем UnRAR.exe
+	SoftDownload($dir_tools, $unArj, "raw") ; Скачиваем UnRAR.exe
 
 	; Компоненты для дальнейшей работы
 ;~ 		_InstallDotNet("40")
@@ -2018,6 +2026,7 @@ Func _update() ; Обновление программы и подготовка
 			FileMove($VersionInfo, $dir_distr, 9)
 			FileMove($sZip, $dir_distr, 9)
 			FileMove($wRar, $dir_distr, 9)
+			FileMove($unArj, $dir_distr, 9)
 
 			FileCreateShortcut($dir_distr & $MainApp, @DesktopDir & "\" & $HelperName, $dir_distr)
 
