@@ -138,6 +138,7 @@ Global $csp5R2setup = "CryptoProCSP-5R2.exe" ; CryptoPro CSP 5.0 R2
 Global $NGate32 = "NGateInstallx32.msi" ; Ngate client x32
 Global $NGate64 = "NGateInstallx64.msi" ; Ngate client x64
 Global $NGate_settings = "ngate.reg" ; Настройки для NGate
+Global $metrics = "MetricChanger.exe" ; Изменение метрики для Ngate
 Global $armSetup = "trusteddesktop.exe" ; CryptoARM
 Global $arm_settings = "arm_settings.reg" ; CryptoARM settings
 Global $actxSetup = "cspcomsetup.msi" ; ActiveX Component + Firefox Plugin
@@ -241,7 +242,8 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
-		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter
+		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, _
+		$checkMetrics
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -1426,27 +1428,34 @@ Func Programs()
 
 
 	; CSPclean
-	If checked($checkcspclean) Then
+	If Checked($checkcspclean) Then
 		Status("Удаление крипто-про")
 
-		If SoftDownload($dir_software, $cspclean) Then softinstall($dir_software, $cspclean, "/Silent")
+		If SoftDownload($dir_software, $cspclean) Then SoftInstall($dir_software, $cspclean, "/Silent")
 	EndIf
 
 	; Classic PhotoViewer
-	If checked($checkphotoviewer) Then
+	If Checked($checkphotoviewer) Then
 		Status("Настройка классического просмотрщика фотографий")
 
 		If SoftDownload($dir_software, $photoviewer) Then RunWait("reg.exe IMPORT " & $dir_software & $photoviewer)
 	EndIf
 
+	; Метрики Ngate
+	If Checked($checkMetrics) Then
+		Status("Настройка метрик для Ngate")
+
+		If SoftDownload($dir_software, $metrics) Then SoftInstall($dir_software, $metrics, "run")
+	EndIf
+
 	; XPS - принтер
-	If checked($checkXPSPrinter) Then
+	If Checked($checkXPSPrinter) Then
 		Status("Установка XPS - принтера для экспресса")
 
 		If @OSArch="X64" Then
 				_WinAPI_Wow64EnableWow64FsRedirection(False)
-					RunWait(@ComSpec & " /c " & "Dism /online /Disable-Feature /FeatureName:Printing-XPSServices-Features")
-					RunWait(@ComSpec & " /c " & "Dism /online /Enable-Feature /FeatureName:Printing-XPSServices-Features")
+					RunWait(@ComSpec & " /c " & "Dism /online /Disable-Feature /FeatureName:Printing-XPSServices-Features /NoRestart")
+					RunWait(@ComSpec & " /c " & "Dism /online /Enable-Feature /FeatureName:Printing-XPSServices-Features /NoRestart")
 				_WinAPI_Wow64EnableWow64FsRedirection(True)
 		EndIf
 	EndIf
@@ -1906,7 +1915,7 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 			$arg = $FilePath & " -norestart -silent -cadesargs ""/qn REBOOT=REALLYSUPPRESS"" "
 
 		Case "csp5" ; КриптоПро 5.0
-			$arg = $FilePath & " -root -silent -noreboot"
+			$arg = $FilePath & " -nodlg -noreboot -args ""/qn REBOOT=REALLYSUPPRESS"" "
 
 		Case "arm" ; КриптоАРМ
 			$arg = $FilePath & " /V """ & StringStripWS($arg,1) & """"

@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.85
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.88
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -811,7 +811,7 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $vertic_top ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 8 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 9 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_left
 		$width_of_group = $width_standart
@@ -868,6 +868,10 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 		$checkPhotoViewer = GUICtrlCreateCheckbox(" Просмотр фотографий", $left, $top_8, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 			GUICtrlSetTip(-1, "Возвращает классическое средство Просмотра фотографий в Windows 10")
+
+		$checkMetrics = GUICtrlCreateCheckbox(" Метрика VPN Ngate", $left, $top_9, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+			GUICtrlSetTip(-1, "Устанавливает метрику 1 для Ngate. VPN Ngate должен быть запущен и подключен.")
 
 	
 	;~ Тупое задание размеров блоков
@@ -1032,7 +1036,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[76] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[77] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -1047,7 +1051,7 @@ Global $AllCheckboxes[76] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _ 
-		$check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter] ; Массив из чекбоксов
+		$check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, $checkMetrics] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
