@@ -201,9 +201,11 @@ Global $TX25 = "TX25.zip"
 
 Global $chromeSetup32 = "GoogleChromeStandaloneEnterprise.msi" ; Chrome x32 distr
 Global $chromeSetup64 = "GoogleChromeStandaloneEnterprise64.msi" ; Chrome x64 distr
+Global $chromePolicy = "googleupdateadmx.zip"
 
-Global $tm_ds 		= "TeamViewerQS.exe" ; Teamviewer QS 9
+Global $tm_ds 		= "TeamViewerQS.exe" ; Teamviewer QS
 Global $anydesk_ds  = "AnyDesk.exe" ; AnyDesk
+Global $assistant_ds = "Assistant_fs.exe" ; Ассистент
 Global $trueconf_ds = "TrueConf.zip" ; TrueConf
 Global $mupdate_ds  = "mupdate.reg" ; Minus Windows 10 Update
 Global $start_ds	= "Startisback.zip" ; Startisback for Win10
@@ -233,7 +235,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
-		$checkTM, $checkAnyDesk, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
+		$checkTM, $checkAnyDesk, $checkAssistant, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
 		$checkOpenShell, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
@@ -1222,6 +1224,11 @@ Func FederalResources()
 			SoftUnzip($dir_federal, $chrome_sets, @LocalAppDataDir & """\Google\Chrome\User Data\Default\""")
 		EndIf
 
+		If SoftDownload($dir_federal, $chromePolicy) Then ; включаем auto-update для хрома
+			SoftUnzip($dir_federal, $chromePolicy)
+
+			DirCopy($dir_federal & 'GoogleUpdateAdmx', @WindowsDir & '\PolicyDefinitions', 1)
+		EndIf
 	EndIf
 
 ;~ 	; Java
@@ -1278,6 +1285,13 @@ Func Programs()
 		Status("Установка и настройка AnyDesk")
 
 		If SoftDownload($dir_software, $anydesk_ds) Then SoftInstall($dir_software, $anydesk_ds, "run", "0") ; Запускаем AnyDesk
+	EndIf
+
+	; Assistant
+	If Checked($checkAssistant) Then
+		Status("Установка и настройка Ассистент")
+
+		If SoftDownload($dir_software, $assistant_ds) Then SoftInstall($dir_software, $assistant_ds, "run", "0") ; Запускаем AnyDesk
 	EndIf
 
 	; Trueconf
