@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.90
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.91
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -617,7 +617,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 3 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 4 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_mid
 		$width_of_group = $width_standart
@@ -652,6 +652,10 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 
 		$checkAssistant = GUICtrlCreateCheckbox(" Assistant", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+
+		$checkAssistantNotariusIT = GUICtrlCreateCheckbox(" Ассистент нотариуса IT", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Предназначен для облегчения работы нотариусов и ИТ специалистов")
 
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
@@ -772,7 +776,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
-		$top_of_group = $height_of_group + $top + 70 ; Отступ по вертикали
+		$top_of_group = $height_of_group + $top + 90 ; Отступ по вертикали
 		$height_of_group = $margin_outside + $margin_between + $margin_between * 2 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_left
@@ -1039,13 +1043,13 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 
-Global $AllCheckboxes[78] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[79] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
-		$checkTM, $checkAnyDesk, $checkAssistant, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkOpenShell, _
+		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkOpenShell, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _

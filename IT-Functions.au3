@@ -93,6 +93,7 @@ Global $KLEIS_Sec_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClie
 Global $KLEIS_Diagnostic_ds = "http://notpalatarb.ru/files/DiagnosticsAndBackupEISClient/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС
 
 Global $check_palata_ds = "http://notpalatarb.ru/files/raccoon-reports/RaccoonReportsSetup.exe" ; Отчеты из енота для палат от Артема
+Global $AssistantNotariusIT_ds = "http://notpalatarb.ru/files/DiagnosticsAndBackupEISClient/SetupAssistantNotariusIT.exe" ; Набор удаленной помощи от Артема
 
 Global $MysqlSetup32 = "http://download.triasoft.com/enot/50/SetupDB.exe" ; Mysql 32bit
 Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; Mysql 64bit
@@ -235,7 +236,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
-		$checkTM, $checkAnyDesk, $checkAssistant, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
+		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
 		$checkOpenShell, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
@@ -1292,6 +1293,13 @@ Func Programs()
 		Status("Установка и настройка Ассистент")
 
 		If SoftDownload($dir_software, $assistant_ds) Then SoftInstall($dir_software, $assistant_ds, "run", "0") ; Запускаем AnyDesk
+	EndIf
+
+	; $AssistantNotariusIT (Пакет удаленок от Артема)
+	If Checked($checkAssistantNotariusIT) Then
+		Status("Установка и настройка Ассистент нотариуса IT")
+
+		If SoftDownload($dir_software, $AssistantNotariusIT_ds, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($AssistantNotariusIT_ds), "/Silent") ; Запускаем AnyDesk
 	EndIf
 
 	; Trueconf
