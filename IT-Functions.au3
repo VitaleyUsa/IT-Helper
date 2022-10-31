@@ -93,7 +93,7 @@ Global $KLEIS_Sec_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClie
 Global $KLEIS_Diagnostic_ds = "http://178.214.243.240/soft/Notarius/Client/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС от Артема
 
 Global $check_palata_ds = "http://notpalatarb.ru/files/raccoon-reports/RaccoonReportsSetup.exe" ; Отчеты из енота для палат от Артема
-Global $AssistantNotariusIT_ds = "http://178.214.243.240/soft/notarius/remote/SetupAssistantNotariusIT.exe" ; Набор удаленной помощи от Артема
+Global $AssistantNotariusIT_ds = "http://178.214.243.240/soft/Notarius/Remote/SetupAssistantNotariusIT.exe" ; Набор удаленной помощи от Артема
 
 Global $MysqlSetup32 = "http://download.triasoft.com/enot/50/SetupDB.exe" ; Mysql 32bit
 Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; Mysql 64bit
