@@ -90,10 +90,10 @@ Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив
 
 Global $KLEIS_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
 Global $KLEIS_Sec_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
-Global $KLEIS_Diagnostic_ds = "http://notpalatarb.ru/files/DiagnosticsAndBackupEISClient/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС
+Global $KLEIS_Diagnostic_ds = "http://178.214.243.240/soft/Notarius/Client/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС от Артема
 
 Global $check_palata_ds = "http://notpalatarb.ru/files/raccoon-reports/RaccoonReportsSetup.exe" ; Отчеты из енота для палат от Артема
-Global $AssistantNotariusIT_ds = "http://notpalatarb.ru/files/DiagnosticsAndBackupEISClient/SetupAssistantNotariusIT.exe" ; Набор удаленной помощи от Артема
+Global $AssistantNotariusIT_ds = "http://178.214.243.240/soft/notarius/remote/SetupAssistantNotariusIT.exe" ; Набор удаленной помощи от Артема
 
 Global $MysqlSetup32 = "http://download.triasoft.com/enot/50/SetupDB.exe" ; Mysql 32bit
 Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; Mysql 64bit
@@ -446,7 +446,7 @@ Func Certificates()
 					if $i = "UpdateCerts" then __schedule_unregister("UpdateCerts")
 				Next
 				
-				__schedule_register("UpdateCerts", "Auto updating certs and crl", "Vitaley.NPSO", @AutoItExe, "IDDQD")
+				__schedule_register("UpdateCerts", "Auto updating certs and crl", "Vitaley.NPSO", "C:\Distr\Notary\IT-Helper.exe", "IDDQD")
 			EndIf
 
 		EndIf
@@ -1292,14 +1292,14 @@ Func Programs()
 	If Checked($checkAssistant) Then
 		Status("Установка и настройка Ассистент")
 
-		If SoftDownload($dir_software, $assistant_ds) Then SoftInstall($dir_software, $assistant_ds, "run", "0") ; Запускаем AnyDesk
+		If SoftDownload($dir_software, $assistant_ds) Then SoftInstall($dir_software, $assistant_ds, "run", "0") ; Запускаем Ассистент
 	EndIf
 
 	; $AssistantNotariusIT (Пакет удаленок от Артема)
 	If Checked($checkAssistantNotariusIT) Then
 		Status("Установка и настройка Ассистент нотариуса IT")
 
-		If SoftDownload($dir_software, $AssistantNotariusIT_ds, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($AssistantNotariusIT_ds), "/Silent") ; Запускаем AnyDesk
+		If SoftDownload($dir_software, $AssistantNotariusIT_ds, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($AssistantNotariusIT_ds), "run", "0") ; Запускаем AnyDesk
 	EndIf
 
 	; Trueconf
