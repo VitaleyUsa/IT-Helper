@@ -146,6 +146,7 @@ Global $actxSetup = "cspcomsetup.msi" ; ActiveX Component + Firefox Plugin
 Global $pdfSetup = "cppdfsetup.exe" ; CryptoPro PDF
 Global $adobeSetup = "acrobate.exe" ; Adobe Reader DC
 Global $cbpSetup = "cadesplugin.exe" ; CryptoPro Browser Plugin
+Global $cbpSetup_zip = "cadesplugin.zip" ; CryptoPro Browser Plugin in archive (way to work with silent keys to install)
 Global $cades = "cades.reg" ; CryptoPro Trusted Sites
 Global $gosSetup32 = "IFCPlugin.msi" ; Gosuslugi browser plugin x86bit
 Global $gosSetup64 = "IFCPlugin-x64.msi" ; Gosuslugi browser plugin x64bit
@@ -1008,8 +1009,12 @@ Func FederalResources()
 		Status("Установка и настройка CryptoPro Browser plugin")
 
 			; Криптопро Браузер Плагин
-			If SoftDownload($dir_federal, $cbpSetup) Then
-				SoftInstall($dir_federal, $cbpSetup, "cades")
+			If SoftDownload($dir_federal, $cbpSetup_zip) Then
+				SoftUnzip($dir_federal, $cbpSetup_zip)
+				FileChangeDir($dir_federal & "cadesplugin\")
+					RunWait("Setup.exe -silent -noreboot")
+				FileChangeDir($dir_distr)
+				;SoftInstall($dir_federal & "cadesplugin\", "Setup.exe", "-silent -noreboot")
 
 				; Настраиваем доверенные сайты для криптопро браузер плагина
 				If SoftDownload($dir_federal, $cades) Then
