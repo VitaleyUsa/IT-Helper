@@ -12,6 +12,7 @@
 #include <StaticConstants.au3>
 #include <WindowsConstants.au3>
 #include <StringEncrypt.au3>
+#include <Inet.au3>
 
 #include <ListboxConstants.au3>
 #include <GuiListView.au3>
@@ -91,9 +92,11 @@ Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив
 Global $KLEIS_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
 Global $KLEIS_Sec_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
 Global $KLEIS_Diagnostic_ds = "http://178.214.243.240/soft/Notarius/Client/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС от Артема
+Global $KLEIS_RNP_ds = "https://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientRNP.exe"
 
 Global $check_palata_ds = "http://notpalatarb.ru/files/raccoon-reports/RaccoonReportsSetup.exe" ; Отчеты из енота для палат от Артема
 Global $AssistantNotariusIT_ds = "http://178.214.243.240/soft/Notarius/Remote/SetupAssistantNotariusIT.exe" ; Набор удаленной помощи от Артема
+Global $KonturDostup_ds = "https://fciit.ru/files/KonturDostup.zip" ; КонтурДоступ (удаленка)
 
 Global $MysqlSetup32 = "http://download.triasoft.com/enot/50/SetupDB.exe" ; Mysql 32bit
 Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; Mysql 64bit
@@ -233,7 +236,7 @@ Global $VersionInfo = "version.ini"
 ; Создаем переменные статуса
 Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
-		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
+		$checkEnot, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
@@ -247,7 +250,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
 		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, _
-		$checkMetrics
+		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -411,6 +414,13 @@ Func Enot()
 
 		FileDelete($dir_enot & "DiagnosticsAndBackupEISClient.exe")
 		If SoftDownload($dir_enot, $KLEIS_Diagnostic_ds, "wext") Then SoftInstall($dir_enot, "DiagnosticsAndBackupEISClient.exe", "run", 0)
+	Endif
+
+	; Клиент ЕИС для ПАЛАТЫ
+	If Checked($checkKLEIS_RNP) Then
+		Status("Загрузка клиента ЕИС для ПАЛАТЫ")
+
+		If SoftDownload($dir_enot, $KLEIS_RNP_ds, "ext") Then SoftInstall($dir_enot, "EISClientRNP.exe", "/qb")
 	Endif
 
 	; Raccoon_reports 
@@ -1307,6 +1317,15 @@ Func Programs()
 		If SoftDownload($dir_software, $AssistantNotariusIT_ds, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($AssistantNotariusIT_ds), "run", "0") ; Запускаем AnyDesk
 	EndIf
 
+	; КонтурДоступ (удаленка)
+	If Checked($checkKonturDostup) Then
+		Status("Установка и настройка КонтурДоступ")
+
+		If SoftDownload($dir_software, $KonturDostup_ds, "wext") Then 
+			If SoftUnzip($dir_software, _FilenameFromUrl($KonturDostup_ds)) Then SoftInstall($dir_software, "Kontur.Dostup.exe", "run", "0") ; Запускаем KonturDostup
+		EndIf
+	EndIf
+
 	; Trueconf
 	If Checked($checkTrueConf) Then
 		Status("Установка и настройка TrueConf")
@@ -1601,7 +1620,8 @@ Func FNS()
 	Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2"
 	If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
 
-	; FNS Program | v 1.12
+#cs
+ 	; FNS Program | v 1.4.12
 	If Checked($checkFNS) Then
 		; Пакет электронных документов
 		Status("Установка и настройка програм для ФНС")
@@ -1650,7 +1670,8 @@ Func FNS()
 			EndIf
 
 			If $Start_param_FNS Then MsgBox("","Статус", "Программа подготовки документов для государственной регистрации установлена!")
-	EndIf
+	EndIf 
+#ce
 
 	; FNS Program | v 2.0
 	If Checked($checkFNS2) Then
@@ -1659,6 +1680,10 @@ Func FNS()
 			Local $msiErr = ""
 			Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link2", "")
 			Local $SproLink = IniRead($dir_distr & "version.ini", "FNS", "Spro", "")
+
+			Local $RegExNonNumbers="(?i)([^0-9-._])"
+			Local $FnsVersion2 = StringRegExpReplace(_INetGetSource("https://www.gnivc.ru/html/gnivcsoft/ppdgr/VersPPDGR_3_WithInfo.txt"),$RegExNonNumbers,"")
+			If $FnsVersion2 <> "" Then $FnsLink = "https://www.gnivc.ru/html/gnivcsoft/ppdgr/" & $FnsVersion2 & "/SetupPPDGR2.msi"
 
 			DirRemove($dir_ppdgr, 1)
 			DirRemove($prog_files_v2)
@@ -2169,7 +2194,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 				GUICtrlSetState($checkAdobe, $GUI_CHECKED)
 				GUICtrlSetState($checkPDF, $GUI_CHECKED)
 				GUICtrlSetState($checkARM, $GUI_CHECKED)
-				GUICtrlSetState($checkFNS, $GUI_CHECKED)
+				;GUICtrlSetState($checkFNS, $GUI_CHECKED)
 				GUICtrlSetState($checkFNS2, $GUI_CHECKED)
 				GUICtrlSetState($checkHASP, $GUI_CHECKED)
 				GUICtrlSetState($checkEnot, $GUI_CHECKED)

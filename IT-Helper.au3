@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.94
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.97
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -83,7 +83,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $vertic_top ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 10 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 8 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_left
 		$width_of_group = $width_standart
@@ -140,13 +140,15 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Исправление кракозябр в ЕИС")
 
-		$checkCapicom = GUICtrlCreateCheckbox(" Компонент Capicom", $left, $top_9, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		#cs
+ $checkCapicom = GUICtrlCreateCheckbox(" Компонент Capicom", $left, $top_9, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Необходимый компонент для работы ЕИС")
 	
 		$checkFeedbackTP = GUICtrlCreateCheckbox(" Обратная связь", $left, $top_10, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Программа для написаний обращений в службы тех. поддержки")
+		GUICtrlSetTip(-1, "Программа для написаний обращений в службы тех. поддержки") 
+#ce
 
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
@@ -209,7 +211,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 3 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 2 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_mid
 		$width_of_group = $width_standart
@@ -235,15 +237,11 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	$group_fns = GUICtrlCreateGroup("ФНС", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkFNS = GUICtrlCreateCheckbox(" ППДГР v. 1", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Старая версия ППДГР")
-
-		$checkFNS2 = GUICtrlCreateCheckbox(" ППДГР v. 2 NEW", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkFNS2 = GUICtrlCreateCheckbox(" ППДГР", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Обновленная версия ППДГР")
 
-		$checkFNS_Print = GUICtrlCreateCheckbox(" Модуль печати", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		$checkFNS_Print = GUICtrlCreateCheckbox(" Модуль печати", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Восстанавливает модуль печати для ППДГР")
 
@@ -371,7 +369,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 5 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 6 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_left
 		$width_of_group = $width_full
@@ -416,6 +414,9 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$check_heidi = GUICtrlCreateCheckbox(" HeidiSQL | работа с бд клеис", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		;GUICtrlSetTip(-1, "Утилита для работы с БД")
+
+		$checkKLEIS_RNP = GUICtrlCreateCheckbox(" КЛЕИС для Палат (только!)", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 #EndRegion ### Конец - Вкладка - Нотариат ###
 
@@ -617,7 +618,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 4 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 5 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_mid
 		$width_of_group = $width_standart
@@ -656,6 +657,10 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$checkAssistantNotariusIT = GUICtrlCreateCheckbox(" Ассистент нотариуса IT", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Предназначен для облегчения работы нотариусов и ИТ специалистов")
+
+		$checkKonturDostup = GUICtrlCreateCheckbox(" Контур.Доступ", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		GUICtrlSetTip(-1, "Контур.Доступ - удаленный доступ")
 
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
@@ -776,7 +781,7 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
-		$top_of_group = $height_of_group + $top + 90 ; Отступ по вертикали
+		$top_of_group = $height_of_group + $top + 120 ; Отступ по вертикали
 		$height_of_group = $margin_outside + $margin_between + $margin_between * 2 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_left
@@ -1042,20 +1047,19 @@ GUISetState(@SW_SHOW)
 
 ; _______________________Открытие формы_______________________
 
-
-Global $AllCheckboxes[79] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[78] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
-		$checkEnot, $checkFNS, $checkFNS2, $checkFNS_Print, _
+		$checkEnot, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
 		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
-		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkOpenShell, _
-		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, $checkProduKey, _
+		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkKonturDostup, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkOpenShell, _
+		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkKLEIS_RNP, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
 		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkRutoken, $checkEsmart, _ 
-		$checkPhotoViewer, $checkFonts, $checkCapicom, _
-		$checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
+		$checkPhotoViewer, $checkFonts, _
+		$checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _ 
 		$check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, $checkMetrics] ; Массив из чекбоксов
@@ -1080,7 +1084,7 @@ EndIf
 
 If $Start_param_FNS Then
 	GUISetState(@SW_HIDE)
-	GUICtrlSetState($checkFNS, $GUI_CHECKED)
+	GUICtrlSetState($checkFNS2, $GUI_CHECKED)
 	_Next()
 	Exit
 EndIf
