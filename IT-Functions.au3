@@ -104,6 +104,8 @@ Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; M
 Global $Data = "http://download.triasoft.com/enot/50/Data.zip" ; Расположение БД еНот
 Global $Data_tables = "http://download.triasoft.com/enot/50/Data_tables.zip" ; Расположение таблиц БД еНот
 
+Global $chrome4express_w7  = "http://download.triasoft.com/express/SetupCef_Win7.zip"
+Global $chrome4express_w10 = "http://download.triasoft.com/express/SetupCef_Win10.zip"
 Global $xml_ds = "msxml6_x86.msi" ; MS XML for Express
 Global $capicom = "capicom.exe" ; Microsoft Capicom
 
@@ -1577,6 +1579,8 @@ EndFunc   ;==>Programs
 
 Func Express()
 
+	Local $dir_express_installed = "C:\Triasoft\Express\"
+
 	; Visual C++
 	If Checked($checkC) Then
 		Status("Устанавливаем Microsoft Visual C++")
@@ -1606,9 +1610,17 @@ Func Express()
 
 	; Chrome for Express
 	If Checked($checkWebKit) Then
-		Status("Загрузка WebKit для Экспресса")
+		Status("Загрузка настроек для Экспресса")
 
-		If SoftDownload($dir_express, $webkit_ds) Then SoftInstall($dir_express, $webkit_ds, "run", 0)
+		DirRemove($dir_express_installed & "WebKit", 1)
+		DirRemove($dir_express_installed & "LibCef", 1)
+		DirCreate($dir_express_installed & "LibCef")
+
+		If @OSVersion = "Win_7" Then
+			If SoftDownload($dir_software, $chrome4express_w7, "ext") Then SoftUnzip($dir_software, "SetupCef_Win7.zip", $dir_express_installed & "LibCef\")
+		Else
+			If SoftDownload($dir_software, $chrome4express_w10, "ext") Then SoftUnzip($dir_software, "SetupCef_Win10.zip", $dir_express_installed & "LibCef\")
+		EndIf
 	Endif
 EndFunc   ;==>Express
 
