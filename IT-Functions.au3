@@ -444,7 +444,7 @@ Func Certificates()
 			SoftUnzip($dir_tools, $certs_ds)
 			FileDelete($dir_tools & $certs_ds)
 
-			$CMD = "cd " & $dir_certs & " && " & "install.bat"
+			$CMD = "cd " & $dir_certs & " && @echo off && " & "install.bat"
 			if $Start_param_certs Then 
 				RunWait(@ComSpec & " /c " & $CMD, "", $dir_certs, @SW_HIDE) ; Устанавливаем сертификаты тихо
 			Else 
