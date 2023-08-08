@@ -2178,8 +2178,8 @@ EndFunc   ;==>_ScriptRestart
 Func _Next($msg = "Установка завершена", $dwnload_only = False, $button = "") ; Закачка, установка и настройка
 	Local $continue = False
 
-	If Checked($checkNGate) Then GUICtrlSetState($checkCerts, $GUI_CHECKED)
-	If Checked($checkCertsKey) Then GUICtrlSetState($checkCertsClean, $GUI_CHECKED)
+	;If Checked($checkNGate) Then GUICtrlSetState($checkCerts, $GUI_CHECKED)
+	;If Checked($checkCertsKey) Then GUICtrlSetState($checkCertsClean, $GUI_CHECKED)
 
 	If $button = "Specialist" Then ; Настройка кнопки "Тех. работник"
 		$iMsgBoxAnswer = MsgBox(33,"Внимание","Вы уверены, что хотите запустить настройку рабочего места тех. работника?")

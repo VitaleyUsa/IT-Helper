@@ -5,8 +5,8 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.99
-#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.100
+2.0.0.99: разделил установку сертификатов с ключа и очистку#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
 #AutoIt3Wrapper_Res_requestedExecutionLevel=requireAdministrator
@@ -183,17 +183,17 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "КриптоПро CSP 5.0.11455 (Fury) от 8.05.2019")
 
-		$checkCerts = GUICtrlCreateCheckbox(" Корневые сертификаты", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты | общие", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Корневые и промежуточные сертификаты + списки отзывов РР и ФЦИИТ")
+		GUICtrlSetTip(-1, "Корневые и промежуточные сертификаты + списки отзывов")
 
-		$checkCertsKey = GUICtrlCreateCheckbox(" Сертификаты с эцп", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCertsKey = GUICtrlCreateCheckbox(" Сертификаты | ключ ЭП", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Установка сертификатов с ключевого носителя + очистка сертификатов с истекшим сроком действия")
+		GUICtrlSetTip(-1, "Установка сертификатов с ключевого носителя")
 
-		$checkCertsClean = GUICtrlCreateCheckbox(" Очистка сертификатов", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCertsClean = GUICtrlCreateCheckbox(" Сертификаты | очистка", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Удаление сертификатов с истекшим сроком действия")
+		GUICtrlSetTip(-1, "Удаление сертификатов с истекшим сроком действия и выпущенных до 6 мая 2022 года")
 
 		$checkJacarta = GUICtrlCreateCheckbox(" Единый Клиент JaCarta", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
