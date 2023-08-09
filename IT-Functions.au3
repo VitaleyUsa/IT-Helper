@@ -1585,7 +1585,7 @@ Func Express()
 	If Checked($checkC) Then
 		Status("Устанавливаем Microsoft Visual C++")
 
-		If SoftDownload($dir_express, $c_ds) Then SoftInstall($dir_express, $c_ds, "/s")
+		If SoftDownload($dir_express, $c_ds) Then SoftInstall($dir_express, $c_ds, "/y")
 	EndIf
 
 	; MS XML

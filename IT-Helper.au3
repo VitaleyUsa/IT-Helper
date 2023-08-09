@@ -5,8 +5,8 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.100
-2.0.0.99: разделил установку сертификатов с ключа и очистку#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.101
+#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
 #AutoIt3Wrapper_Res_requestedExecutionLevel=requireAdministrator
