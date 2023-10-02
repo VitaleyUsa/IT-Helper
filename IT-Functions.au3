@@ -195,9 +195,7 @@ Global $naps2_ds = "naps2.msi" ; Сканирование в разные фор
 Global $sniffer_ds = "SpaceSniffer.exe" ; Space Sniffer
 Global $webkit_ds = "SetupWebKit.exe"
 Global $diskinfo_ds="CrystalDiskMark7.exe"
-Global $hwinfo_ds="HWInfo.exe"
-;Global $libre_ds_32 = "https://download.documentfoundation.org/libreoffice/stable/7.2.0/win/x86/LibreOffice_7.2.0_Win_x86.msi"		
-;Global $libre_ds_64 = "https://download.documentfoundation.org/libreoffice/stable/7.2.0/win/x86_64/LibreOffice_7.2.0_Win_x64.msi"					
+Global $hwinfo_ds="HWInfo.exe"			
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -206,8 +204,10 @@ Global $eNotTX15 = "eNoTX15.ocx"
 Global $msvcr120 = "msvcr120.dll"
 Global $TX25 = "TX25.zip"
 
-Global $chromeSetup32 = "GoogleChromeStandaloneEnterprise.msi" ; Chrome x32 distr
-Global $chromeSetup64 = "GoogleChromeStandaloneEnterprise64.msi" ; Chrome x64 distr
+Global $chromeSetup_win7 = "GoogleChromeStandaloneEnterprise109.msi"
+If @OSArch = "x64" Then $chromeSetup_win7 = "GoogleChromeStandaloneEnterprise109_64.msi"
+Global $chromeSetup = "GoogleChromeStandaloneEnterprise.msi" ; Chrome x32 distr
+If @OSArch = "x64" Then $chromeSetup = "GoogleChromeStandaloneEnterprise64.msi"
 Global $chromePolicy = "googleupdateadmx.zip"
 
 Global $tm_ds 		= "TeamViewerQS.exe" ; Teamviewer QS
@@ -1213,13 +1213,11 @@ Func FederalResources()
 	If Checked($checkChrome) Then
 		Status("Установка и настройка Google Chrome")
 
-		Local $chromeSetup = $chromeSetup32
+		
 		Local $Registry64 = ""
 		ProcessClose("chrome.exe") ; закрываем Chrome
-		If @OSArch = "X64" Then 
-			$chromeSetup = $chromeSetup64 ; Определяем разрядность Хрома
-			$Registry64 = "Wow6432Node\"
-		EndIf
+		If @OSArch = "X64" Then $Registry64 = "Wow6432Node\"
+		If @OSVersion = "WIN_7" Then $chromeSetup = $chromeSetup_win7
 
 		If SoftDownload($dir_federal, $chromeSetup) Then
 			RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\" & $Registry64 & "google\update") ; исключаем ошибки от предыдущих установок
@@ -1540,14 +1538,26 @@ Func Programs()
 	If Checked($check_libre) Then
 		Status("Загрузка и установка LibreOffice")
 		
-		Local $libre_ds_32 = IniRead($dir_distr & "version.ini", "LibreOffice", "Libre_32", "")
-		Local $libre_ds_64 = IniRead($dir_distr & "version.ini", "LibreOffice", "Libre_64", "")
+		Local $sData = BinaryToString(InetRead("https://www.libreoffice.org/download/download-libreoffice/"))
+		Local $aReg = StringRegExp($sData,'<a class="dl_download_link" href="([^"]+)"', 3)
+		;ConsoleWrite($aReg[0] & @CRLF)
 
-		Local $libre_ds = $libre_ds_32
-		
-		If @OSArch = "X64" Then $libre_ds = $libre_ds_64
+		Local $version = StringRegExpReplace($aReg[0], "^.+/(\d+\.\d+\.\d+)/.+", "\1")
+		Local $platform = "x86"
 
-		If SoftDownload($dir_software, $libre_ds, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($libre_ds), "msi")
+		If @OSArch = "x64" Then	$platform = $platform & "_64"
+
+
+		; Construct the new URL
+
+		Local $newURL = "https://download.documentfoundation.org/libreoffice/stable/" & $version & "/win/" & $platform & "/LibreOffice_" & $version & "_Win_" & StringRegExpReplace($platform, "x86_64", "x86-64") & ".msi"
+
+		;ConsoleWrite("Original URL: " & $aReg[0] & @CRLF)
+		;ConsoleWrite("New URL: " & $newURL & @CRLF)
+
+		;_ArrayDisplay($aReg)
+
+		If SoftDownload($dir_software, $newURL, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($newURL), "msi")
 	EndIf
 
 	; Kaspersky Endpoint security
