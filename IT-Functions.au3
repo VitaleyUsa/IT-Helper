@@ -90,7 +90,7 @@ Global $Enot_ds = "http://download.triasoft.com/enot/50/Setup.exe" ; Распо�
 Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
 
 Global $KLEIS_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
-Global $KLEIS_Sec_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
+Global $KLEIS_Sec_ds = "EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
 Global $KLEIS_Diagnostic_ds = "http://178.214.243.240/soft/Notarius/Client/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС от Артема
 Global $KLEIS_RNP_ds = "https://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientRNP.exe"
 
@@ -117,7 +117,7 @@ Global $font_sserifer = "sserifer.fon"
 
 ; Файлы на нашей фтпшке
 
-Global $Server = '217.24.185.53:8080'
+Global $Server = 'npso66.ru:8080'
 Global $User = 'ftp-user'
 Global $Pass = 'Ftp-User'
 
@@ -195,7 +195,8 @@ Global $naps2_ds = "naps2.msi" ; Сканирование в разные фор
 Global $sniffer_ds = "SpaceSniffer.exe" ; Space Sniffer
 Global $webkit_ds = "SetupWebKit.exe"
 Global $diskinfo_ds="CrystalDiskMark7.exe"
-Global $hwinfo_ds="HWInfo.exe"			
+Global $hwinfo_ds="HWInfo.exe"
+Global $shadowexplorer_ds="ShadowExplorer.zip"	
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -252,7 +253,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
 		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, _
-		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP
+		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP, $checkShadowExplorer
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -400,7 +401,7 @@ Func Enot()
 	If Checked($checkKLEIS_Sec) Then
 		Status("Загрузка клиента ЕИС для второстепенного пк")
 
-		If SoftDownload($dir_enot, $KLEIS_Sec_ds, "ext") Then SoftInstall($dir_enot, "EISClientStaff.exe", "/qb")
+		If SoftDownload($dir_enot, $KLEIS_Sec_ds) Then SoftInstall($dir_enot, "EISClientStaff.exe", "/qb")
 	Endif
 
 	; Помощник КЛЕИС
@@ -1024,6 +1025,7 @@ Func FederalResources()
 			If SoftDownload($dir_federal, $cbpSetup_zip) Then
 				SoftUnzip($dir_federal, $cbpSetup_zip)
 				FileChangeDir($dir_federal & "cadesplugin\")
+					RunWait("wmic product where name=""КриптоПро ЭЦП Browser plug-in"" call uninstall /nointeractive")
 					RunWait("Setup.exe -silent -noreboot")
 				FileChangeDir($dir_distr)
 				;SoftInstall($dir_federal & "cadesplugin\", "Setup.exe", "-silent -noreboot")
@@ -1532,6 +1534,17 @@ Func Programs()
 		Status("Загрузка и установка CrystalDisk Info")
 
 		If SoftDownload($dir_software, $diskinfo_ds) Then SoftInstall($dir_software, $diskinfo_ds, "/silent /norestart", 1)
+	EndIf
+
+	; ShadowExplorer
+	If Checked($checkShadowExplorer) Then
+		Status("Загрузка и установка ShadowExplorer")
+
+		If SoftDownload($dir_software, $shadowexplorer_ds) Then
+			SoftUnzip($dir_software, $shadowexplorer_ds)
+			FileCreateShortcut($dir_software & "ShadowExplorer\ShadowExplorerPortable.exe", @DesktopDir & "\ShadowExplore.lnk", $dir_software)
+			Run($dir_software & "ShadowExplorer\ShadowExplorerPortable.exe")
+		EndIf
 	EndIf
 
 	; LibreOffice
