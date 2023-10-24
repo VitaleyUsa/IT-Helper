@@ -86,6 +86,8 @@ Global $win7hotfix_3033929_x64="Windows6.1-KB3033929-x64.cab"
 Global $win7hotfix_4474419_x32="windows6.1-kb4474419-v3-x86.cab" ; Патч для 7ки KB4474419 | для NGate
 Global $win7hotfix_4474419_x64="windows6.1-kb4474419-v3-x64.cab"
 
+Global $win7quick_fix_ssl="MicrosoftEasyFix51044.msi"
+
 Global $Enot_ds = "http://download.triasoft.com/enot/50/Setup.exe" ; Расположение дистрибутива еНот
 Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
 
@@ -253,7 +255,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
 		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, _
-		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP, $checkShadowExplorer
+		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP, $checkShadowExplorer, $checkMUpdate
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -719,6 +721,8 @@ Func ESign()
 			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
 			FileClose($hCryptoImport)
 			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
+
+			RunWait("C:\Program Files (x86)\Crypto Pro\CSP\csptest.exe -keyset -verifycontext -hard_rng")
 		EndIf
 	EndIf
 
@@ -874,23 +878,10 @@ Func WinSetup()
 		EndIf
 	EndIf
 
-	If Checked($checkMUpdate) Then ; Отключение обновлений win10
-		;~ RunWait(@ComSpec & " /c " & "sc config wuauserv start= disabled & sc stop wuauserv & sc config bits start= disabled & sc stop bits & sc config dosvc start= disabled & sc stop dosvc") ; отключаем службы обновления
-
-		;~ DllCall("kernel32.dll", "int", "Wow64DisableWow64FsRedirection", "int", 1) ; перенаправление отключаем
-		;~ RunWait(@ComSpec & " /c " & 'TAKEOWN /F ' & @WindowsDir & '\System32\UsoClient.exe /a') ; даем себе права на файл автосканирования центра обновлений windows
-		;~ RunWait(@ComSpec & " /c " & 'icacls ' & @WindowsDir & "\System32\UsoClient.exe /inheritance:r /remove ''Администраторы'' ''Прошедшие проверку'' ''Пользователи'' ''Система''") ; забираем права у всех (чтобы не производителось сканирование на наличии обновлений
-
-		;~ RegWrite("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR", "AppCaptureEnabled", "REG_DWORD", "0")
-		;~ RegWrite("HKEY_CURRENT_USER\System\GameConfigStore", "GameDVR_Enabled", "REG_DWORD", "0")
-
-		;~ RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\Microsoft\Windows\UpdateOrchestrator") ; отключаем задачи обновления
-		;~ RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\Microsoft\Windows\WindowsUpdate")
-	
+	If Checked($checkMUpdate) Then ; Отключение обновлений win10/11
 		If SoftDownload($dir_software, $win_updates) Then
 			SoftInstall($dir_software, $win_updates,"run", 0)
 		EndIf
-	
 	EndIf
 
 	; ProduKey
@@ -1722,7 +1713,23 @@ Func FNS()
 
 			DirRemove($dir_ppdgr, 1)
 			DirRemove($prog_files_v2)
+			DirRemove($prog_files)
+			DirRemove($prog_files_new)
+
 			If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
+
+				If @OSVersion = "WIN_7" Then
+					If SoftDownload($dir_software, $win7quick_fix_ssl) Then SoftInstall($dir_software, $win7quick_fix_ssl, "msi")
+
+					Local $regPath = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client"
+					Local $regName = "DisabledByDefault"
+					Local $regValue = 0
+					
+					RegWrite($regPath, $regName, "REG_DWORD", $regValue)
+
+					$regPath = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"
+					RegWrite($regPath, $regName, "REG_DWORD", $regValue)
+				EndIf
 
 				_InstallDotNet("47") ; Ставим фреймворк 4.7
 
