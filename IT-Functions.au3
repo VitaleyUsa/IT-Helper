@@ -93,6 +93,7 @@ Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив
 
 Global $KLEIS_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
 Global $KLEIS_Sec_ds = "EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
+Global $update_sync_service = "update_sync_service.bat" ; Исправление ошибок СС
 Global $KLEIS_Diagnostic_ds = "http://178.214.243.240/soft/Notarius/Client/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС от Артема
 Global $KLEIS_RNP_ds = "https://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientRNP.exe"
 
@@ -408,9 +409,9 @@ Func Enot()
 
 	; Помощник КЛЕИС
 	If Checked($checkKLEIS_Helper) Then
-		Status("Запуск помощника КЛЕИС")
-
-		ShellExecute("C:\Program Files\Internet Explorer\iexplore.exe", "https://it.npso66.ru")
+		Status("Исправление ошибок службы синхронизации")
+		If SoftDownload($dir_software, $update_sync_service) Then SoftInstall($dir_software, $update_sync_service, "run")
+		;;ShellExecute("C:\Program Files\Internet Explorer\iexplore.exe", "https://it.npso66.ru")
 	Endif
 
 	; Диагностика клиента ЕИС
@@ -2406,6 +2407,10 @@ EndFunc   ;==>_DownloadRawBar
 ; ------------------------------------------------- SYSTEM FUNC ------------------------------------------------------------->
 
 Func _CheckCRC($sFile) ; Проверка CRC суммы файла (возвращает True, если найдено совпадение CRC)
+	; Исключения из проверки CRC
+	Local $exception_file = "EISClientStaff.exe"
+	If $sFile == $exception_file Then Return True;
+
 	Local $crc_found = False ; Переменная для определения нахождения CRC
 	Local $sha1 = _SHA1ForFile($sFile) ; Получаем CRC нашего файла
 	Local $crcArray = IniReadSection($dir_distr & $VersionInfo, "CRC") ; Получаем массив CRC из version.ini
