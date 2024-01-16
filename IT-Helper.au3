@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.108
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.109
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -370,7 +370,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 8 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 6 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_left
 		$width_of_group = $width_full
@@ -420,11 +420,13 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		$checkKLEIS_RNP = GUICtrlCreateCheckbox(" КЛЕИС для Палат (только!)", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-		$checkKLEIS_SS_UPGRADE = GUICtrlCreateCheckbox(" Принудительное обновление СС до 116 версии (не запускать без необходимости!)", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+		#cs
+			$checkKLEIS_SS_UPGRADE = GUICtrlCreateCheckbox(" Принудительное обновление СС до 116 версии (не запускать без необходимости!)", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-		$checkKLEIS_IN_UPGRADE = GUICtrlCreateCheckbox(" Принудительное обновление ИН до 116 версии (не запускать без необходимости!)", $left, $top_8, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+			$checkKLEIS_IN_UPGRADE = GUICtrlCreateCheckbox(" Принудительное обновление ИН до 116 версии (не запускать без необходимости!)", $left, $top_8, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
+		#ce
 
 #EndRegion ### Конец - Вкладка - Нотариат ###
 
