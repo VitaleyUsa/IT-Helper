@@ -94,6 +94,8 @@ Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив
 Global $KLEIS_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
 Global $KLEIS_Sec_ds = "EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
 Global $update_sync_service = "update_sync_service.bat" ; Исправление ошибок СС
+Global $KLEIS_SS_UPGRADE_ds = "SyncService-115-116.zip" ; Принуд. обновление версии СС до 116
+Global $KLEIS_IN_UPGRADE_ds = "Interface-115-116.zip" ; Принуд. обновление версии ИН до 116
 Global $KLEIS_Diagnostic_ds = "http://178.214.243.240/soft/Notarius/Client/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС от Артема
 Global $KLEIS_RNP_ds = "https://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientRNP.exe"
 
@@ -256,7 +258,7 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
 		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, _
-		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP, $checkShadowExplorer, $checkMUpdate
+		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP, $checkShadowExplorer, $checkMUpdate, $checkKLEIS_SS_UPGRADE, $checkKLEIS_IN_UPGRADE
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -412,6 +414,28 @@ Func Enot()
 		Status("Исправление ошибок службы синхронизации")
 		If SoftDownload($dir_software, $update_sync_service) Then SoftInstall($dir_software, $update_sync_service, "run")
 		;;ShellExecute("C:\Program Files\Internet Explorer\iexplore.exe", "https://it.npso66.ru")
+	Endif
+
+	; Принуд. обновление СС до 116
+	If Checked($checkKLEIS_SS_UPGRADE) Then
+		Status("Принудительное обновление версии СС до 116")
+		If SoftDownload($dir_software, $KLEIS_SS_UPGRADE_ds) Then 
+			DirRemove($dir_software & "SyncService", 1)
+			SoftUnzip($dir_software, $KLEIS_SS_UPGRADE_ds)
+			RunWait(@ComSpec & ' /c net stop EisSyncService', '', @SW_HIDE)
+				DirCopy($dir_software & "SyncService", "C:\Program Files (x86)\EIS\SyncService", 1)
+			RunWait(@ComSpec & ' /c net start EisSyncService', '', @SW_HIDE)
+		EndIf
+	Endif
+
+	; Принуд. обновление СС до 116
+	If Checked($checkKLEIS_IN_UPGRADE) Then
+		Status("Принудительное обновление версии ИН до 116")
+		If SoftDownload($dir_software, $KLEIS_IN_UPGRADE_ds) Then 
+			DirRemove($dir_software & "Interface", 1)
+			SoftUnzip($dir_software, $KLEIS_IN_UPGRADE_ds)
+			DirCopy($dir_software & "Interface", "C:\Program Files (x86)\EIS\Interface", 1)
+		EndIf
 	Endif
 
 	; Диагностика клиента ЕИС

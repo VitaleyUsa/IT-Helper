@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.106
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.108
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -41,9 +41,9 @@ If @Compiled Then
 ; Main application
 
 $width  = 628
-$height = 681
+$height = 720
 
-#Region ### START Koda GUI section ### Form=it-helper.kxf
+#Region ### START GUI section ###
 $HelperForm = GUICreate($title, $width, $height, -1, -1, $GUI_SS_DEFAULT_GUI)
 
 $menuFile = GUICtrlCreateMenu("Файл")
@@ -75,7 +75,7 @@ Global $DummyStart = GUICtrlCreateDummy() ; get start of control creation contro
 	$height = 30
 ;~ /Общие размеры
 
-$Tab1 = GUICtrlCreateTab(0, 0, 628, 601)
+$Tab1 = GUICtrlCreateTab(0, 0, 628, 621) ; Размеры внутренних вкладок
 GUICtrlSetFont(-1, 10, 400, 0, "Arial")
 
 #Region ### Начало - Вкладка - Нотариат ###
@@ -370,7 +370,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $height_of_group + $top - 7 ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 6 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 8 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_left
 		$width_of_group = $width_full
@@ -405,7 +405,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetTip(-1, "Клиент ЕИС для второстепенного рабочего места")
 
 		;;$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник КЛЕИС | решение распространенных проблем", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Исправление ошибок службы синхронизации", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Исправление для КЛЕИС (если не запускается)", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		;;GUICtrlSetTip(-1, "Помощник по КЛЕИС | решение распространенных проблем")
 
@@ -418,6 +418,12 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		;GUICtrlSetTip(-1, "Утилита для работы с БД")
 
 		$checkKLEIS_RNP = GUICtrlCreateCheckbox(" КЛЕИС для Палат (только!)", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+
+		$checkKLEIS_SS_UPGRADE = GUICtrlCreateCheckbox(" Принудительное обновление СС до 116 версии (не запускать без необходимости!)", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+
+		$checkKLEIS_IN_UPGRADE = GUICtrlCreateCheckbox(" Принудительное обновление ИН до 116 версии (не запускать без необходимости!)", $left, $top_8, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 #EndRegion ### Конец - Вкладка - Нотариат ###
@@ -1003,7 +1009,7 @@ Global $DummyEnd = GUICtrlCreateDummy()
 	;GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
 	;GUICtrlSetColor(-1, 0x000000)
 
-	$btnInstall = GUICtrlCreateButton("Установить", 493, 604, 131, 33, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
+	$btnInstall = GUICtrlCreateButton("Установить", 487, 634, 131, 33, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
 	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
 	GUICtrlSetColor(-1, 0x000000)
 #EndRegion ### Конец - Кнопки ###
@@ -1034,28 +1040,11 @@ GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY") ; определяем статус ба
 
 GUISetState(@SW_SHOW)
 
-;~ $HelperChild = GUICreate($title, $width, $height, -1, -1, $GUI_SS_DEFAULT_GUI)
-;~ 	GUISetFont(12, 400, 0, "Segoe UI")
-;~ 	GUISetBkColor(0xf85252)
-;~ 	GUISetState($GUI_HIDE, $HelperChild)
-
-;~ $ListView = GUICtrlCreateList("", 0, 0, 628, 421, BitOR($GUI_SS_DEFAULT_LISTVIEW, $LVS_NOSEL), 0)
-
-
-;~ $StatusBar2 = _GUICtrlStatusBar_Create($HelperChild)
-;~ Dim $StatusBar2_PartsWidth[3] = [100, 200, -1]
-;~ _GUICtrlStatusBar_SetParts($StatusBar2, $StatusBar2_PartsWidth)
-;~ _GUICtrlStatusBar_SetText($StatusBar2, @TAB & @IPAddress1, 0)
-;~ _GUICtrlStatusBar_SetText($StatusBar2, @TAB & @ComputerName, 1)
-;~ _GUICtrlStatusBar_SetText($StatusBar2, "Готовность к установке", 2)
-;~ GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY") ; определяем статус бар
-
-
-#EndRegion ### END Koda GUI section ###
+#EndRegion ### END GUI section ###
 
 ; _______________________Открытие формы_______________________
 
-Global $AllCheckboxes[77] = [$checkActx_Browser, $checkARM, $checkBD, _
+Global $AllCheckboxes[79] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
@@ -1070,7 +1059,7 @@ Global $AllCheckboxes[77] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _ 
-		$check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, $checkShadowExplorer, $checkMUpdate] ; Массив из чекбоксов
+		$check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, $checkShadowExplorer, $checkMUpdate, $checkKLEIS_SS_UPGRADE, $checkKLEIS_IN_UPGRADE] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
