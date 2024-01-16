@@ -91,7 +91,7 @@ Global $win7quick_fix_ssl="MicrosoftEasyFix51044.msi"
 Global $Enot_ds = "http://download.triasoft.com/enot/50/Setup.exe" ; Расположение дистрибутива еНот
 Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
 
-Global $KLEIS_ds = "http://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
+Global $KLEIS_ds = "http://fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
 Global $KLEIS_Sec_ds = "EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
 Global $update_sync_service = "update_sync_service.bat" ; Исправление ошибок СС
 Global $KLEIS_SS_UPGRADE_ds = "SyncService-115-116.zip" ; Принуд. обновление версии СС до 116
@@ -405,8 +405,9 @@ Func Enot()
 	; Клиент ЕИС для второстепенного ПК
 	If Checked($checkKLEIS_Sec) Then
 		Status("Загрузка клиента ЕИС для второстепенного пк")
-
-		If SoftDownload($dir_enot, $KLEIS_Sec_ds) Then SoftInstall($dir_enot, "EISClientStaff.exe", "/qb")
+		FileDelete($dir_enot & $KLEIS_Sec_ds)
+		_Wget($KLEIS_Sec_ds, $dir_enot)
+		SoftInstall($dir_enot, $KLEIS_Sec_ds, "/qb")
 	Endif
 
 	; Помощник КЛЕИС
@@ -2431,10 +2432,6 @@ EndFunc   ;==>_DownloadRawBar
 ; ------------------------------------------------- SYSTEM FUNC ------------------------------------------------------------->
 
 Func _CheckCRC($sFile) ; Проверка CRC суммы файла (возвращает True, если найдено совпадение CRC)
-	; Исключения из проверки CRC
-	Local $exception_file = "EISClientStaff.exe"
-	If $sFile == $exception_file Then Return True;
-
 	Local $crc_found = False ; Переменная для определения нахождения CRC
 	Local $sha1 = _SHA1ForFile($sFile) ; Получаем CRC нашего файла
 	Local $crcArray = IniReadSection($dir_distr & $VersionInfo, "CRC") ; Получаем массив CRC из version.ini
