@@ -88,26 +88,26 @@ Global $win7hotfix_4474419_x64="windows6.1-kb4474419-v3-x64.cab"
 
 Global $win7quick_fix_ssl="MicrosoftEasyFix51044.msi"
 
-Global $Enot_ds = "http://download.triasoft.com/enot/50/Setup.exe" ; Расположение дистрибутива еНот
+Global $Enot_ds = "Setup.exe" ; Расположение дистрибутива еНот
 Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
 
-Global $KLEIS_ds = "http://fciit.ru/public/site/EISClient.exe" ; Клиент ЕИС для основного пк
+Global $KLEIS_ds = "EISClient.exe" ; Клиент ЕИС для основного пк
 Global $KLEIS_Sec_ds = "EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
 Global $update_sync_service = "update_sync_service.bat" ; Исправление ошибок СС
 Global $KLEIS_SS_UPGRADE_ds = "SyncService-115-116.zip" ; Принуд. обновление версии СС до 116
 Global $KLEIS_IN_UPGRADE_ds = "Interface-115-116.zip" ; Принуд. обновление версии ИН до 116
 Global $KLEIS_Diagnostic_ds = "http://178.214.243.240/soft/Notarius/Client/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС от Артема
-Global $KLEIS_RNP_ds = "https://remoteftp:Remote1Ftp@fciit.ru/public/site/EISClientRNP.exe"
+Global $KLEIS_RNP_ds = "EISClientRNP.exe"
 
 Global $check_palata_ds = "http://notpalatarb.ru/files/raccoon-reports/RaccoonReportsSetup.exe" ; Отчеты из енота для палат от Артема
 Global $AssistantNotariusIT_ds = "http://178.214.243.240/soft/Notarius/Remote/SetupAssistantNotariusIT.exe" ; Набор удаленной помощи от Артема
 Global $KonturDostup_ds = "https://fciit.ru/files/KonturDostup.zip" ; КонтурДоступ (удаленка)
 
-Global $MysqlSetup32 = "http://download.triasoft.com/enot/50/SetupDB.exe" ; Mysql 32bit
-Global $MysqlSetup64 = "http://download.triasoft.com/enot/50/SetupDBx64.exe" ; Mysql 64bit
+Global $MysqlSetup32 = "SetupDB.exe" ; Mysql 32bit
+Global $MysqlSetup64 = "SetupDBx64.exe" ; Mysql 64bit
 
-Global $Data = "http://download.triasoft.com/enot/50/Data.zip" ; Расположение БД еНот
-Global $Data_tables = "http://download.triasoft.com/enot/50/Data_tables.zip" ; Расположение таблиц БД еНот
+Global $Data = "Data.zip" ; Расположение БД еНот
+Global $Data_tables = "Data_tables.zip" ; Расположение таблиц БД еНот
 
 Global $chrome4express_w7  = "http://download.triasoft.com/express/SetupCef_Win7.zip"
 Global $chrome4express_w10 = "http://download.triasoft.com/express/SetupCef_Win10.zip"
@@ -116,9 +116,6 @@ Global $capicom = "capicom.exe" ; Microsoft Capicom
 
 Global $font_micross = "micross.ttf"
 Global $font_sserifer = "sserifer.fon"
-
-;Global $kes_ds = "https://aes.s.kaspersky-labs.com/endpoints/keswin11/11.7.0.669/russian-21.4.20.669.0.10.0/3439313836357c44454c7c31/keswin_11.7.0.669_ru_aes256.exe" ; Kaspersky Endpoint security
-;Global $ksc_ds = "https://pdc1.fra5.pdc.kaspersky.com/DownloadManagers/c0/e2/c0e2caa0-dd85-4b8a-b837-05c936b31222/ks4.021.3.10.391ru_25000.exe" ; Kaspersky av (sec. cloud)
 
 ; Файлы на нашей фтпшке
 
@@ -293,10 +290,9 @@ Func Enot()
 		Status('Производится скачивание дистрибутива Енот')
 
 		; Скачиваем дистрибутив
- 		If SoftDownload($dir_enot, $Enot_ds, "wext") Then
-			If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
-			WinActivate("enot")
-		EndIf
+ 		_Wget($Enot_ds, $dir_enot)
+		If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+		WinActivate("enot")
 	EndIf
 
 	If Checked($checkEnotUpdated) Then ; Обновленный дистр. Енота
@@ -312,12 +308,12 @@ Func Enot()
 	If Checked($checkBD) Then ; Скачиваем дистрибутив Mysql + БД ЕИС
 		Status("Скачиваем базы данных Енот + Mysql - сервер")
 
-		SoftDownload($dir_enot, $Data, "wext")
-		SoftDownload($dir_enot, $Data_tables, "wext")
+		_Wget($Data, $dir_enot)
+		_Wget($Data_tables, $dir_enot)
 
 		Local $MysqlSetup = $MysqlSetup32
 		If @OSArch = "X64" Then $MysqlSetup = $MysqlSetup64
-		SoftDownload($dir_enot, $MysqlSetup, "wext")
+		_Wget($MysqlSetup, $dir_enot)
 
 		If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
 		WinActivate("enot")
@@ -399,7 +395,8 @@ Func Enot()
 	If Checked($checkKLEIS_Main) Then
 		Status("Загрузка клиента ЕИС для основного пк")
 
-		If SoftDownload($dir_enot, $KLEIS_ds, "ext") Then SoftInstall($dir_enot, "EISClient.exe", "/qb")
+		_Wget($KLEIS_ds, $dir_enot)
+		SoftInstall($dir_enot, $KLEIS_ds, "/qb")
 	Endif
 
 	; Клиент ЕИС для второстепенного ПК
@@ -451,7 +448,8 @@ Func Enot()
 	If Checked($checkKLEIS_RNP) Then
 		Status("Загрузка клиента ЕИС для ПАЛАТЫ")
 
-		If SoftDownload($dir_enot, $KLEIS_RNP_ds, "ext") Then SoftInstall($dir_enot, "EISClientRNP.exe", "/qb")
+		_Wget($KLEIS_RNP_ds, $dir_enot)
+		SoftInstall($dir_enot, $KLEIS_RNP_ds, "/qb")
 	Endif
 
 	; Raccoon_reports 
