@@ -140,9 +140,9 @@ Global $rutoken = "rtDrivers.exe" ; Драйвера рутокен
 Global $esmart32 = "esmart_32.msi" ; Драйвера esmart
 Global $esmart64 = "esmart_64.msi" ; Драйвера esmart
 
-Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP
-Global $csp5setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0
-Global $csp5R2setup = "CryptoProCSP-5R2.exe" ; CryptoPro CSP 5.0 R2
+Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP 4
+Global $csp5setup = "CryptoProCSP5_11455.exe" ; CryptoPro CSP 5.0 11455
+Global $csp5_actual_setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0 R2
 Global $NGate32 = "NGateInstallx32.msi" ; Ngate client x32
 Global $NGate64 = "NGateInstallx64.msi" ; Ngate client x64
 Global $NGate_settings = "ngate.reg" ; Настройки для NGate
@@ -250,11 +250,11 @@ Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
 		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
-		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, _
+		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5_actual, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
-		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, _
+		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5, $checkXPSPrinter, _
 		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP, $checkShadowExplorer, $checkMUpdate, $checkKLEIS_SS_UPGRADE, $checkKLEIS_IN_UPGRADE
 
 ; ---------------------------------------------------------------------------------------------------------- ;
@@ -632,7 +632,7 @@ Func ESign()
 	EndIf
 
  If Checked($checkCSP) Then
-		Status("Установка CryptoPro CSP")
+		Status("Установка CryptoPro CSP 4")
 
 		If SoftDownload($dir_ecp, $cspSetup) Then SoftInstall($dir_ecp, $cspSetup, "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb /L*v " & $dir_logs & $cspSetup & ".log""" )
 
@@ -690,10 +690,10 @@ Func ESign()
 		If SoftDownload($dir_ecp, $esmart) Then SoftInstall($dir_ecp, $esmart, "msi")
 	EndIf
 
-	If checked($checkcsp5) Then
-		status("Установка Крипто-Про 5.0")
+	If checked($checkCSP5_actual) Then
+		status("Установка Крипто-Про 5.0 R2")
 
-		If SoftDownload($dir_ecp, $csp5setup) Then SoftInstall($dir_ecp, $csp5setup, "csp5")
+		If SoftDownload($dir_ecp, $csp5_actual_setup) Then SoftInstall($dir_ecp, $csp5_actual_setup, "csp5")
 
 		; Настройка КриптоПро: Усиленный контроль использования ключей
 		Status("Настройка КриптоПро для работы с ГОСТ 2001")
@@ -719,10 +719,10 @@ Func ESign()
 		EndIf
 	EndIf
 
-	If checked($checkCSP5R2) Then
-		status("Установка Крипто-Про 5.0 R2")
+	If checked($checkCSP5) Then
+		status("Установка Крипто-Про 5.0")
 
-		If SoftDownload($dir_ecp, $csp5R2setup) Then SoftInstall($dir_ecp, $csp5R2setup, "csp5")
+		If SoftDownload($dir_ecp, $csp5setup) Then SoftInstall($dir_ecp, $csp5setup, "csp5")
 
 		; Настройка КриптоПро: Усиленный контроль использования ключей
 		Status("Настройка КриптоПро для работы с ГОСТ 2001")
@@ -2342,9 +2342,9 @@ EndFunc   ;==>WM_NOTIFY
 
 Func _Wget($file_url, $folder_to, $ext = "npso") ; Процедура загрузки файлов с помощью WGET ($ext = npso / ext)
 	If $ext = "ext" Then
-		RunWait($dir_tools & "wget.exe -q --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate " & $file_url & " -P " & $folder_to)
+		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate " & $file_url & " -P " & $folder_to)
 	ElseIf $ext = "npso" Then
-		RunWait($dir_tools & "wget.exe -q --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user=" & $User & " --password=" & $Pass & " http://" & $Server & "/" & $file_url & " -P " & $folder_to)	
+		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user=" & $User & " --password=" & $Pass & " http://" & $Server & "/" & $file_url & " -P " & $folder_to)	
 	EndIf
 EndFunc   ;==>_Wget
 

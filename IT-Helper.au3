@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.111
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.112
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -180,9 +180,9 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	$group_ecp = GUICtrlCreateGroup("Электронная подпись", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCSP5_actual = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0 R2", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "КриптоПро CSP 5.0.11455 (Fury) от 8.05.2019")
+		GUICtrlSetTip(-1, "КриптоПро CSP 5.0.12900 (r2)")
 
 		$checkCerts = GUICtrlCreateCheckbox(" Сертификаты | общие", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
@@ -563,9 +563,9 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 	$group_crypto_others = GUICtrlCreateGroup("КриптоПро (не актуальные)", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkCSP5R2 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0 R2", $left, $top_1, $width, $height)
+		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0", $left, $top_1, $width, $height)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "КриптоПро для Windows 11 | ключи от 4 версии не совместимы")
+		GUICtrlSetTip(-1, "КриптоПро 5 v. 11455")
 
 		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
@@ -1056,12 +1056,12 @@ Global $AllCheckboxes[79] = [$checkActx_Browser, $checkARM, $checkBD, _
 		$checkStart, $checkLine, $check_pwd, $check_heidi, $checkKLEIS_RNP, $checkShare, $checkProduKey, _
 		$checkPunto, $checkAccess, $checkWin2PDF, $checkSysInfo, $checkIPScanner, _
 		$checkXMLPad, $checkLibReg, $checkCleanUpdates, $checkFindRND, $checkEvent292, _
-		$checkCleanTask, $checkCSPclean, $checkCSP5, $checkJacarta, $checkRutoken, $checkEsmart, _ 
+		$checkCleanTask, $checkCSPclean, $checkCSP5_actual, $checkJacarta, $checkRutoken, $checkEsmart, _ 
 		$checkPhotoViewer, $checkFonts, _
 		$checkNaps2, $checkSpaceSniffer, $checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, _
 		$checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _ 
-		$check_libre, $check_kes, $check_ksc, $checkCSP5R2, $checkXPSPrinter, $checkShadowExplorer, $checkMUpdate, $checkKLEIS_SS_UPGRADE, $checkKLEIS_IN_UPGRADE] ; Массив из чекбоксов
+		$check_libre, $check_kes, $check_ksc, $checkCSP5, $checkXPSPrinter, $checkShadowExplorer, $checkMUpdate, $checkKLEIS_SS_UPGRADE, $checkKLEIS_IN_UPGRADE] ; Массив из чекбоксов
 
 ; Сертификаты
 If $Start_param_certs Then
