@@ -84,7 +84,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $vertic_top ; Отступ по вертикали
-		$height_of_group = $margin_outside + $margin_between + $margin_between * 8 ; Кол-во элементов $check
+		$height_of_group = $margin_outside + $margin_between + $margin_between * 7 ; Кол-во элементов $check
 		
 		$left_of_group = $horiz_left
 		$width_of_group = $width_standart
@@ -110,34 +110,30 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	$group_eis = GUICtrlCreateGroup("ЕИС Енот", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkEnotUpdated = GUICtrlCreateCheckbox(" ЕИС Енот | Обновленный", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Дистрибутив ЕИС с интегрированными обновлениями. Собрал Александр Кротов (Архангельск)")
-
-		$checkEnot = GUICtrlCreateCheckbox(" Дистрибутив ЕИС", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkEnot = GUICtrlCreateCheckbox(" ЕИС Енот", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-		$checkBD = GUICtrlCreateCheckbox(" Дистрибутив MySQL", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkBD = GUICtrlCreateCheckbox(" Дистрибутив MySQL", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Mysql + базы данных еис")
 
-		$checkSQLBACKUP = GUICtrlCreateCheckbox(" Бэкап баз данных ЕИС", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkSQLBACKUP = GUICtrlCreateCheckbox(" Бэкап баз данных ЕИС", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Утилита для бэкапа MySQL БД Енота")
 
-		$checkCleanUpdates = GUICtrlCreateCheckbox(" Очистка обновлений", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCleanUpdates = GUICtrlCreateCheckbox(" Очистка обновлений", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Удаление старых обновлений ЕИС")
 
-		$checkLibReg = GUICtrlCreateCheckbox(" Регистрация библиотек", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkLibReg = GUICtrlCreateCheckbox(" Регистрация библиотек", $left, $top_5, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "vstwain, activetree, capicom, enotddb2, eNotTXres + папки tx/tx23/tx25")
 
-		$checkFindRND = GUICtrlCreateCheckbox(" Пропущ. действия РНД", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkFindRND = GUICtrlCreateCheckbox(" Пропущ. действия РНД", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Утилита для поиск пропущенных значений в РНД ЕИС")
 
-		$checkFonts = GUICtrlCreateCheckbox(" Шрифты для ЕИС", $left, $top_8, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkFonts = GUICtrlCreateCheckbox(" Шрифты для ЕИС", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Исправление кракозябр в ЕИС")
 
