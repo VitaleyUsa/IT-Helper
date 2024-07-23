@@ -692,7 +692,8 @@ Func ESign()
 
 	If checked($checkCSP5_actual) Then
 		status("Установка Крипто-Про 5.0 R2")
-
+		
+		FileDelete($dir_ecp & $csp5_actual_setup)
 		If SoftDownload($dir_ecp, $csp5_actual_setup) Then SoftInstall($dir_ecp, $csp5_actual_setup, "csp5")
 
 		; Настройка КриптоПро: Усиленный контроль использования ключей
