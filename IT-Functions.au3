@@ -1013,6 +1013,8 @@ EndFunc   ;==>WinSetup
 Func FederalResources()
 	; ActiveX + Browser Plugins
 	If Checked($checkActx_Browser) Then
+		RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome", "ExtensionManifestV2Availability", "REG_DWORD", 2)
+
 		; ActiveX
 		Status("Удаление старых компонентов ActiveX")
 
@@ -1230,7 +1232,7 @@ Func FederalResources()
 
 	If Checked($checkChrome) Then
 		Status("Установка и настройка Google Chrome")
-
+		RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome", "ExtensionManifestV2Availability", "REG_DWORD", 2)
 		
 		Local $Registry64 = ""
 		ProcessClose("chrome.exe") ; закрываем Chrome
