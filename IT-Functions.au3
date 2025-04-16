@@ -683,10 +683,10 @@ Func ESign()
 	EndIf
 
 	If checked($checkCSP5_actual) Then
-		status("Установка Крипто-Про 5.0 R2")
+		status("Установка Крипто-Про 5.0 R3")
 		
 		FileDelete($dir_ecp & $csp5_actual_setup)
-		If SoftDownload($dir_ecp, $csp5_actual_setup) Then SoftInstall($dir_ecp, $csp5_actual_setup, "csp5")
+		If SoftDownload($dir_ecp, $csp5_actual_setup) Then SoftInstall($dir_ecp, $csp5_actual_setup, "csp5r3")
 
 		; Настройка КриптоПро: Усиленный контроль использования ключей
 		Status("Настройка КриптоПро для работы с ГОСТ 2001")
@@ -1158,19 +1158,6 @@ Func FederalResources()
 			DirCopy($dir_federal & 'GoogleUpdateAdmx', @WindowsDir & '\PolicyDefinitions', 1)
 		EndIf
 	EndIf
-
-;~ 	; Java
-;~ 	If Checked($checkJAVA) Then
-;~ 		; Установка и обновление Java
-;~ 		Status("Java")
-
-;~ 		_JavaUpdate()
-
-
-;~ 		; Настройка Java
-;~ 		Status("Настройка Java")
-;~ 		If SoftDownload($dir_federal, $java_settings) Then SoftInstall($dir_federal, $java_settings)
-;~ 	EndIf
 EndFunc   ;==>FederalResources
 
 ; ----------------------------------------------- SOFTWARE FUNC;
