@@ -23,13 +23,6 @@
 #Include <WinAPIEx.au3>
 #Include <Icons.au3>
 
-;#include <IE.au3>
-;#include "INET.au3"
-;#include <FTPEx.au3>
-;#include <Array.au3>
-;#include <ProgressConstants.au3>
-;#include <Security.au3>
-
 Dim $StatusBar1, $StatusBar2
 Global $Start_param_certs = 0
 Global $Start_param_MissedRND = 0
@@ -141,8 +134,8 @@ Global $esmart32 = "esmart_32.msi" ; Драйвера esmart
 Global $esmart64 = "esmart_64.msi" ; Драйвера esmart
 
 Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP 4
-Global $csp5setup = "CryptoProCSP5_11455.exe" ; CryptoPro CSP 5.0 11455
-Global $csp5_actual_setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0 R2
+Global $csp5setup = "CryptoProCSP-5-R2.exe" ; CryptoPro CSP 5.0 R2
+Global $csp5_actual_setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0 R3
 Global $NGate32 = "NGateInstallx32.msi" ; Ngate client x32
 Global $NGate64 = "NGateInstallx64.msi" ; Ngate client x64
 Global $NGate_settings = "ngate.reg" ; Настройки для NGate
@@ -153,7 +146,6 @@ Global $actxSetup = "cspcomsetup.msi" ; ActiveX Component + Firefox Plugin
 Global $pdfSetup = "cppdfsetup.exe" ; CryptoPro PDF
 Global $adobeSetup = "acrobate.exe" ; Adobe Reader DC
 Global $cbpSetup = "cadesplugin.exe" ; CryptoPro Browser Plugin
-Global $cbpSetup_zip = "cadesplugin.zip" ; CryptoPro Browser Plugin in archive (way to work with silent keys to install)
 Global $cades = "cades.reg" ; CryptoPro Trusted Sites
 Global $gosSetup32 = "IFCPlugin.msi" ; Gosuslugi browser plugin x86bit
 Global $gosSetup64 = "IFCPlugin-x64.msi" ; Gosuslugi browser plugin x64bit
@@ -166,9 +158,6 @@ Global $CleanUpdates_ds = "CleanUpdates_EIS.exe"
 Global $FindRND = "MySql_indexer.exe"
 Global $CryptoFix = "CryptoPro_Fix.xml"
 Global $feedback = "feedback.exe" ; Утилита для обратной связи с ТП
-
-;~ Global $java_update = "/Utils/Update-Java.exe"
-;~ Global $java_settings = "/Utils/JavaSettings.exe"
 
 Global $firefox = "Firefox.exe" ; Firefox ESR distr
 Global $ff_sets = "ff-settings.zip" ; Firefox settings
@@ -213,6 +202,9 @@ Global $chromeSetup = "GoogleChromeStandaloneEnterprise.msi" ; Chrome x32 distr
 If @OSArch = "x64" Then $chromeSetup = "GoogleChromeStandaloneEnterprise64.msi"
 Global $chromePolicy = "googleupdateadmx.zip"
 
+Global $yaBrowser     = "YandexBrowser_x86.msi"
+Global $yaBrowser_x64 = "YandexBrowser_x64.msi"
+
 Global $tm_ds 		= "TeamViewerQS.exe" ; Teamviewer QS
 Global $anydesk_ds  = "AnyDesk.exe" ; AnyDesk
 Global $assistant_ds = "Assistant_fs.exe" ; Ассистент
@@ -240,7 +232,7 @@ Global $VersionInfo = "version.ini"
 
 ; Создаем переменные статуса
 Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
-		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
+		$checkYA, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
@@ -369,8 +361,8 @@ Func Enot()
 	If Checked($checkFonts) Then
 		Status("Установка шрифтов")
 
-		If SoftDownload($dir_enot, $font_micross) Then _FileFontInstall($dir_enot & $font_micross, "")
-		If SoftDownload($dir_enot, $font_sserifer) Then _FileFontInstall($dir_enot & $font_sserifer, "")
+		If SoftDownload($dir_enot, $font_micross) Then _FileFontInstall($dir_enot & $font_micross)
+		If SoftDownload($dir_enot, $font_sserifer) Then _FileFontInstall($dir_enot & $font_sserifer)
 	EndIf
 
 	; Компонент Capicom
@@ -772,103 +764,6 @@ Func ESign()
 			$HKLM = "HKLM64\"
 		EndIf
 
-		#cs
- If @OSVersion = "WIN_7" Then
-			Local $win_7_sp1 = False
-
-			Status("Проверяем наличие необходимых обновлений Win7")
-			FileChangeDir($dir_ecp)
-
-			; Проверка на SP1
-			If @OSServicePack <> "Service Pack 1" Then
-				$prompt = MsgBox(3, "Увага!", "Не обнаружен Service Pack для Windows 7. Нажмите ""Да"", чтобы вручную установить обновление, ""Нет"", если уверены, что Service Pack1 установлен и нужно продолжить установку, ""Отмена"" для отмены установки NGate")
-				If $prompt = "2" Then Exit ; Отмена
-				If $prompt = "6" Then ; Да
-					ShellExecute("https://www.catalog.update.microsoft.com/Search.aspx?q=KB976932")
-					Exit
-				EndIf
-				If $prompt = 7 Then $win_7_sp1 = True ; Нет
-			Else
-				$win_7_sp1 = True
-			EndIf
-
-			If $win_7_sp1 Then
-				RunWait(@ComSpec & ' /c WMIC qfe | FIND /v """" > ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Экспортим список обновлений в файл для ускорения поиска
-
-				$iRET = RunWait(@ComSpec & ' /c findstr /i ' & $hotfixes_sha2_3033929 & ' ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновлений 3033929
-				If $iRET Then
-					_WindowsUpdateFix()
-
-					$iRET = RunWait(@ComSpec & ' /c findstr /i 3035131 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Обновление 3035131
-					If $iRET Then
-						Status("Устанавливаем обновление 3035131")
-						If SoftDownload($dir_ecp, $win7hotfix_3035131) Then SoftInstall($dir_ecp, $win7hotfix_3035131, "cab") ; Устанавливаем обновление 3035131
-					EndIf
-
-					$iRET = RunWait(@ComSpec & ' /c findstr /i 3033929 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Обновление 3033929
-					If $iRET Then
-						Status("Устанавливаем обновление 3033929")
-						If SoftDownload($dir_ecp, $win7hotfix_3033929) Then SoftInstall($dir_ecp, $win7hotfix_3033929, "cab") ; Устанавливаем обновление 3033929
-					EndIf
-				EndIf
-
-				$iRET = RunWait(@ComSpec & ' /c findstr /i 4474419 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Обновление 4474419
-				If $iRET Then
-					Status("Устанавливаем обновление 4474419")
-					If SoftDownload($dir_ecp, $win7hotfix_4474419) Then SoftInstall($dir_ecp, $win7hotfix_4474419, "cab") ; Устанавливаем обновление 4474419
-				EndIf
-			EndIf
-
-			$win_7_sp1 = False
-			FileChangeDir($dir_distr)
-		EndIf 
-
-		Status("Обновление КриптоПро CSP")
-
-		$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\08F19F05793DC7340B8C2621D83E5BE5\InstallProperties", "DisplayVersion") ; Если не 5ая версия крипто-про
-		If Not $sCrypto Then
-			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\05480A45343B0B0429E4860F13549069\InstallProperties", "DisplayVersion") ; 3.6?
-			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\68A52D936E5ACF24C9F8FE4A1C830BC8\InstallProperties", "DisplayVersion") ; 3.9?
-			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\7AB5E7046046FB044ACD63458B5F481C\InstallProperties", "DisplayVersion") ; 4.0?
-		
-			If $sCrypto <> "4.0.9963" Then
-				If SoftDownload($dir_ecp, $cspSetup) Then SoftInstall($dir_ecp, $cspSetup, "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb /L*v " & $dir_logs & $cspSetup & ".log""" )
-			EndIf
-		EndIf
-
-		Local $ngate_error = ""
-		If @OSVersion = "WIN_7" Then
-			
-			Status("Проверяем наличие необходимых обновлений Win7")
-			FileDelete($dir_ecp & 'hotfixes.txt') ; Удаляем старый список обновлений
-			RunWait(@ComSpec & ' /c WMIC qfe | FIND /v """" > ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Экспортим список обновлений в файл для ускорения поиска
-
-			$iRET = RunWait(@ComSpec & ' /c findstr /i ' & $hotfixes_sha2_3033929 & ' ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновлений 3033929
-			If $iRET Then
-				$iRET = RunWait(@ComSpec & ' /c findstr /i 3035131 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 3035131
-				If $iRET Then $ngate_error = "Не установлено обновление 3035131. "
-
-				$iRET = RunWait(@ComSpec & ' /c findstr /i 3033929 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 3033929
-				If $iRET Then $ngate_error = "Не установлено обновление 3033929. "
-			EndIf
-
-			$iRET = RunWait(@ComSpec & ' /c findstr /i 4474419 ' & $dir_ecp & 'hotfixes.txt', @TempDir, @SW_HIDE) ; Проверяем на наличие обновления 4474419
-			If $iRET Then $ngate_error = $ngate_error & "Не установлено обновление 4474419. "
-		Endif
-
-		Status("Проверяем версию КриптоПро CSP")
-		$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\08F19F05793DC7340B8C2621D83E5BE5\InstallProperties", "DisplayVersion") ; Если не 5ая версия крипто-про
-		If Not $sCrypto Then
-			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\05480A45343B0B0429E4860F13549069\InstallProperties", "DisplayVersion") ; 3.6?
-			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\68A52D936E5ACF24C9F8FE4A1C830BC8\InstallProperties", "DisplayVersion") ; 3.9?
-			$sCrypto = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\7AB5E7046046FB044ACD63458B5F481C\InstallProperties", "DisplayVersion") ; 4.0?
-		
-			If $sCrypto <> "4.0.9963" Then
-				$ngate_error = $ngate_error & "Необходимо обновление КриптоПро CSP. "
-			EndIf
-		EndIf
-#ce
-
 		;If $ngate_error = "" Then
 			RunWait("MsiExec.exe /X{187021F4-156B-4111-BF3D-79B212115F08} /qn") ; Удаляем предыдущую версию Ngate
 
@@ -1040,13 +935,9 @@ Func FederalResources()
 		Status("Установка и настройка CryptoPro Browser plugin")
 
 			; Криптопро Браузер Плагин
-			If SoftDownload($dir_federal, $cbpSetup_zip) Then
-				SoftUnzip($dir_federal, $cbpSetup_zip)
-				FileChangeDir($dir_federal & "cadesplugin\")
-					RunWait("wmic product where name=""КриптоПро ЭЦП Browser plug-in"" call uninstall /nointeractive")
-					RunWait("Setup.exe -silent -noreboot")
-				FileChangeDir($dir_distr)
-				;SoftInstall($dir_federal & "cadesplugin\", "Setup.exe", "-silent -noreboot")
+			If SoftDownload($dir_federal, $cbpSetup) Then
+				RunWait("wmic product where name=""КриптоПро ЭЦП Browser plug-in"" call uninstall /nointeractive")
+				SoftInstall($dir_federal, $cbpSetup, "cades")
 
 				; Настраиваем доверенные сайты для криптопро браузер плагина
 				If SoftDownload($dir_federal, $cades) Then
@@ -1121,12 +1012,13 @@ Func FederalResources()
 		If SoftDownload($dir_federal, $line_ds) Then SoftInstall($dir_federal, $line_ds, "msi")
 	EndIf
 
-	; Internet Explorer settings
-	If Checked($checkIE) Then
-		Status("Настройка Internet Explorer")
+	; Yandex.Browser
+	If Checked($checkYA) Then
+		Status("Установка Яндекс.Браузера")
+		
+		If @OSArch = "X64" Then $yaBrowser = $yaBrowser_x64
 
-		If SoftDownload($dir_federal, $ieSetup) Then RunWait("reg.exe IMPORT " & $dir_federal & $ieSetup) ; Настройка IE
-		If SoftDownload($dir_federal, $ie_links) Then SoftUnzip($dir_federal, $ie_links, @UserProfileDir & '\favorites\links\') ; Избранное для ИЕ
+		If SoftDownload($dir_federal, $yaBrowser) Then SoftInstall($dir_federal, $yaBrowser, "msi") ; Установка Яндекс.Браузера
 	EndIf
 
 
@@ -1673,59 +1565,6 @@ Func FNS()
 	Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2"
 	If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
 
-#cs
- 	; FNS Program | v 1.4.12
-	If Checked($checkFNS) Then
-		; Пакет электронных документов
-		Status("Установка и настройка програм для ФНС")
-			Local $msiErr = ""
-			Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link", "")
-
-			DirRemove($dir_ppdgr, 1)
-			DirRemove($prog_files)
-			DirRemove($prog_files_new)
-			If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
-				SoftUnzip($dir_ppdgr, $ds_ppdgr, $dir_ppdgr, "rar") ; Распаковываем ППДГР
-
-				_InstallDotNet("47") ; Ставим фреймворк 4.7
-
-				$msiErr = RunWait("msiexec /fa " & $dir_ppdgr & $ds_extracted_ppdgr & " /qb /passive /norestart REBOOT=ReallySuppress /L*V " & $dir_logs & $ds_extracted_ppdgr & ".log") ; Обновляем ППДГР
-				If $msiErr = "1605" Then ; ставим ППДГР, если обновить не сумели
-					SoftInstall($dir_ppdgr, $ds_extracted_ppdgr, "msi")
-				Else
-					_FileWriteLog($dir_logs & "Install.log", $ds_extracted_ppdgr & ": Updated")
-				EndIf
-
-				$BPrint = WinWait("Печать НД", "", 5) ; Установка модуля печати
-				If WinExists($BPrint) Then
-					Local $PidActwin = WinGetProcess($BPrint)
-					ProcessClose($PidActwin)
-
-					If DirGetSize($prog_files_new) <> -1  Then ; Проверяем, что ППДГР установлен
-						Local $ppdgr_print_cont = True
-						FileChangeDir($prog_files_new)
-					ElseIf DirGetSize($prog_files) <> -1 And DirGetSize($prog_files_new) == -1 Then ; Проверяем, что ППДГР установлен
-						Local $ppdgr_print_cont = True
-						FileChangeDir($prog_files)
-					EndIf
-					
-					If $ppdgr_print_cont Then
-							Local $hSearch = FileFindFirstFile("*.msi")
-							$sFileName = FileFindNextFile($hSearch)
-							FileClose($hSearch)
-
-							Status("Установка и настройка модуля печати ППДГР")
-							RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
-						FileChangeDir($dir_distr)
-						$ppdgr_print_cont = False
-					EndIf
-				EndIf
-			EndIf
-
-			If $Start_param_FNS Then MsgBox("","Статус", "Программа подготовки документов для государственной регистрации установлена!")
-	EndIf 
-#ce
-
 	; FNS Program | v 2.0
 	If Checked($checkFNS2) Then
 		; Пакет электронных документов
@@ -1842,21 +1681,6 @@ Func Programs2Reboot() ; Все программы, которые желате�
 		If SoftDownload($dir_federal, $arm_settings) Then RunWait("reg.exe IMPORT " & $dir_federal & $arm_settings) ; Настройка КриптоАРМ
 	EndIf
 EndFunc
-; ----------------------------------------------- JAVA FUNC;
-
-;~ Func _JavaUpdate() ; Закачка и установка Java
-;~ 	Local $_JavaURL = "https://java.com/ru/download/manual.jsp"
-;~ 	Local $_Args = "/s REMOVEOUTOFDATEJRES=1"
-
-;~ 	$oIE = _INetGetSource($_JavaURL)
-;~ 	$_tmpLink = _StringBetween2($oIE, 'https://javadl.oracle.com', '"')
-;~ 	$_Link = '"' & "https://javadl.oracle.com" & $_tmpLink & '"'
-
-;~ 	FileChangeDir($dir_tools)
-;~ 		RunWait("wget.exe -O Java.exe -c --tries=0 --read-timeout=5 --no-check-certificate --header " & "Cookie: oraclelicense=accept-securebackup-cookie " & $_Link)
-;~ 		RunWait("Java.exe " & $_Args)
-;~ 	FileChangeDir($dir_distr)
-;~ EndFunc   ;==>_JavaUpdate
 
 ; ------------------------------------------------- BACKEND  ----------------------------------------------------------------------------------------------------------->
 
@@ -2033,10 +1857,13 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 			$arg = "msiexec /i " & $FilePath & " ET_LANG_NAME=Russian /qb REBOOT=REALLYSUPPRESS /L*V " & $dir_logs & $Soft_ds & ".log"
 
 		Case "cades" ; КриптоПРО плагин
-			$arg = $FilePath & " -norestart -silent -cadesargs ""/qn REBOOT=REALLYSUPPRESS"" "
+			$arg = $FilePath & " -reinstall -noyandex -silent -norestart -root"
 
 		Case "csp5" ; КриптоПро 5.0
 			$arg = $FilePath & " -nodlg -noreboot -args ""/qn REBOOT=REALLYSUPPRESS"" "
+		
+		Case "csp5r3" ; КриптоПро 5.0 r3
+			$arg = $FilePath & " -root -noyandex -norestart -silent "
 
 		Case "arm" ; КриптоАРМ
 			$arg = $FilePath & " /V """ & StringStripWS($arg,1) & """"
@@ -2247,7 +2074,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 				GUICtrlSetState($checkCerts, $GUI_CHECKED)
 				;GUICtrlSetState($checkFF, $GUI_CHECKED)
 				GUICtrlSetState($checkChrome, $GUI_CHECKED)
-				GUICtrlSetState($checkIE, $GUI_CHECKED)
+				GUICtrlSetState($checkYA, $GUI_CHECKED)
 				GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
 		EndSelect
 	EndIf
@@ -2272,7 +2099,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 				GUICtrlSetState($checkCerts, $GUI_CHECKED)
 				;GUICtrlSetState($checkFF, $GUI_CHECKED)
 				GUICtrlSetState($checkChrome, $GUI_CHECKED)
-				GUICtrlSetState($checkIE, $GUI_CHECKED)
+				GUICtrlSetState($checkYA, $GUI_CHECKED)
 				GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
 		EndSelect
 	EndIf
@@ -2456,38 +2283,41 @@ Func _IsWin7Above() ; Это windows 7 или выше?
 EndFunc   ;==>_IsWin7Above
 
 
-Func _FileFontInstall($sSourceFile, $sFontDescript="", $sFontsPath="")
-    Local Const $HWND_BROADCAST = 0xFFFF
-    Local Const $WM_FONTCHANGE = 0x1D
-
-    If $sFontsPath = "" Then $sFontsPath = @WindowsDir & "\fonts"
-
-    Local $sFontName = StringRegExpReplace($sSourceFile, "^.*\\", "")
-    If Not FileCopy($sSourceFile, $sFontsPath & "\" & $sFontName, 1) Then Return SetError(1, 0, 0)
-
-    Local $hSearch = FileFindFirstFile($sSourceFile)
-    Local $iFontIsWildcard = StringRegExp($sFontName, "\*|\?")
-    Local $aRet, $hGdi32_DllOpen = DllOpen("GDI32.dll")
-
-    If $hSearch = -1 Then Return SetError(2, 0, 0)
-    If $hGdi32_DllOpen = -1 Then Return SetError(3, 0, 0)
-
-    While 1
-        $sFontName = FileFindNextFile($hSearch)
-        If @error Then ExitLoop
-
-        If $iFontIsWildcard Then $sFontDescript = StringRegExpReplace($sFontName, "\.[^\.]*$", "")
-
-        $aRet = DllCall($hGdi32_DllOpen, "Int", "AddFontResource", "str", $sFontsPath & "\" & $sFontName)
-        If IsArray($aRet) And $aRet[0] > 0 Then
-            RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts", _
-                $sFontDescript, "REG_SZ", $sFontsPath & "\" & $sFontName)
-        EndIf
-    WEnd
-
-    DllClose($hGdi32_DllOpen)
-    DllCall("User32.dll", "Int", "SendMessage", "hwnd", $HWND_BROADCAST, "int", $WM_FONTCHANGE, "int", 0, "int", 0)
-    Return 1
+Func _FileFontInstall($sFontPath)
+    ; Извлекаем имя файла из полного пути
+    Local $sFileName = StringRegExpReplace($sFontPath, ".*\\", "")
+    
+    ; Определяем пути для проверки
+    Local $sUserFonts = @LocalAppDataDir & "\Microsoft\Windows\Fonts\" & $sFileName
+    Local $sSystemFonts = @WindowsDir & "\Fonts\" & $sFileName
+    
+    ; Проверяем наличие шрифта в системе
+    If FileExists($sUserFonts) Or FileExists($sSystemFonts) Then Return
+    
+    ; Определяем тип шрифта
+    Local $sExt = StringRight($sFileName, 3)
+    Local $sType
+    Switch StringLower($sExt)
+        Case "ttf"
+            $sType = "Truetype"
+        Case "otf"
+            $sType = "Opentype"
+        Case Else
+            Return ; Неподдерживаемый формат
+    EndSwitch
+    
+    ; Создаем целевую директорию при необходимости
+    Local $sTargetDir = @LocalAppDataDir & "\Microsoft\Windows\Fonts\"
+    If Not FileExists($sTargetDir) Then DirCreate($sTargetDir)
+    
+    ; Копируем файл шрифта
+    If FileCopy($sFontPath, $sTargetDir & $sFileName, $FC_OVERWRITE) Then
+        ; Добавляем запись в реестр
+        RegWrite("HKCU\Software\Microsoft\Windows NT\CurrentVersion\Fonts", _
+                $sFileName & " (" & $sType & ")", _
+                "REG_SZ", _
+                $sTargetDir & $sFileName)
+    EndIf
 EndFunc
 
 Func _InstallDotNet($version) ; Устанавливаем netframework, если не установлен

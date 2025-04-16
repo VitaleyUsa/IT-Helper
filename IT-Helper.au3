@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.114
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.117
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -19,11 +19,6 @@
 ;~ #AutoIt3Wrapper_Res_Icon_Add=Ico\icon.ico
 #pragma compile(UPX, False)
 
-;~ If @OsType="WIN_10" Then
-;~     DllCall("Shcore.dll","long","PROCESS_DPI_AWARENESS",1)
-;~ Else
-;~     If Not (@Compiled ) Then DllCall("User32.dll","bool","SetProcessDPIAware")
-;~ EndIf
 
 Opt("TrayMenuMode", 3)
 
@@ -137,16 +132,6 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "Исправление кракозябр в ЕИС")
 
-		#cs
- $checkCapicom = GUICtrlCreateCheckbox(" Компонент Capicom", $left, $top_9, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Необходимый компонент для работы ЕИС")
-	
-		$checkFeedbackTP = GUICtrlCreateCheckbox(" Обратная связь", $left, $top_10, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Программа для написаний обращений в службы тех. поддержки") 
-#ce
-
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
 		$top_of_group = $vertic_top ; Отступ по вертикали
@@ -176,7 +161,7 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	$group_ecp = GUICtrlCreateGroup("Электронная подпись", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkCSP5_actual = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0 R2", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkCSP5_actual = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0 R3", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "КриптоПро CSP 5.0.12900 (r2)")
 
@@ -271,17 +256,13 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 	$group_browser = GUICtrlCreateGroup("Веб - браузеры", $left_of_group, $top_of_group, $width_of_group , $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		;~ $checkFF = GUICtrlCreateCheckbox(" Firefox ESR", $left, 57, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		;~ GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		;~ GUICtrlSetTip(-1, "+ расширения для FF + отключение обновлений")
-
 		$checkChrome = GUICtrlCreateCheckbox(" Google Chrome", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 		GUICtrlSetTip(-1, "+ расширения для Chrome")
 
-		$checkIE = GUICtrlCreateCheckbox(" Internet Explorer", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
+		$checkYA = GUICtrlCreateCheckbox(" Яндекс.Браузер", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "Настройка Internet Explorer")
+		GUICtrlSetTip(-1, "Преднастроенный Я.Браузер")
 
 		$checkActx_Browser = GUICtrlCreateCheckbox(" Плагины и расширения", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
@@ -415,14 +396,6 @@ $TabSheet1 = GUICtrlCreateTabItem("Нотариат")
 
 		$checkKLEIS_RNP = GUICtrlCreateCheckbox(" КЛЕИС для Палат (только!)", $left, $top_6, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT,$BS_FLAT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-		#cs
-			$checkKLEIS_SS_UPGRADE = GUICtrlCreateCheckbox(" Принудительное обновление СС до 116 версии (не запускать без необходимости!)", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-			$checkKLEIS_IN_UPGRADE = GUICtrlCreateCheckbox(" Принудительное обновление ИН до 116 версии (не запускать без необходимости!)", $left, $top_8, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
-		#ce
 
 #EndRegion ### Конец - Вкладка - Нотариат ###
 
@@ -559,9 +532,9 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 	$group_crypto_others = GUICtrlCreateGroup("КриптоПро (не актуальные)", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
 		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 
-		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0", $left, $top_1, $width, $height)
+		$checkCSP5 = GUICtrlCreateCheckbox(" CryptoPro CSP 5.0 R2", $left, $top_1, $width, $height)
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-		GUICtrlSetTip(-1, "КриптоПро 5 v. 11455")
+		GUICtrlSetTip(-1, "КриптоПро 5 R2")
 
 		$checkCSP = GUICtrlCreateCheckbox(" CryptoPro CSP 4.0 R4", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma") 
@@ -813,16 +786,6 @@ $TabSheet2 = GUICtrlCreateTabItem("Программы")
 		$top_8 = $top_7 + $margin_between
 		$top_9 = $top_8 + $margin_between
 		$top_10 = $top_9 + $margin_between
-	;~ /Тупое задание размеров блоков
-
-	$group_av = GUICtrlCreateGroup("Антивирусное ПО", $left_of_group, $top_of_group, $width_of_group, $height_of_group)
-		GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
-		
-		$check_kes = GUICtrlCreateCheckbox(" Kaspersky SECURITY ДЛЯ БИЗНЕСА | Сертифицированная защита для ФЗ 152", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-
-		$check_ksc = GUICtrlCreateCheckbox(" Kaspersky Security Cloud Free | Бесплатный антивирус", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-		GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
 #EndRegion ### Конец - Вкладка - Программы ###
 
@@ -886,17 +849,6 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 		$checkMUpdate = GUICtrlCreateCheckbox(" Обновления Win10 / 11", $left, $top_7, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
 			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 			GUICtrlSetTip(-1, "Отключение / включение обновлений Windows 10 / 11")
-
-		#cs
- 		$checkECPPass= GUICtrlCreateCheckbox(" Пароль от ЭП", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-			GUICtrlSetTip(-1, "Показывает все сохраненные ранее пароли от ЭП") 
-
-		$checkMetrics = GUICtrlCreateCheckbox(" Метрика VPN Ngate", $left, $top_9, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-			GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-			GUICtrlSetTip(-1, "Устанавливает метрику 1 для Ngate. VPN Ngate должен быть запущен и подключен.") 
-		#ce
-
 	
 	;~ Тупое задание размеров блоков
 		;~ Явно заданные размеры
@@ -995,18 +947,6 @@ $TabSheet3 = GUICtrlCreateTabItem("Системные настройки")
 Global $DummyEnd = GUICtrlCreateDummy()
 
 #Region ### Начало - Кнопки ###
-	;$btnNewPk = GUICtrlCreateButton("Новый ПК", 2, 608, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
-	;GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
-	;GUICtrlSetColor(-1, 0x000000)
-
-	;$btnSpecialist = GUICtrlCreateButton("Тех. работник", 90, 608, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
-	;GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
-	;GUICtrlSetColor(-1, 0x000000)
-
-	;$btnDownloadOnly = GUICtrlCreateButton("Скачать", 178, 608, 83, 25, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
-	;GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
-	;GUICtrlSetColor(-1, 0x000000)
-
 	$btnInstall = GUICtrlCreateButton("Установить", 487, 634, 131, 33, BitOR($BS_DEFPUSHBUTTON,$BS_PUSHLIKE))
 	GUICtrlSetFont(-1, 10, 400, 0, "Arial Narrow")
 	GUICtrlSetColor(-1, 0x000000)
@@ -1043,7 +983,7 @@ GUISetState(@SW_SHOW)
 ; _______________________Открытие формы_______________________
 
 Global $AllCheckboxes[79] = [$checkActx_Browser, $checkARM, $checkBD, _
-		$checkIE, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
+		$checkYA, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS2, $checkFNS_Print, _
 		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, _
@@ -1092,22 +1032,6 @@ While 1
 	Switch $nMsg
 		Case $GUI_EVENT_CLOSE ; Выход
 			Exit
-
-		#comments-start
-		; Оффлайн - режим
-		Case $menuOffline
-			$offline = IniRead($dir_distr & $VersionInfo, "MODE", "Offline", "0")
-			Switch $offline
-				Case 1
-					$offline = 0
-					$title = StringTrimRight($title, 16)
-				Case 0
-					$title = $title & " | Оффлайн режим"
-					$offline = 1
-			EndSwitch
-			WinSetTitle($HelperForm,"",$title)
-			IniWrite($dir_distr & $VersionInfo, "MODE", "Offline", $offline)
-		#comments-end
 
 		; Самоуничтожение программы
 		Case $menuDelete
@@ -1165,38 +1089,12 @@ While 1
 		Case $L_Logs
 			Run("explorer.exe " & $dir_logs)
 
-		; Кнопки
-
-		;Case $btnNewPk ; Кнопка Новый ПК
-		;	_Next("Настройка ПК завершена", False, "NewPK")
-
-		;Case $btnSpecialist ; Кнопка Тех. работник
-		;	_Next("Рабочее место тех. работника настроено", False, "Specialist")
-
-		;Case $btnDownloadOnly ; Кнопка СКАЧАТЬ
-		;	_Next("Загрузка завершена", True)
-;~ 		;	test()
-
 		Case $btnInstall ; Кнопка УСТАНОВИТЬ
 			_Next()
 
 	EndSwitch
 
 	Switch TrayGetMsg()
-		#comments-start
-		Case $iOffline
-			$offline = IniRead($dir_distr & $VersionInfo, "MODE", "Offline", "0")
-			Switch $offline
-				Case 1
-					$offline = 0
-					$title = StringTrimRight($title, 16)
-				Case 0
-					$title = $title & " | Оффлайн режим"
-					$offline = 1
-			EndSwitch
-			WinSetTitle($HelperForm,"",$title)
-			IniWrite($dir_distr & $VersionInfo, "MODE", "Offline", $offline)
-		#comments-end
 
 		Case $iRemove
 			If Not IsDeclared("iMsgBoxAnswer") Then Dim $iMsgBoxAnswer
@@ -1223,56 +1121,9 @@ While 1
 				ContinueCase
 			EndSelect
 
-		#comments-start
-		Case $iAbout 
-			MsgBox($MB_SYSTEMMODAL, "", @CRLF & _
-					"Ситников Виталий" & @CRLF & _
-					"Нотариальная палата Свердловской области" & @CRLF & _
-					"it@npso66.ru")
-		#comments-end
-
-		;~ Case $iChangelog
-		;~ 	ShellExecute("http://" & $User & ":" &$Pass & "@" & $Server & "/Statistic/index.html")
-
 		Case $iExit ; выход
 			Exit
 	EndSwitch
 WEnd
 GUIDelete($HelperForm)
 Exit
-
-Func test()
-;~ 	Local Static $toggle = True
-;~     $toggle = Not $toggle
-
-;~ 	If $toggle Then
-;~ 		GUISetState(@SW_HIDE, $HelperForm)
-
-;~ 	Else
-
-;~ 	For $Loop = $DummyStart + 1 To $DummyEnd - 1
-;~ 		If GUICtrlRead($Loop) = $GUI_CHECKED Then GUICtrlCreateListViewItem(GUICtrlRead($Loop, $GUI_READ_EXTENDED), $ListView)
-;~     Next
-
-;~ 		GUISetState(@SW_HIDE, $HelperForm)
-;~ 		GUISetState(@SW_SHOW, $HelperChild)
-;~ 			While 1
-;~                 Switch GUIGetMsg()
-;~                     Case $GUI_EVENT_CLOSE
-;~                         GUISetState(@SW_HIDE, $HelperChild)
-;~                         GUISetState(@SW_SHOW, $HelperForm)
-;~ 						_GUICtrlListView_DeleteAllItems($ListView)
-;~                         ExitLoop
-;~                 EndSwitch
-;~             WEnd
-;~ 	EndIf
-
-;~ 	If Not $toggle Then
-;~ 		GUICtrlSetState($ListView, $GUI_SHOW)
-;~ 	EndIf
-;~ 	If $toggle Then
-;~ 		_GUICtrlListView_DeleteAllItems(GUICtrlGetHandle($ListView))
-;~ 		GUICtrlSetState($ListView, $GUI_HIDE)
-;~ 	EndIf
-
-EndFunc   ;==>Button1Click
