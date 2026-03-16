@@ -112,7 +112,7 @@ Global $font_sserifer = "sserifer.fon"
 
 ; Файлы на нашей фтпшке
 
-Global $Server = 'npso66.ru:8080'
+Global $Server = 'files.npso66.ru'
 Global $User = 'ftp-user'
 Global $Pass = 'Ftp-User'
 
@@ -134,8 +134,10 @@ Global $esmart32 = "esmart_32.msi" ; Драйвера esmart
 Global $esmart64 = "esmart_64.msi" ; Драйвера esmart
 
 Global $cspSetup = "CryptoProCSP.exe" ; CryptoPro CSP 4
+Global $csp5r1setup = "CSPSetup-5.0.11455.exe" ; CryptoPro CSP 5.0 R1
 Global $csp5setup = "CryptoProCSP-5-R2.exe" ; CryptoPro CSP 5.0 R2
-Global $csp5_actual_setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0 R3
+Global $csp5_actual_setup = "CryptoProCSP-5.exe" ; CryptoPro CSP 5.0 R3+
+Global $csp5_actual_setup_msi = "CryptoProCSP-5.msi" ; CryptoPro CSP 5.0 R3+
 Global $NGate32 = "NGateInstallx32.msi" ; Ngate client x32
 Global $NGate64 = "NGateInstallx64.msi" ; Ngate client x64
 Global $NGate_settings = "ngate.reg" ; Настройки для NGate
@@ -188,6 +190,8 @@ Global $webkit_ds = "SetupWebKit.exe"
 Global $diskinfo_ds="CrystalDiskMark7.exe"
 Global $hwinfo_ds="HWInfo.exe"
 Global $shadowexplorer_ds="ShadowExplorer.zip"	
+Global $winCentering_ds = "WindowCenteringHelper-PE.exe"
+Global $winCentering_cfg_ds = "WindowCenteringHelper.ini"
 
 Global $LibReg = "LibReg.bat"
 Global $ActiveTree = "ActiveTree.ocx"
@@ -205,6 +209,7 @@ Global $chromePolicy = "googleupdateadmx.zip"
 Global $yaBrowser     = "YandexBrowser_x86.msi"
 Global $yaBrowser_x64 = "YandexBrowser_x64.msi"
 
+Global $npso_dostup = "npso_dostup.msi"
 Global $tm_ds 		= "TeamViewerQS.exe" ; Teamviewer QS
 Global $anydesk_ds  = "AnyDesk.exe" ; AnyDesk
 Global $assistant_ds = "Assistant_fs.exe" ; Ассистент
@@ -231,23 +236,22 @@ Global $MainApp = "IT-Helper.exe"
 Global $VersionInfo = "version.ini"
 
 ; Создаем переменные статуса
-Global  $HelperForm, $checkActx_Browser, $checkARM, $checkBD, _
-		$checkYA, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
-		$checkEnot, $checkFNS2, $checkFNS_Print, _
-		$checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
-		$checkFF, $checkC, $checkNet_48, _
-		$checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
+
+Global  $HelperForm, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, $sPass, $Download_only, $btnNewPk, $btnSpecialist, _ 
+		$checkActx_Browser, $checkARM, $checkBD, $checkYA, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
+		$checkEnot, $checkFNS2, $checkFNS_Print, $checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
+		$checkFF, $checkC, $checkNet_48, $checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
 		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
 		$checkOpenShell, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
-		$checkIPScanner, $checkXMLPad, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, _
-		$sPass, $Download_only, $checkCleanUpdates, $checkLibReg, $checkFindRND, $btnSpecialist, _ 
-		$btnNewPk, $checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5_actual, $checkJacarta, _
+		$checkIPScanner, $checkXMLPad, $checkCleanUpdates, $checkLibReg, $checkFindRND, _ 
+		$checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5_actual, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
 		$checkKLEIS_Main, $checkKLEIS_Sec, $checkKLEIS_Helper, $checkKLEIS_Diagnostic, $check_palata, _
 		$checkRutoken, $checkEsmart, $check_libre, $check_kes, $check_ksc, $checkCSP5, $checkXPSPrinter, _
-		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP, $checkShadowExplorer, $checkMUpdate, $checkKLEIS_SS_UPGRADE, $checkKLEIS_IN_UPGRADE
+		$checkMetrics, $checkKonturDostup, $checkKLEIS_RNP, $checkShadowExplorer, $checkKLEIS_SS_UPGRADE, $checkKLEIS_IN_UPGRADE, $checkWinCentring, $checkCSP5R1, $checkNpso_dostup
+
 
 ; ---------------------------------------------------------------------------------------------------------- ;
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
@@ -686,7 +690,7 @@ Func ESign()
 		status("Установка Крипто-Про 5.0 R3")
 		
 		FileDelete($dir_ecp & $csp5_actual_setup)
-		If SoftDownload($dir_ecp, $csp5_actual_setup) Then SoftInstall($dir_ecp, $csp5_actual_setup, "csp5r3")
+		If SoftDownload($dir_ecp, $csp5_actual_setup) Then SoftInstall($dir_ecp, $csp5_actual_setup, "csp5r3+")
 
 		; Настройка КриптоПро: Усиленный контроль использования ключей
 		Status("Настройка КриптоПро для работы с ГОСТ 2001")
@@ -740,6 +744,35 @@ Func ESign()
 			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
 
 			RunWait("C:\Program Files (x86)\Crypto Pro\CSP\csptest.exe -keyset -verifycontext -hard_rng")
+		EndIf
+	EndIf
+
+	If checked($checkCSP5R1) Then
+		status("Установка Крипто-Про 5.0 R1")
+
+		If SoftDownload($dir_ecp, $csp5r1setup) Then SoftInstall($dir_ecp, $csp5r1setup, "csp5")
+
+		; Настройка КриптоПро: Усиленный контроль использования ключей
+		Status("Настройка КриптоПро для работы с ГОСТ 2001")
+
+		If SoftDownload($dir_ecp, $crypto_reg) Then ; Гост 2011
+			Local $hCryptoImport = FileOpen($dir_ecp & "crypto_import.reg", 2)
+
+			Local $hCryptoSites = FileOpen($dir_ecp & $crypto_reg, 0)
+			Local $sCryptoRead = FileRead($hCryptoSites)
+			FileClose($hCryptoSites)
+
+			FileWrite($hCryptoImport, "Windows Registry Editor Version 5.00")
+			Switch @OSArch ; Проверяем разрядность ОС
+				Case "X64"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+	 			Case "X86"
+	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")								
+			EndSwitch
+
+			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
+			FileClose($hCryptoImport)
+			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
 		EndIf
 	EndIf
 
@@ -1163,6 +1196,14 @@ EndFunc   ;==>FederalResources
 ; ----------------------------------------------- SOFTWARE FUNC;
 
 Func Programs()
+	If Checked($checkNpso_dostup) Then ; NPSO Доступ
+		Status("Установка NPSO Доступ")
+
+		If SoftDownload($dir_software, $npso_dostup) Then 
+			ShellExecuteWait("msiexec.exe", '/x "' & $dir_software & '\npso_dostup.msi" /qn')
+    		ShellExecuteWait("msiexec.exe", '/i "' & $dir_software & '\npso_dostup.msi" /qn')
+		EndIf
+	EndIf
 	; IrfanView
 	If Checked($checkIrfan) Then
 		Status("Установка и настройка IrfanView")
@@ -1444,31 +1485,64 @@ Func Programs()
 		EndIf
 	EndIf
 
-	; LibreOffice
+	; WinCenteringHelper
+	If Checked($checkWinCentring) Then
+		Status("Загрузка и установка WindowCenteringHelper-PE")
+		SoftDownload($dir_software, $winCentering_cfg_ds)
+		If SoftDownload($dir_software, $winCentering_ds) Then
+			FileCreateShortcut($dir_software & "WindowCenteringHelper-PE.exe", @DesktopDir & "\WindowCenteringHelper-PE.lnk", $dir_software)
+		EndIf
+	EndIf
+	
+
+	; LibreOffice Latest Version Finder (Simplified)
 	If Checked($check_libre) Then
 		Status("Загрузка и установка LibreOffice")
 		
-		Local $sData = BinaryToString(InetRead("https://www.libreoffice.org/download/download-libreoffice/"))
-		Local $aReg = StringRegExp($sData,'<a class="dl_download_link" href="([^"]+)"', 3)
-		;ConsoleWrite($aReg[0] & @CRLF)
-
-		Local $version = StringRegExpReplace($aReg[0], "^.+/(\d+\.\d+\.\d+)/.+", "\1")
+		; Get HTML content from stable versions page
+		Local $sData = BinaryToString(InetRead("https://download.documentfoundation.org/libreoffice/stable/"))
+		
+		; Find all version folders - extract from href attributes
+		Local $aVersions = StringRegExp($sData, 'href="(\d+\.\d+\.\d+)/"', 3)
+		
+		Local $version = ""
+		
+		If Not @error And UBound($aVersions) > 0 Then
+			; Sort versions to find the highest
+			Local $highestVersion = $aVersions[0]
+			
+			For $i = 1 To UBound($aVersions) - 1
+				If _CompareVersions($aVersions[$i], $highestVersion) > 0 Then
+					$highestVersion = $aVersions[$i]
+				EndIf
+			Next
+			
+			$version = $highestVersion
+		Else
+			; Fallback - try to find any version pattern
+			Local $aFallback = StringRegExp($sData, '(\d{2}\.\d+\.\d+)', 3)
+			If Not @error And UBound($aFallback) > 0 Then
+				$version = $aFallback[UBound($aFallback) - 1] ; Take the last one found
+			Else
+				$version = "25.8.1" ; Hard fallback
+				ConsoleWrite("Warning: Could not detect version, using fallback: " & $version & @CRLF)
+			EndIf
+		EndIf
+		
+		; Determine platform
 		Local $platform = "x86"
-
-		If @OSArch = "x64" Then	$platform = $platform & "_64"
-
-
-		; Construct the new URL
-
+		If @OSArch = "x64" Then $platform = $platform & "_64"
+		
+		; Construct the download URL
 		Local $newURL = "https://download.documentfoundation.org/libreoffice/stable/" & $version & "/win/" & $platform & "/LibreOffice_" & $version & "_Win_" & StringRegExpReplace($platform, "x86_64", "x86-64") & ".msi"
-
-		;ConsoleWrite("Original URL: " & $aReg[0] & @CRLF)
-		;ConsoleWrite("New URL: " & $newURL & @CRLF)
-
-		;_ArrayDisplay($aReg)
-
+		
+		ConsoleWrite("Found LibreOffice version: " & $version & @CRLF)
+		ConsoleWrite("Download URL: " & $newURL & @CRLF)
+		
+		; Download and install
 		If SoftDownload($dir_software, $newURL, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($newURL), "msi")
 	EndIf
+
 
 	; Kaspersky Endpoint security
 	If Checked($check_kes) Then
@@ -1547,113 +1621,142 @@ EndFunc   ;==>Express
 ; ----------------------------------------------- FNS FUNC;
 
 Func FNS()
-	Local $prog_files = "C:\Program Files\АО ГНИВЦ\ППДГР"
-	Local $prog_files_new = "C:\АО ГНИВЦ\ППДГР"
-	Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2"
-	If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
+    Local $prog_files = "C:\Program Files\АО ГНИВЦ\ППДГР"
+    Local $prog_files_new = "C:\АО ГНИВЦ\ППДГР"
+    Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2"
+    If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
 
-	; FNS Program | v 2.0
-	If Checked($checkFNS2) Then
-		; Пакет электронных документов
-		Status("Установка и настройка програм для ФНС")
-			Local $msiErr = ""
-			Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link2", "")
-			Local $SproLink = IniRead($dir_distr & "version.ini", "FNS", "Spro", "")
+    ; FNS Program | v 2.0
+    If Checked($checkFNS2) Then
+        Status("Установка и настройка программ для ФНС")
+        
+        Local $msiErr = ""
+        Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link2", "")
+        Local $SproLink = IniRead($dir_distr & "version.ini", "FNS", "Spro", "")
 
-			Local $RegExNonNumbers="(?i)([^0-9-._])"
-			Local $FnsVersion2 = StringRegExpReplace(_INetGetSource("https://www.gnivc.ru/html/gnivcsoft/ppdgr/VersPPDGR_3_WithInfo.txt"),$RegExNonNumbers,"")
-			If $FnsVersion2 <> "" Then $FnsLink = "https://www.gnivc.ru/html/gnivcsoft/ppdgr/" & $FnsVersion2 & "/SetupPPDGR2.msi"
+        ; --- 1. ФИКС ДЛЯ WINDOWS 7 (Обязательно ДО сетевых запросов) ---
+        If @OSVersion = "WIN_7" Then
+            If SoftDownload($dir_software, $win7quick_fix_ssl) Then SoftInstall($dir_software, $win7quick_fix_ssl, "msi")
 
-			DirRemove($dir_ppdgr, 1)
-			DirRemove($prog_files_v2)
-			DirRemove($prog_files)
-			DirRemove($prog_files_new)
+            Local $regPath1 = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client"
+            Local $regPath2 = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"
+            Local $regName = "DisabledByDefault"
+            Local $regValue = 0
+            
+            RegWrite($regPath1, $regName, "REG_DWORD", $regValue)
+            RegWrite($regPath2, $regName, "REG_DWORD", $regValue)
+        EndIf
 
-			If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
+        ; --- 2. УМНЫЙ ПОИСК ВЕРСИИ ---
+        Local $sSource = _INetGetSource("https://www.gnivc.ru/html/gnivcsoft/ppdgr/VersPPDGR_3_WithInfo.txt")
+        Local $RegExNumbersOnly = "(\d+\.\d+\.\d+)" ; Ищем формат X.X.X
+        Local $aVisibleVersion = StringRegExp($sSource, $RegExNumbersOnly, 1)
+        Local $FnsVersion2 = ""
 
-				If @OSVersion = "WIN_7" Then
-					If SoftDownload($dir_software, $win7quick_fix_ssl) Then SoftInstall($dir_software, $win7quick_fix_ssl, "msi")
+        If Not @error Then
+            Local $sCurrentVersion = $aVisibleVersion[0]
+            Local $sBestVersion = $sCurrentVersion
+            
+            ; Разбираем версию (например, 2.7.3)
+            Local $aParts = StringSplit($sCurrentVersion, ".")
+            If $aParts[0] = 3 Then
+                Local $iMajor = $aParts[1]
+                Local $iMinor = $aParts[2]
+                Local $iPatch = Int($aParts[3])
 
-					Local $regPath = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client"
-					Local $regName = "DisabledByDefault"
-					Local $regValue = 0
-					
-					RegWrite($regPath, $regName, "REG_DWORD", $regValue)
+                Status("Поиск скрытых обновлений ППДГР на сервере...")
+                
+                ; Ищем до 10 версий вперед
+                For $i = 1 To 10
+                    Local $sCheckVer = $iMajor & "." & $iMinor & "." & ($iPatch + $i)
+                    Local $sCheckUrl = "https://data.nalog.ru/files/ppdgr/" & $sCheckVer & "/SetupPPDGR2.msi"
+                    
+                    ; Проверяем размер файла (1 = игнорировать кэш)
+                    Local $iSize = InetGetSize($sCheckUrl, 1)
+                    If $iSize > 1000000 Then ; MSI явно весит больше 1 Мб
+                        $sBestVersion = $sCheckVer
+                        ConsoleWrite("+++ Найдена более свежая версия: " & $sBestVersion & @CRLF)
+                    Else
+                        ExitLoop ; Если следующей версии нет, прерываем поиск
+                    EndIf
+                Next
+            EndIf
+            
+            $FnsVersion2 = $sBestVersion
+            $FnsLink = "https://data.nalog.ru/files/ppdgr/" & $FnsVersion2 & "/SetupPPDGR2.msi"
+        EndIf
+        ConsoleWrite("FnsLink: " & $FnsLink & @CRLF)
 
-					$regPath = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"
-					RegWrite($regPath, $regName, "REG_DWORD", $regValue)
-				EndIf
+        ; --- 3. ОЧИСТКА И СКАЧИВАНИЕ ---
+        DirRemove($dir_ppdgr, 1)
+        DirRemove($prog_files_v2, 1) 
+        DirRemove($prog_files, 1)
+        DirRemove($prog_files_new, 1)
+        DirCreate($dir_ppdgr)
 
-				_InstallDotNet("47") ; Ставим фреймворк 4.7
+        If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
 
-				$msiErr = RunWait("msiexec /fa " & $dir_ppdgr & $ds_ppdgr2 & " /qb /passive /norestart REBOOT=ReallySuppress /L*V " & $dir_logs & $ds_ppdgr2 & ".log") ; Обновляем ППДГР
-				If $msiErr = "1605" Then ; ставим ППДГР, если обновить не сумели
-					SoftInstall($dir_ppdgr, $ds_ppdgr2, "msi")
-				Else
-					_FileWriteLog($dir_logs & "Install.log", $ds_ppdgr2 & ": Updated")
-				EndIf
+            ; --- 4. УСТАНОВКА / ОБНОВЛЕНИЕ ---
+            ; Добавлены кавычки для путей на случай пробелов
+            $msiErr = RunWait("msiexec /fa """ & $dir_ppdgr & $ds_ppdgr2 & """ /qb /passive /norestart REBOOT=ReallySuppress /L*V """ & $dir_logs & $ds_ppdgr2 & ".log""")
+            
+            If $msiErr = "1605" Then ; Если нечего обновлять (программа не установлена), ставим начисто
+                SoftInstall($dir_ppdgr, $ds_ppdgr2, "msi")
+            Else
+                _FileWriteLog($dir_logs & "Install.log", $ds_ppdgr2 & ": Updated")
+            EndIf
 
-				$BPrint = WinWait("Печать НД", "", 5) ; Установка модуля печати
-				If WinExists($BPrint) Then
-					Local $PidActwin = WinGetProcess($BPrint)
-					ProcessClose($PidActwin)
+            ; --- 5. УСТАНОВКА МОДУЛЯ ПЕЧАТИ ---
+            $BPrint = WinWait("Печать НД", "", 5)
+            If WinExists($BPrint) Then
+                Local $PidActwin = WinGetProcess($BPrint)
+                ProcessClose($PidActwin)
 
-					If DirGetSize($prog_files_v2) <> -1  Then ; Проверяем, что ППДГР установлен
-						FileChangeDir($prog_files_v2)
-					
-							Local $hSearch = FileFindFirstFile("*.msi")
-							$sFileName = FileFindNextFile($hSearch)
-							FileClose($hSearch)
+                If FileExists($prog_files_v2) Then 
+                    FileChangeDir($prog_files_v2)
+                
+                    Local $hSearch = FileFindFirstFile("*.msi")
+                    If $hSearch <> -1 Then
+                        Local $sFileName = FileFindNextFile($hSearch)
+                        FileClose($hSearch)
 
-							Status("Установка и настройка модуля печати ППДГР")
-							RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
-						FileChangeDir($dir_distr)
-						$ppdgr_print_cont = False
-					EndIf
-				EndIf
+                        If $sFileName <> "" Then
+                            Status("Установка и настройка модуля печати ППДГР")
+                            RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
+                        EndIf
+                    EndIf
+                    FileChangeDir($dir_distr)
+                    Global $ppdgr_print_cont = False 
+                EndIf
+            EndIf
 
-				If SoftDownload($dir_ppdgr, $SproLink, "wext") Then
-					FileChangeDir($dir_ppdgr)
-						SoftUnzip($dir_ppdgr, "SPRO.ARJ", $dir_ppdgr, "arj") ; Распаковываем ППДГР
-						FileMove("SPRO1.TXT", $prog_files_v2 & "\XML\SPRO1.TXT", 1)
-					FileChangeDir($dir_distr)
+            ; --- 6. ОБНОВЛЕНИЕ СПРАВОЧНИКОВ СПРО ---
+            If SoftDownload($dir_ppdgr, $SproLink, "wext") Then
+                FileChangeDir($dir_ppdgr)
+                SoftUnzip($dir_ppdgr, "SPRO.ARJ", $dir_ppdgr, "arj")
 
-				EndIf
-			EndIf
+                Local $hSearchTxt = FileFindFirstFile("*.txt")
+                If $hSearchTxt <> -1 Then
+                    DirCreate($prog_files_v2 & "\XML") 
+                    
+                    While 1
+						Local $sFileTxt = FileFindNextFile($hSearchTxt)
+						If @error Then ExitLoop
+						
+						Local $sDestPath = $prog_files_v2 & "\XML\" & $sFileTxt
+						
+						; Принудительно перемещаем файл с заменой
+						FileMove($sFileTxt, $sDestPath, 1)
+					WEnd
+                    FileClose($hSearchTxt)
+                EndIf
 
-			If $Start_param_FNS Then MsgBox("","Статус", "Программа подготовки документов для государственной регистрации установлена!")
-	EndIf
+                FileChangeDir($dir_distr)
+            EndIf
+        EndIf
 
-	; Модуль печати ППДГР
-	If Checked($checkFNS_Print) Then
-		Status("Проверка наличия установленного ПО ППДГР")
-
-		Local $ppdgr_print_cont = False
-		If DirGetSize($prog_files_v2) <> -1  Then ; Проверяем, что ППДГР2 установлен
-			$ppdgr_print_cont = True
-			FileChangeDir($prog_files_v2)
-		ElseIf DirGetSize($prog_files_new) <> -1  Then ; Проверяем, что ППДГР-new установлен
-			$ppdgr_print_cont = True
-			FileChangeDir($prog_files_new)
-		ElseIf DirGetSize($prog_files) <> -1  Then ; Проверяем, что ППДГР-old установлен
-			$ppdgr_print_cont = True
-			FileChangeDir($prog_files)
-		EndIf
-
-		If $ppdgr_print_cont Then
-				Local $hSearch = FileFindFirstFile("*.msi")
-				$sFileName = FileFindNextFile($hSearch)
-				FileClose($hSearch)
-
-				Status("Удаление сбойного модуля печати ППДГР")
-				RunWait("msiexec /x """ & $sFileName & """ /qb")
-
-				Status("Установка модуля печати ППДГР")
-				RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
-			FileChangeDir($dir_distr)
-			$ppdgr_print_cont = False
-		EndIf
-	EndIf
+        If $Start_param_FNS Then MsgBox(64, "Статус", "Программа подготовки документов для государственной регистрации установлена!")
+    EndIf
 EndFunc
 
 ; ----------------------------------------------- Programs2Reboot FUNC;
@@ -1732,7 +1835,7 @@ Func SoftDownload($Place, $Soft_ds, $dwnloader = "wget") ; Закачка соф
 
 				Case "raw"
 					FileDelete($FilePath)
-					_DownloadRawBar("http://" & $User & ":" & $Pass & "@" & $Server & "/" & $Soft_ds, $Place & $Soft_ds)
+					_DownloadRawBar("https://" & $User & ":" & $Pass & "@" & $Server & "/" & $Soft_ds, $Place & $Soft_ds)
 					$checkCrc = _CheckCRC($FilePath)
 					If $checkCrc Or $Soft_ds = $VersionInfo Then
 						$FileDownloaded = True
@@ -1748,15 +1851,19 @@ Func SoftDownload($Place, $Soft_ds, $dwnloader = "wget") ; Закачка соф
 
 				Case "ext"
 					$file_name = StringRegExp($Soft_ds, "(?=\w+\.\w{3,4}$).+", 1)
-					
+					Local $TargetFile = $Place & "\" & $file_name[0] ; Добавили слэш "\"
+
+					; Если папки нет - создаем (на всякий случай)
+					If Not FileExists($Place) Then DirCreate($Place)
+
 					; Скачиваем новый файл если сумма не совпадает
-					If (InetGetSize($Soft_ds, 1) <> FileGetSize($Place & $file_name[0])) Then
+					If (InetGetSize($Soft_ds, 1) <> FileGetSize($TargetFile)) Then
 						FileDelete($FilePath)
-						_DownloadRawBar($Soft_ds, $Place & $file_name[0])
+						_DownloadRawBar($Soft_ds, $TargetFile)
 					EndIf
 
 					; Проверяем, скачался ли файл
-					If (InetGetSize($Soft_ds, 1) = FileGetSize($Place & $file_name[0])) Then 
+					If (InetGetSize($Soft_ds, 1) = FileGetSize($TargetFile)) Then
 						$FileDownloaded = True
 						_FileWriteLog($dir_logs & "Install.log", $Soft_ds & ": Done")
 					Else
@@ -1847,10 +1954,13 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 			$arg = $FilePath & " -reinstall -noyandex -silent -norestart -root"
 
 		Case "csp5" ; КриптоПро 5.0
-			$arg = $FilePath & " -nodlg -noreboot -args ""/qn REBOOT=REALLYSUPPRESS"" "
+			$arg = $FilePath & " -root -nodlg -noreboot -args ""/qn REBOOT=REALLYSUPPRESS"" "
 		
 		Case "csp5r3" ; КриптоПро 5.0 r3
 			$arg = $FilePath & " -root -noyandex -norestart -silent "
+
+		Case "csp5r3+" ; КриптоПро 5.0 r3+
+			$arg = $FilePath & " -silent -noreboot -root -args ""/qb"" "
 
 		Case "arm" ; КриптоАРМ
 			$arg = $FilePath & " /V """ & StringStripWS($arg,1) & """"
@@ -2090,7 +2200,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 				GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
 		EndSelect
 	EndIf
-
+	
 	For $i = 0 To UBound($AllCheckboxes) - 1 Step 1 ; Проверяем, выбран ли какой-либо пункт меню
 		If GUICtrlRead($AllCheckboxes[$i]) = $GUI_CHECKED Then $continue = True
 	Next
@@ -2159,9 +2269,9 @@ EndFunc   ;==>WM_NOTIFY
 
 Func _Wget($file_url, $folder_to, $ext = "npso") ; Процедура загрузки файлов с помощью WGET ($ext = npso / ext)
 	If $ext = "ext" Then
-		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate " & $file_url & " -P " & $folder_to)
+		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user-agent=""Mozilla/5.0 (Windows NT 10.0; Win64; x64)"" " & $file_url & " -P " & $folder_to)
 	ElseIf $ext = "npso" Then
-		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user=" & $User & " --password=" & $Pass & " http://" & $Server & "/" & $file_url & " -P " & $folder_to)	
+		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user=" & $User & " --password=" & $Pass & " https://" & $Server & "/" & $file_url & " -P " & $folder_to)	
 	EndIf
 EndFunc   ;==>_Wget
 
@@ -2453,6 +2563,25 @@ Func _RetrieveServiceState($s_ServiceName) ; получение статуса �
 		Next
 	EndIf
 EndFunc   ;==>_RetrieveServiceState
+
+; Function to compare version numbers
+Func _CompareVersions($version1, $version2)
+    Local $aParts1 = StringSplit($version1, ".", $STR_NOCOUNT)
+    Local $aParts2 = StringSplit($version2, ".", $STR_NOCOUNT)
+    
+    Local $maxParts = UBound($aParts1) > UBound($aParts2) ? UBound($aParts1) : UBound($aParts2)
+    
+    For $i = 0 To $maxParts - 1
+        Local $part1 = $i < UBound($aParts1) ? Number($aParts1[$i]) : 0
+        Local $part2 = $i < UBound($aParts2) ? Number($aParts2[$i]) : 0
+        
+        If $part1 > $part2 Then Return 1
+        If $part1 < $part2 Then Return -1
+    Next
+    
+    Return 0
+EndFunc
+
 
 Func _WindowsUpdateFix()
 	; Windows FIX
