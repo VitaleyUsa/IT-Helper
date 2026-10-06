@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Res_Comment=Нотариальная палата Свердловской области
 #AutoIt3Wrapper_Res_Description=АйТи помощник от НПСО
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.129
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.135
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Ситников Виталий
 #AutoIt3Wrapper_Res_Language=1049
@@ -108,13 +108,16 @@ GUICtrlSetFont(-1, 10, 800, 0, "Arial Narrow")
 $checkEnot = GUICtrlCreateCheckbox(" ЕИС Енот", $left, $top_1, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
 GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 
-$checkBD = GUICtrlCreateCheckbox(" Дистрибутив MySQL", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
+$checkBD = GUICtrlCreateCheckbox(" Дистрибутив MariaDB", $left, $top_2, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
 GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-GUICtrlSetTip(-1, "Mysql + базы данных еис")
+GUICtrlSetTip(-1, "MariaDB + базы данных еис")
 
-$checkSQLBACKUP = GUICtrlCreateCheckbox(" Бэкап баз данных ЕИС", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
+$checkMySQL_Enot = GUICtrlCreateCheckbox(" База данных MySQL Енот", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
 GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-GUICtrlSetTip(-1, "Утилита для бэкапа MySQL БД Енота")
+
+;~ $checkSQLBACKUP = GUICtrlCreateCheckbox(" Бэкап баз данных ЕИС", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
+;~ GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
+;~ GUICtrlSetTip(-1, "Утилита для бэкапа MariaDB БД Енота")
 
 $checkCleanUpdates = GUICtrlCreateCheckbox(" Очистка обновлений", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
 GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
@@ -415,9 +418,9 @@ GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
 GUICtrlSetTip(-1, "Клиент ЕИС для второстепенного рабочего места")
 
 ;;$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Помощник КЛЕИС | решение распространенных проблем", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX,$BS_LEFT))
-$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Исправление для КЛЕИС (если не запускается)", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
+$checkKLEIS_Helper = GUICtrlCreateCheckbox(" Драйвера для планшета Wacom", $left, $top_3, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
 GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
-;;GUICtrlSetTip(-1, "Помощник по КЛЕИС | решение распространенных проблем")
+;;GUICtrlSetTip(-1, "wacomsdk.msi")
 
 $checkKLEIS_Diagnostic = GUICtrlCreateCheckbox(" Диагностика клиента ЕИС (разраб. Артём Поляков, Уфа)", $left, $top_4, $width, $height, BitOR($GUI_SS_DEFAULT_CHECKBOX, $BS_LEFT))
 GUICtrlSetFont(-1, 10, 400, 0, "Tahoma")
@@ -1028,7 +1031,7 @@ Global $AllCheckboxes[] = [ _
 		$checkActx_Browser, $checkARM, $checkBD, $checkYA, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS2, $checkFNS_Print, $checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, $checkHasp, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
-		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
+		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkMySQL_Enot, _
 		$checkOpenShell, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
 		$checkIPScanner, $checkXMLPad, $checkCleanUpdates, $checkLibReg, $checkFindRND, _

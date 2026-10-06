@@ -20,8 +20,8 @@
 #include <WinAPIFiles.au3>
 
 ; For password form
-#Include <WinAPIEx.au3>
-#Include <Icons.au3>
+#include <WinAPIEx.au3>
+#include <Icons.au3>
 
 Dim $StatusBar1, $StatusBar2
 Global $Start_param_certs = 0
@@ -35,20 +35,20 @@ Global $Start_param_FNS = 0
 ; Пути к рабочим директориям
 Global $dir_distr = "C:\Distr\Notary\" ; Папка, где будем хранить дистрибутивы нотариальных программ
 
-Global $dir_tools  = $dir_distr & "Tools\"
-Global $dir_logs   = $dir_distr & "Logs\"
+Global $dir_tools = $dir_distr & "Tools\"
+Global $dir_logs = $dir_distr & "Logs\"
 Global $dir_update = $dir_distr & "Update\"
 
-Global $dir_ecp       = $dir_tools & "ecp\"
-Global $dir_enot      = $dir_tools & "enot\"
-Global $dir_express   = $dir_tools & "express\"
-Global $dir_federal   = $dir_tools & "federal\"
-Global $dir_software  = $dir_tools & "software\"
-Global $dir_certs     = $dir_tools & "certs\"
+Global $dir_ecp = $dir_tools & "ecp\"
+Global $dir_enot = $dir_tools & "enot\"
+Global $dir_express = $dir_tools & "express\"
+Global $dir_federal = $dir_tools & "federal\"
+Global $dir_software = $dir_tools & "software\"
+Global $dir_certs = $dir_tools & "certs\"
 
 Global $dir_ppdgr = $dir_federal & "ppdgr\"
-Global $ds_ppdgr  = "Setup_PPDGR_full.exe" ; Архив с базой и дистром
-Global $ds_ppdgr2  = "SetupPPDGR2.msi" ; Новый дистр (в. 2.0)
+Global $ds_ppdgr = "Setup_PPDGR_full.exe"  ; Архив с базой и дистром
+Global $ds_ppdgr2 = "SetupPPDGR2.msi"  ; Новый дистр (в. 2.0)
 Global $ds_extracted_ppdgr = "Setup_PPDGR.msi" ; Дистр после извлечения
 Global $dir_ngate = "C:\Program Files\Crypto Pro\NGate\" ; Место установка клиента NGate
 
@@ -70,23 +70,24 @@ Global $winsettings_ds = "WinSettings.zip" ; WindowsSettings
 
 Global $hotfixes_sha2_3033929 = """3033929 3185330 3197868 4015549 4019264 4022719 4025341 4034664 4038777 4041681""" ; Список обновлений для sha-2 - 3033929
 
-Global $win7hotfix_3035131_x32="Windows6.1-KB3035131-x86.cab" ; Патч для 7ки KB3035131 | для NGate
-Global $win7hotfix_3035131_x64="Windows6.1-KB3035131-x64.cab"
+Global $win7hotfix_3035131_x32 = "Windows6.1-KB3035131-x86.cab" ; Патч для 7ки KB3035131 | для NGate
+Global $win7hotfix_3035131_x64 = "Windows6.1-KB3035131-x64.cab"
 
-Global $win7hotfix_3033929_x32="Windows6.1-KB3033929-x86.cab" ; Патч для 7ки KB30303929 | для NGate
-Global $win7hotfix_3033929_x64="Windows6.1-KB3033929-x64.cab"
+Global $win7hotfix_3033929_x32 = "Windows6.1-KB3033929-x86.cab" ; Патч для 7ки KB30303929 | для NGate
+Global $win7hotfix_3033929_x64 = "Windows6.1-KB3033929-x64.cab"
 
-Global $win7hotfix_4474419_x32="windows6.1-kb4474419-v3-x86.cab" ; Патч для 7ки KB4474419 | для NGate
-Global $win7hotfix_4474419_x64="windows6.1-kb4474419-v3-x64.cab"
+Global $win7hotfix_4474419_x32 = "windows6.1-kb4474419-v3-x86.cab" ; Патч для 7ки KB4474419 | для NGate
+Global $win7hotfix_4474419_x64 = "windows6.1-kb4474419-v3-x64.cab"
 
-Global $win7quick_fix_ssl="MicrosoftEasyFix51044.msi"
+Global $win7quick_fix_ssl = "MicrosoftEasyFix51044.msi"
 
 Global $Enot_ds = "Setup.exe" ; Расположение дистрибутива еНот
 Global $Enot_updated_ds = "Setup_enot_with_updates.exe" ; Дистрибутив ЕИС с обновлениями
 
 Global $KLEIS_ds = "EISClient.exe" ; Клиент ЕИС для основного пк
-Global $KLEIS_Sec_ds = "EISClientStaff.exe" ; Клиент ЕИС для второстепенного пк 
+Global $KLEIS_Sec_ds = "EISClient.exe" ; Клиент ЕИС для второстепенного пк
 Global $update_sync_service = "update_sync_service.bat" ; Исправление ошибок СС
+Global $wacomsdk = "wacomsdk.msi" ; Драйверы wacom для планшета
 Global $KLEIS_SS_UPGRADE_ds = "SyncService-115-116.zip" ; Принуд. обновление версии СС до 116
 Global $KLEIS_IN_UPGRADE_ds = "Interface-115-116.zip" ; Принуд. обновление версии ИН до 116
 Global $KLEIS_Diagnostic_ds = "http://178.214.243.240/soft/Notarius/Client/DiagnosticsAndBackupEISClient.exe" ; Диагностика КЛЕИС от Артема
@@ -96,13 +97,14 @@ Global $check_palata_ds = "http://notpalatarb.ru/files/raccoon-reports/RaccoonRe
 Global $AssistantNotariusIT_ds = "http://178.214.243.240/soft/Notarius/Remote/SetupAssistantNotariusIT.exe" ; Набор удаленной помощи от Артема
 Global $KonturDostup_ds = "https://fciit.ru/files/KonturDostup.zip" ; КонтурДоступ (удаленка)
 
-Global $MysqlSetup32 = "SetupDB.exe" ; Mysql 32bit
-Global $MysqlSetup64 = "SetupDBx64.exe" ; Mysql 64bit
+;Global $MysqlSetup32 = "SetupDB.exe" ; Mysql 32bit
+;Global $MysqlSetup64 = "SetupDBx64.exe" ; Mysql 64bit
 
+Global $MariaSetup64 = "SetupMariaDBeNot_x64.exe" ; MariaDB 64bit
 Global $Data = "Data.zip" ; Расположение БД еНот
-Global $Data_tables = "Data_tables.zip" ; Расположение таблиц БД еНот
+;Global $Data_tables = "Data_tables.zip" ; Расположение таблиц БД еНот
 
-Global $chrome4express_w7  = "http://download.triasoft.com/express/SetupCef_Win7.zip"
+Global $chrome4express_w7 = "http://download.triasoft.com/express/SetupCef_Win7.zip"
 Global $chrome4express_w10 = "http://download.triasoft.com/express/SetupCef_Win10.zip"
 Global $xml_ds = "msxml6_x86.msi" ; MS XML for Express
 Global $capicom = "capicom.exe" ; Microsoft Capicom
@@ -171,9 +173,9 @@ Global $hasp_ds = "hasp.exe" ; hasp drivers
 Global $scp_ds = "WinSCP.exe" ; WinSCP
 Global $zip32_ds = "7z.msi" ; 7-zip
 Global $zip64_ds = "7z_64.msi" ; 7-zip х64
-Global $zip32_assoc	 = "7z.reg" ; Assoc for 7zip x32
-Global $zip64_assoc	 = "7z_64.reg" ; Assoc for 7zip x64
-Global $heidi_ds	 = "HeidiSQL.zip" ; HeidiSQL
+Global $zip32_assoc = "7z.reg" ; Assoc for 7zip x32
+Global $zip64_assoc = "7z_64.reg" ; Assoc for 7zip x64
+Global $heidi_ds = "HeidiSQL.zip" ; HeidiSQL
 Global $punto_ds = "PuntoSwitcher.zip" ; PuntoSwitcher with config
 Global $access97_ds = "Microsoft_Access_97_SR2.zip" ; Microsoft Access 97 SR2
 Global $win2pdf_ds = "WinScan2PDF.exe" ; Tool to scan 2 PDF
@@ -187,9 +189,9 @@ Global $photoviewer = "PhotoViewer.reg"
 Global $naps2_ds = "naps2.msi" ; Сканирование в разные форматы
 Global $sniffer_ds = "SpaceSniffer.exe" ; Space Sniffer
 Global $webkit_ds = "SetupWebKit.exe"
-Global $diskinfo_ds="CrystalDiskMark7.exe"
-Global $hwinfo_ds="HWInfo.exe"
-Global $shadowexplorer_ds="ShadowExplorer.zip"	
+Global $diskinfo_ds = "CrystalDiskMark7.exe"
+Global $hwinfo_ds = "HWInfo.exe"
+Global $shadowexplorer_ds = "ShadowExplorer.zip"
 Global $winCentering_ds = "WindowCenteringHelper-PE.exe"
 Global $winCentering_cfg_ds = "WindowCenteringHelper.ini"
 
@@ -206,24 +208,25 @@ Global $chromeSetup = "GoogleChromeStandaloneEnterprise.msi" ; Chrome x32 distr
 If @OSArch = "x64" Then $chromeSetup = "GoogleChromeStandaloneEnterprise64.msi"
 Global $chromePolicy = "googleupdateadmx.zip"
 
-Global $yaBrowser     = "YandexBrowser_x86.msi"
+Global $yaBrowser = "YandexBrowser_x86.msi"
 Global $yaBrowser_x64 = "YandexBrowser_x64.msi"
 
 Global $npso_dostup = "npso_dostup.msi"
-Global $tm_ds 		= "TeamViewerQS.exe" ; Teamviewer QS
-Global $anydesk_ds  = "AnyDesk.exe" ; AnyDesk
+Global $tm_ds = "TeamViewerQS.exe" ; Teamviewer QS
+Global $anydesk_ds = "AnyDesk.exe"  ; AnyDesk
 Global $assistant_ds = "Assistant_fs.exe" ; Ассистент
 Global $trueconf_ds = "TrueConf.zip" ; TrueConf
-Global $mupdate_ds  = "mupdate.reg" ; Minus Windows 10 Update
-Global $start_ds	= "Startisback.zip" ; Startisback for Win10
+Global $mupdate_ds = "mupdate.reg"  ; Minus Windows 10 Update
+Global $start_ds = "Startisback.zip" ; Startisback for Win10
 Global $openshell_ds = "OpenShell.exe" ; OpenShell Menu for Win10
-Global $line_ds		= "CryptoLine.msi" ; КриптоЛайн
-Global $pwd_ds		= "pwdcrack.zip" ; PwdCrack
+Global $line_ds = "CryptoLine.msi" ; КриптоЛайн
+Global $pwd_ds = "pwdcrack.zip" ; PwdCrack
 Global $produkey_ds = "ProduKey.exe" ; ProduKey
-Global $share_ds 	= "net_share.bat" ; Network Share Parameters
-Global $pass_ds  = "crypto_pass.bat" ; Получение сохраненных данных с ключа ЭП
+Global $share_ds = "net_share.bat" ; Network Share Parameters
+Global $pass_ds = "crypto_pass.bat"  ; Получение сохраненных данных с ключа ЭП
 Global $faststone_ds = "FSViewerSetup66.exe" ; Faststone image viewer
 Global $sqlBackup_ds = "MysqlBackup.exe" ; утилита для бэкапа баз данных
+Global $MySQL_Enot_ds = "MySQL-old-database.zip" ; старая база MySQL для Енота	
 
 ; Системные
 
@@ -237,14 +240,14 @@ Global $VersionInfo = "version.ini"
 
 ; Создаем переменные статуса
 
-Global  $HelperForm, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, $sPass, $Download_only, $btnNewPk, $btnSpecialist, _ 
+Global $HelperForm, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, $sPass, $Download_only, $btnNewPk, $btnSpecialist, _
 		$checkActx_Browser, $checkARM, $checkBD, $checkYA, $checkCerts, $checkCertsClean, $checkCertsKey, $checkCSP, _
 		$checkEnot, $checkFNS2, $checkFNS_Print, $checkPDF, $checkPKI, $checkIrfan, $checkFastStone, _
 		$checkFF, $checkC, $checkNet_48, $checkHASP, $checkChrome, $checkAdobe, $checkWinSet, $checkSCP, $checkZIP, _
-		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, _
+		$checkTM, $checkAnyDesk, $checkAssistant, $checkAssistantNotariusIT, $checkTrueConf, $checkMUpdate, $checkSQLBACKUP, $checkMySQL_Enot, _
 		$checkOpenShell, $checkStart, $checkLine, $check_pwd, $check_heidi, $checkShare, _
 		$checkProduKey, $checkPunto, $checkAccess, $checkWin2PDF, $checkECPPass, $checkSysInfo, _
-		$checkIPScanner, $checkXMLPad, $checkCleanUpdates, $checkLibReg, $checkFindRND, _ 
+		$checkIPScanner, $checkXMLPad, $checkCleanUpdates, $checkLibReg, $checkFindRND, _
 		$checkEvent292, $checkCleanTask, $checkCSPclean, $checkCSP5_actual, $checkJacarta, _
 		$checkPhotoViewer, $checkFonts, $checkCapicom, $checkFeedbackTP, $checkNaps2, $checkSpaceSniffer, _
 		$checkDiskInfo, $checkHWInfo, $checkWebKit, $checkEnotUpdated, $checkNGate, $checkPDF24, _
@@ -257,26 +260,25 @@ Global  $HelperForm, $AllCheckboxes, $btnDownloadOnly, $btnInstall, $menuHelp, $
 ; ----------------------------------------------- Functions ------------------------------------------------ ;
 ; ---------------------------------------------------------------------------------------------------------- ;
 
-If WinExists("[TITLE:АйТи помощник; CLASS:AutoIt v3 GUI]") Then
-    WinActivate("[TITLE:АйТи помощник; CLASS:AutoIt v3 GUI]")
-    Exit
-EndIf
-
 Func _install($dwnload_only = False)
-	Global $Download_only = $dwnload_only
-	_FileWriteLog($dir_logs & "Install.log",  " ===================================================")
+    Global $Download_only = $dwnload_only
+    
+    ; Удаляем старый лог-файл с битой кодировкой при новом запуске
+    FileDelete($dir_logs & "Install.log")
 
-	Enot() ; Енот
-	Certificates() ; Сертификаты
-	ESign() ; ЭЦП
-	WinSetup() ; Настройки Windows
-	FederalResources() ; Федеральные ресурсы
-	Programs() ; Различный софт
-	Express() ; Экспресс
-	FNS()
-	Programs2Reboot()
-	_FileWriteLog($dir_logs & "Install.log", " ===================================================" & @CRLF & @CRLF )
+    _FileWriteLog($dir_logs & "Install.log", " ===================================================")
 
+    Enot() ; Енот
+    Certificates() ; Сертификаты
+    ESign() ; ЭЦП
+    WinSetup() ; Настройки Windows
+    FederalResources() ; Федеральные ресурсы
+    Programs() ; Различный софт
+    Express() ; Экспресс
+    FNS()
+    Programs2Reboot()
+
+    _FileWriteLog($dir_logs & "Install.log", " ===================================================")
 EndFunc   ;==>_install
 
 ; ----------------------------------------------- Enot FUNC;
@@ -286,7 +288,7 @@ Func Enot()
 		Status('Производится скачивание дистрибутива Енот')
 
 		; Скачиваем дистрибутив
- 		_Wget($Enot_ds, $dir_enot)
+		_Wget($Enot_ds, $dir_enot)
 		If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
 		WinActivate("enot")
 	EndIf
@@ -301,18 +303,32 @@ Func Enot()
 		EndIf
 	EndIf
 
-	If Checked($checkBD) Then ; Скачиваем дистрибутив Mysql + БД ЕИС
-		Status("Скачиваем базы данных Енот + Mysql - сервер")
+	If Checked($checkBD) Then ; Скачиваем дистрибутив MariaDB + БД ЕИС
+		Status("Скачиваем базы данных Енот + MariaDB - сервер")
 
+		FileDelete($dir_enot & $Data)
+		FileDelete($dir_enot & $MariaSetup64)
 		_Wget($Data, $dir_enot)
-		_Wget($Data_tables, $dir_enot)
+		_Wget($MariaSetup64, $dir_enot)
 
-		Local $MysqlSetup = $MysqlSetup32
-		If @OSArch = "X64" Then $MysqlSetup = $MysqlSetup64
-		_Wget($MysqlSetup, $dir_enot)
+		If FileExists($dir_enot & $Data) Then
+			FileMove($dir_enot & $Data, $dir_enot & StringLower($Data), 1) ; установщик ищет data.zip с маленькой буквы
+		EndIf
+
+		ShellExecute($dir_enot & $MariaSetup64, "", "", "")
+		;If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
+		;WinActivate("enot")
+	EndIf
+
+	If Checked($checkMySQL_Enot) Then ; Скачиваем старую базу MySQL для Енота
+		Status("Скачиваем старую базу MySQL для Енота")
+
+		FileDelete($dir_enot & $MySQL_Enot_ds)
+		_Wget($MySQL_Enot_ds, $dir_enot)
 
 		If Not WinExists("enot") Then Run('explorer ' & $dir_enot) ; открыть папку с установочным файлом
-		WinActivate("enot")
+		WinActivate("enot")	
+
 	EndIf
 
 	If Checked($checkCleanUpdates) Then ; Утилита для очистки обновлений ЕИС
@@ -326,7 +342,7 @@ Func Enot()
 
 		Local $WinLib = @WindowsDir & "\system32" ; переменные для винды и реестра (х86 или х64)
 		Local $WinReg = ""
-		If @OSArch = "X64" Then 
+		If @OSArch = "X64" Then
 			$WinLib = @WindowsDir & "\SysWow64"
 			$WinReg = "WOW6432Node\"
 		EndIf
@@ -336,17 +352,17 @@ Func Enot()
 			Local $sEnotPath = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\" & $WinReg & "Microsoft\Windows\CurrentVersion\Uninstall\eNot_is1", "Inno Setup: App Path")
 		EndIf
 
-		if Not FileExists($sEnotPath & "\TX25") Then 
+		If Not FileExists($sEnotPath & "\TX25") Then
 			DirCreate($sEnotPath & "\TX25")
 			If SoftDownload($dir_enot, $TX25) Then SoftUnzip($dir_enot, $TX25, $sEnotPath & "\TX25")
 		EndIf
-		
+
 		If SoftDownload($dir_enot, $LibReg) Then ; скачиваем ActiveTree.ocx и скрипт для реги енотовских библиотек
 			If SoftDownload($dir_enot, $ActiveTree) Then FileCopy($dir_enot & $ActiveTree, $WinLib & "\" & $ActiveTree, 1)
 			If SoftDownload($dir_enot, $ActiveTree2) Then FileCopy($dir_enot & $ActiveTree2, $WinLib & "\" & $ActiveTree2, 1)
 			If SoftDownload($dir_enot, $msvcr120) Then FileCopy($dir_enot & $msvcr120, $WinLib & "\" & $msvcr120, 1)
 			If SoftDownload($dir_enot, $eNotTX15) Then FileCopy($dir_enot & $eNotTX15, $sEnotPath & "\TX\" & $msvcr120, 1)
-			
+
 
 			_FileWriteToLine($dir_enot & $LibReg, 2, "set WinLibDir=" & $WinLib, 1) ; добавляем пути окружения в скрипт
 			_FileWriteToLine($dir_enot & $LibReg, 3, "set eNotPath=" & $sEnotPath, 1)
@@ -375,7 +391,7 @@ Func Enot()
 
 		If SoftDownload($dir_enot, $capicom) Then SoftInstall($dir_enot, $capicom, "/Q", 0)
 	EndIf
-	
+
 	If Checked($checkFeedbackTP) Then
 		Status("Установка компонента обратной связи")
 
@@ -388,49 +404,78 @@ Func Enot()
 	EndIf
 
 	; Клиент ЕИС для основного ПК
-	If Checked($checkKLEIS_Main) Then
-		Status("Загрузка клиента ЕИС для основного пк")
+    If Checked($checkKLEIS_Main) Then
+        Status("Загрузка клиента ЕИС для основного пк")
 
-		_Wget($KLEIS_ds, $dir_enot)
-		SoftInstall($dir_enot, $KLEIS_ds, "/qb")
-	Endif
+        Local $sSyncDir = "C:\Program Files (x86)\EIS\SyncService"
+        Local $sTempBackup = @TempDir & "\EIS_Backup_Folders"
+
+        ; 1. Сохраняем важные папки во временную директорию
+        DirCreate($sTempBackup)
+        If FileExists($sSyncDir & "\Archive") Then DirCopy($sSyncDir & "\Archive", $sTempBackup & "\Archive", 1)
+        If FileExists($sSyncDir & "\BadBackup") Then DirCopy($sSyncDir & "\BadBackup", $sTempBackup & "\BadBackup", 1)
+        If FileExists($sSyncDir & "\Stamp") Then DirCopy($sSyncDir & "\Stamp", $sTempBackup & "\Stamp", 1)
+
+        ; 2. Скачиваем и устанавливаем
+        _Wget($KLEIS_ds, $dir_enot)
+        SoftInstall($dir_enot, $KLEIS_ds, "/exebasicui /qb ADDLOCAL=ALL")
+
+        ; 3. Возвращаем сохраненные папки обратно в SyncService
+        If FileExists($sTempBackup & "\Archive") Then DirCopy($sTempBackup & "\Archive", $sSyncDir & "\Archive", 1)
+        If FileExists($sTempBackup & "\BadBackup") Then DirCopy($sTempBackup & "\BadBackup", $sSyncDir & "\BadBackup", 1)
+        If FileExists($sTempBackup & "\Stamp") Then DirCopy($sTempBackup & "\Stamp", $sSyncDir & "\Stamp", 1)
+
+        ; 4. Удаляем временный бэкап
+        ; DirRemove($sTempBackup, 1)
+
+        ; 5. Перезапускаем / стартуем службы ЕИС
+        RunWait(@ComSpec & " /c net stop EISSyncService", "", @SW_HIDE)
+        RunWait(@ComSpec & " /c net start EISSyncService", "", @SW_HIDE)
+    EndIf
 
 	; Клиент ЕИС для второстепенного ПК
 	If Checked($checkKLEIS_Sec) Then
-		Status("Загрузка клиента ЕИС для второстепенного пк")
-		FileDelete($dir_enot & $KLEIS_Sec_ds)
-		_Wget($KLEIS_Sec_ds, $dir_enot)
-		SoftInstall($dir_enot, $KLEIS_Sec_ds, "/qb")
-	Endif
+		; Проверяем существование хотя бы одной из служб основного рабочее места
+		If _ServiceExists("EisDB") Or _ServiceExists("EISSyncService") Then
+			_FileWriteLog($dir_logs & "Install.log", "KLEIS_Sec: Aborted (Main EIS service detected)")
+			
+			MsgBox(16, "Ошибка установки", "Найдена инсталляция основного рабочего места клиента ЕИС!" & @CRLF & @CRLF & _
+					"Удалите её предварительно, если вы уверены, что хотите установить здесь второстепенное рабочее место.")
+		Else
+			Status("Загрузка клиента ЕИС для второстепенного пк")
+			FileDelete($dir_enot & $KLEIS_Sec_ds)
+			_Wget($KLEIS_Sec_ds, $dir_enot)
+			SoftInstall($dir_enot, $KLEIS_Sec_ds, "/exebasicui /qb ADDLOCAL=Interface")
+		EndIf
+	EndIf
 
 	; Помощник КЛЕИС
 	If Checked($checkKLEIS_Helper) Then
-		Status("Исправление ошибок службы синхронизации")
-		If SoftDownload($dir_software, $update_sync_service) Then SoftInstall($dir_software, $update_sync_service, "run")
-		;;ShellExecute("C:\Program Files\Internet Explorer\iexplore.exe", "https://it.npso66.ru")
-	Endif
+		Status("Установка драйверов wacomsdk")
+		If SoftDownload($dir_software, $wacomsdk) Then SoftInstall($dir_software, $wacomsdk, "msi")
+	EndIf
 
 	; Принуд. обновление СС до 116
 	If Checked($checkKLEIS_SS_UPGRADE) Then
 		Status("Принудительное обновление версии СС до 116")
-		If SoftDownload($dir_software, $KLEIS_SS_UPGRADE_ds) Then 
+		If SoftDownload($dir_software, $KLEIS_SS_UPGRADE_ds) Then
 			DirRemove($dir_software & "SyncService", 1)
 			SoftUnzip($dir_software, $KLEIS_SS_UPGRADE_ds)
 			RunWait(@ComSpec & ' /c net stop EisSyncService', '', @SW_HIDE)
-				DirCopy($dir_software & "SyncService", "C:\Program Files (x86)\EIS\SyncService", 1)
+			DirCopy($dir_software & "SyncService", "C:\Program Files (x86)\EIS\SyncService", 1)
 			RunWait(@ComSpec & ' /c net start EisSyncService', '', @SW_HIDE)
 		EndIf
-	Endif
+	EndIf
 
 	; Принуд. обновление СС до 116
 	If Checked($checkKLEIS_IN_UPGRADE) Then
 		Status("Принудительное обновление версии ИН до 116")
-		If SoftDownload($dir_software, $KLEIS_IN_UPGRADE_ds) Then 
+		If SoftDownload($dir_software, $KLEIS_IN_UPGRADE_ds) Then
 			DirRemove($dir_software & "Interface", 1)
 			SoftUnzip($dir_software, $KLEIS_IN_UPGRADE_ds)
 			DirCopy($dir_software & "Interface", "C:\Program Files (x86)\EIS\Interface", 1)
 		EndIf
-	Endif
+	EndIf
 
 	; Диагностика клиента ЕИС
 	If Checked($checkKLEIS_Diagnostic) Then
@@ -438,7 +483,7 @@ Func Enot()
 
 		FileDelete($dir_enot & "DiagnosticsAndBackupEISClient.exe")
 		If SoftDownload($dir_enot, $KLEIS_Diagnostic_ds, "wext") Then SoftInstall($dir_enot, "DiagnosticsAndBackupEISClient.exe", "run", 0)
-	Endif
+	EndIf
 
 	; Клиент ЕИС для ПАЛАТЫ
 	If Checked($checkKLEIS_RNP) Then
@@ -446,10 +491,10 @@ Func Enot()
 
 		_Wget($KLEIS_RNP_ds, $dir_enot)
 		SoftInstall($dir_enot, $KLEIS_RNP_ds, "/qb")
-	Endif
+	EndIf
 
-	; Raccoon_reports 
-	If Checked($check_palata) Then 
+	; Raccoon_reports
+	If Checked($check_palata) Then
 		Status("Идет скачивание программы для создания различных отчетов из Енота")
 
 		If SoftDownload($dir_enot, $check_palata_ds, "wext") Then SoftInstall($dir_enot, "RaccoonReportsSetup.exe", "run", 0)
@@ -468,20 +513,20 @@ Func Certificates()
 			FileDelete($dir_tools & $certs_ds)
 
 			$CMD = "cd " & $dir_certs & " && @echo off && " & "install.bat"
-			if $Start_param_certs Then 
+			If $Start_param_certs Then
 				RunWait(@ComSpec & " /c " & $CMD, "", $dir_certs, @SW_HIDE) ; Устанавливаем сертификаты тихо
-			Else 
+			Else
 				RunWait(@ComSpec & " /c " & $CMD)
 			EndIf
-			
+
 
 			If $Start_param_certs Then
 				Local $aTasks = __schedule_get_tasks()
 
-				For $i in $aTasks
-					if $i = "UpdateCerts" then __schedule_unregister("UpdateCerts")
+				For $i In $aTasks
+					If $i = "UpdateCerts" Then __schedule_unregister("UpdateCerts")
 				Next
-				
+
 				__schedule_register("UpdateCerts", "Auto updating certs and crl", "Vitaley.NPSO", "C:\Distr\Notary\IT-Helper.exe", "IDDQD")
 			EndIf
 
@@ -492,14 +537,14 @@ Func Certificates()
 		Status("Производится установка сертификатов с ключа ЭП")
 
 		Switch @OSArch ; Проверяем разрядность ОС
-				Case "X64"
-					$CryptoPro_path = "C:\Program Files (x86)\Crypto Pro\CSP\"
-				Case "X86"
-					$CryptoPro_path = "C:\Program Files\Crypto Pro\CSP\"
+			Case "X64"
+				$CryptoPro_path = "C:\Program Files (x86)\Crypto Pro\CSP\"
+			Case "X86"
+				$CryptoPro_path = "C:\Program Files\Crypto Pro\CSP\"
 		EndSwitch
 
 		FileChangeDir($CryptoPro_path)
-			If FileExists("csptest.exe") Then RunWait("csptest.exe -absorb -certs -autoprov", "", @SW_HIDE)
+		If FileExists("csptest.exe") Then RunWait("csptest.exe -absorb -certs -autoprov", "", @SW_HIDE)
 		FileChangeDir($dir_distr)
 	EndIf
 
@@ -507,7 +552,7 @@ Func Certificates()
 		Status("Производится удаление старых сертификатов")
 
 		FileChangeDir($dir_logs)
-			If SoftDownload($dir_tools, $certsClean_ds) Then RunWait($dir_tools & $certsClean_ds)
+		If SoftDownload($dir_tools, $certsClean_ds) Then RunWait($dir_tools & $certsClean_ds)
 		FileChangeDir($dir_distr)
 	EndIf
 EndFunc   ;==>Certificates
@@ -575,7 +620,7 @@ Func __schedule_register($sName, $sDescription, $sAuthor, $sFilename, $sArgument
 			EndIf
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>__schedule_register
 
 ; Удаление задачи из планировщика задач
 
@@ -588,18 +633,18 @@ Func __schedule_unregister($sName)
 			$oRoot.DeleteTask($sName, 0)
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>__schedule_unregister
 
 ; Список всех задач в планировщике в корне
 
 Func __schedule_get_tasks()
 	Dim $aTasks[0]
-    Local $oSchedule = ObjCreate('Schedule.Service')
-    If IsObj($oSchedule) Then
-        $oSchedule.Connect(@ComputerName)
-        Local $oRoot = $oSchedule.GetFolder('\')
-        If IsObj($oRoot) Then
-            Local $oTasks = $oRoot.GetTasks(0)
+	Local $oSchedule = ObjCreate('Schedule.Service')
+	If IsObj($oSchedule) Then
+		$oSchedule.Connect(@ComputerName)
+		Local $oRoot = $oSchedule.GetFolder('\')
+		If IsObj($oRoot) Then
+			Local $oTasks = $oRoot.GetTasks(0)
 			If IsObj($oTasks) Then
 				ReDim $aTasks[$oTasks.Count]
 				Local $iOffset
@@ -610,10 +655,10 @@ Func __schedule_get_tasks()
 					EndIf
 				Next
 			EndIf
-        EndIf
-    EndIf
+		EndIf
+	EndIf
 	Return $aTasks
-EndFunc
+EndFunc   ;==>__schedule_get_tasks
 
 ; ----------------------------------------------- ECP FUNC;
 
@@ -627,10 +672,10 @@ Func ESign()
 		If SoftDownload($dir_ecp, $pkiSetup) Then SoftInstall($dir_ecp, $pkiSetup, "etoken")
 	EndIf
 
- If Checked($checkCSP) Then
+	If Checked($checkCSP) Then
 		Status("Установка CryptoPro CSP 4")
 
-		If SoftDownload($dir_ecp, $cspSetup) Then SoftInstall($dir_ecp, $cspSetup, "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb /L*v " & $dir_logs & $cspSetup & ".log""" )
+		If SoftDownload($dir_ecp, $cspSetup) Then SoftInstall($dir_ecp, $cspSetup, "-gm2 -lang rus -kc kc1 -silent -noreboot -nodlg -args ""/qb /L*v " & $dir_logs & $cspSetup & ".log""")
 
 		Status("Настройка КриптоПро для работы с ГОСТ 2001")
 
@@ -645,18 +690,18 @@ Func ESign()
 			Switch @OSArch ; Проверяем разрядность ОС
 				Case "X64"
 					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
-	 			Case "X86"
-	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+				Case "X86"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
 			EndSwitch
 
 			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
 			FileClose($hCryptoImport)
 			RunWait("reg.exe IMPORT " & $dir_ecp & "crypto_import.reg")
 		EndIf
-	EndIf 
+	EndIf
 
 	; Jacarta драйвера
-	If Checked($checkjacarta) Then
+	If Checked($checkJacarta) Then
 		Status("Установка Единого клиента Jacarta")
 
 		RunWait("MsiExec.exe /X{BC5C2BEB-87AF-4636-9184-CA10C3C740B8} /qn") ; Удаляем eToken Pki Client
@@ -686,9 +731,9 @@ Func ESign()
 		If SoftDownload($dir_ecp, $esmart) Then SoftInstall($dir_ecp, $esmart, "msi")
 	EndIf
 
-	If checked($checkCSP5_actual) Then
-		status("Установка Крипто-Про 5.0 R3")
-		
+	If Checked($checkCSP5_actual) Then
+		Status("Установка Крипто-Про 5.0 R3")
+
 		FileDelete($dir_ecp & $csp5_actual_setup)
 		If SoftDownload($dir_ecp, $csp5_actual_setup) Then SoftInstall($dir_ecp, $csp5_actual_setup, "csp5r3+")
 
@@ -706,8 +751,8 @@ Func ESign()
 			Switch @OSArch ; Проверяем разрядность ОС
 				Case "X64"
 					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
-	 			Case "X86"
-	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")								
+				Case "X86"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
 			EndSwitch
 
 			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
@@ -716,8 +761,8 @@ Func ESign()
 		EndIf
 	EndIf
 
-	If checked($checkCSP5) Then
-		status("Установка Крипто-Про 5.0")
+	If Checked($checkCSP5) Then
+		Status("Установка Крипто-Про 5.0")
 
 		If SoftDownload($dir_ecp, $csp5setup) Then SoftInstall($dir_ecp, $csp5setup, "csp5")
 
@@ -735,8 +780,8 @@ Func ESign()
 			Switch @OSArch ; Проверяем разрядность ОС
 				Case "X64"
 					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
-	 			Case "X86"
-	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")								
+				Case "X86"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
 			EndSwitch
 
 			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
@@ -747,8 +792,8 @@ Func ESign()
 		EndIf
 	EndIf
 
-	If checked($checkCSP5R1) Then
-		status("Установка Крипто-Про 5.0 R1")
+	If Checked($checkCSP5R1) Then
+		Status("Установка Крипто-Про 5.0 R1")
 
 		If SoftDownload($dir_ecp, $csp5r1setup) Then SoftInstall($dir_ecp, $csp5r1setup, "csp5")
 
@@ -766,8 +811,8 @@ Func ESign()
 			Switch @OSArch ; Проверяем разрядность ОС
 				Case "X64"
 					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
-	 			Case "X86"
-	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")								
+				Case "X86"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
 			EndSwitch
 
 			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
@@ -789,7 +834,7 @@ Func ESign()
 		Local $win7hotfix_4474419 = $win7hotfix_4474419_x32
 		Local $HKLM = "HKLM\"
 
-		If @OSArch = "X64" Then 
+		If @OSArch = "X64" Then
 			$NGate = $NGate64
 			$win7hotfix_3035131 = $win7hotfix_3035131_x64
 			$win7hotfix_3033929 = $win7hotfix_3033929_x64
@@ -798,21 +843,21 @@ Func ESign()
 		EndIf
 
 		;If $ngate_error = "" Then
-			RunWait("MsiExec.exe /X{187021F4-156B-4111-BF3D-79B212115F08} /qn") ; Удаляем предыдущую версию Ngate
+		RunWait("MsiExec.exe /X{187021F4-156B-4111-BF3D-79B212115F08} /qn") ; Удаляем предыдущую версию Ngate
 
-			Status("Установка КриптоПро NGate")
-			If SoftDownload($dir_ecp, $NGate) Then 
-				RunWait("msiexec /x """ & $dir_ecp & $NGate & """ /qn")
+		Status("Установка КриптоПро NGate")
+		If SoftDownload($dir_ecp, $NGate) Then
+			RunWait("msiexec /x """ & $dir_ecp & $NGate & """ /qn")
 
-				SoftInstall($dir_ecp, $NGate, "msi") ; Устанавливаем NGate
-				If SoftDownload($dir_ecp, $NGate_settings) Then 
-					RunWait("reg.exe IMPORT " & $dir_ecp & $NGate_settings) ; настройки для NGate
-				EndIf
-				FileCreateShortcut($dir_ngate & "ngateclient.exe", @DesktopDir & "\CryptoPro NGate.lnk", $dir_ngate)
+			SoftInstall($dir_ecp, $NGate, "msi") ; Устанавливаем NGate
+			If SoftDownload($dir_ecp, $NGate_settings) Then
+				RunWait("reg.exe IMPORT " & $dir_ecp & $NGate_settings) ; настройки для NGate
 			EndIf
+			FileCreateShortcut($dir_ngate & "ngateclient.exe", @DesktopDir & "\CryptoPro NGate.lnk", $dir_ngate)
+		EndIf
 		;Else
 		;	Status("Установка КриптоПро NGate невозможна")
-		;	$prompt = MsgBox(4, "Ошибка", $ngate_error & "Попробуйте перезагрузить компьютер и запустить установку снова.")	
+		;	$prompt = MsgBox(4, "Ошибка", $ngate_error & "Попробуйте перезагрузить компьютер и запустить установку снова.")
 		;EndIf
 
 		$ngate_error = ""
@@ -825,7 +870,7 @@ EndFunc   ;==>ESign
 Func WinSetup()
 	If Checked($checkWinSet) Then ; Настройка Windows
 		Status('Настройка Windows')
-		If SoftDownload($dir_software, $winsettings_ds) Then 
+		If SoftDownload($dir_software, $winsettings_ds) Then
 			SoftUnzip($dir_software, $winsettings_ds, $dir_software)
 			ShellExecuteWait($dir_software & "WinSettings.bat")
 		EndIf
@@ -833,7 +878,7 @@ Func WinSetup()
 
 	If Checked($checkMUpdate) Then ; Отключение обновлений win10/11
 		If SoftDownload($dir_software, $win_updates) Then
-			SoftInstall($dir_software, $win_updates,"run", 0)
+			SoftInstall($dir_software, $win_updates, "run", 0)
 		EndIf
 	EndIf
 
@@ -843,7 +888,7 @@ Func WinSetup()
 
 		If SoftDownload($dir_software, $produkey_ds) Then
 			FileChangeDir($dir_software)
-				RunWait($produkey_ds & " /stext ProduKey.txt")
+			RunWait($produkey_ds & " /stext ProduKey.txt")
 			FileChangeDir($dir_distr)
 
 			Local $HKLM = "HKLM\"
@@ -851,29 +896,29 @@ Func WinSetup()
 
 			$hFile = FileOpen($dir_software & "ProduKey.txt", 1) ; Добавляем лицензии от криптопро, криптоарм
 
-				Local $sCrypto36 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\05480A45343B0B0429E4860F13549069\InstallProperties", "ProductID")
-				If Not $sCrypto36 Then $sCrypto36 = "Не установлен"
-				FileWriteLine($hFile, "КриптоПро 3.6 = " & $sCrypto36)
+			Local $sCrypto36 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\05480A45343B0B0429E4860F13549069\InstallProperties", "ProductID")
+			If Not $sCrypto36 Then $sCrypto36 = "Не установлен"
+			FileWriteLine($hFile, "КриптоПро 3.6 = " & $sCrypto36)
 
-				Local $sCrypto39 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\68A52D936E5ACF24C9F8FE4A1C830BC8\InstallProperties", "ProductID")
-				If Not $sCrypto39 Then $sCrypto39 = "Не установлен"
-				FileWriteLine($hFile, "КриптоПро 3.9 = " & $sCrypto39)
+			Local $sCrypto39 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\68A52D936E5ACF24C9F8FE4A1C830BC8\InstallProperties", "ProductID")
+			If Not $sCrypto39 Then $sCrypto39 = "Не установлен"
+			FileWriteLine($hFile, "КриптоПро 3.9 = " & $sCrypto39)
 
-				Local $sCrypto40 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\7AB5E7046046FB044ACD63458B5F481C\InstallProperties", "ProductID")
-				If Not $sCrypto40 Then $sCrypto40 = "Не установлен"
-				FileWriteLine($hFile, "КриптоПро 4.0 = " & $sCrypto40)
-				
-				Local $sCrypto50 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\08F19F05793DC7340B8C2621D83E5BE5\InstallProperties", "ProductID")
-				If Not $sCrypto50 Then $sCrypto50 = "Не установлен"
-				FileWriteLine($hFile, "КриптоПро 5.0 = " & $sCrypto50)
+			Local $sCrypto40 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\7AB5E7046046FB044ACD63458B5F481C\InstallProperties", "ProductID")
+			If Not $sCrypto40 Then $sCrypto40 = "Не установлен"
+			FileWriteLine($hFile, "КриптоПро 4.0 = " & $sCrypto40)
 
-				Local $sCryptoArm = RegRead($HKLM & "SOFTWARE\WOW6432Node\Digt\Trusted Desktop\License", "SerialNumber")
-				If Not $sCryptoArm Then $sCryptoArm = "Не установлен"
-				FileWriteLine($hFile, "КриптоАрм = " & $sCryptoArm)
+			Local $sCrypto50 = RegRead($HKLM & "SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\08F19F05793DC7340B8C2621D83E5BE5\InstallProperties", "ProductID")
+			If Not $sCrypto50 Then $sCrypto50 = "Не установлен"
+			FileWriteLine($hFile, "КриптоПро 5.0 = " & $sCrypto50)
+
+			Local $sCryptoArm = RegRead($HKLM & "SOFTWARE\WOW6432Node\Digt\Trusted Desktop\License", "SerialNumber")
+			If Not $sCryptoArm Then $sCryptoArm = "Не установлен"
+			FileWriteLine($hFile, "КриптоАрм = " & $sCryptoArm)
 
 			FileClose($hFile)
 
-			Run("notepad.exe " &  $dir_software & "ProduKey.txt")
+			Run("notepad.exe " & $dir_software & "ProduKey.txt")
 		EndIf
 	EndIf
 
@@ -899,8 +944,8 @@ Func WinSetup()
 			Sleep(1000)
 			Run("notepad.exe " & $dir_software & "CryptoPass.txt", @WindowsDir)
 			Sleep(3000)
-			
-			If @error Then MsgBox("","Ошибка","Сохраненных ключей не найдено")
+
+			If @error Then MsgBox("", "Ошибка", "Сохраненных ключей не найдено")
 		EndIf
 
 		FileDelete($dir_software & $pass_ds)
@@ -925,7 +970,7 @@ Func WinSetup()
 	If Checked($checkEvent292) Then
 		Status("Применяется исправление ошибки 292")
 
-		If SoftDownload($dir_software, $CryptoFix) Then RunWait(@ComSpec & " /c " & 'schtasks /Create /XML ' & $dir_software  & $CryptoFix & ' /TN CryptoPro_Fix_429', "", @SW_HIDE)
+		If SoftDownload($dir_software, $CryptoFix) Then RunWait(@ComSpec & " /c " & 'schtasks /Create /XML ' & $dir_software & $CryptoFix & ' /TN CryptoPro_Fix_429', "", @SW_HIDE)
 	EndIf
 
 	If Checked($checkCleanTask) Then
@@ -950,7 +995,7 @@ Func FederalResources()
 		$oWMI = ObjGet("winmgmts:{impersonationLevel=impersonate}!\\" & @ComputerName & "\root\cimv2")
 		$aProducts = $oWMI.ExecQuery("Select * from Win32_Product Where Name LIKE '%" & $sName & "%'")
 
-		For $app in $aProducts
+		For $app In $aProducts
 			$app.Uninstall()
 		Next
 
@@ -960,33 +1005,33 @@ Func FederalResources()
 		Status("Установка и настройка CryptoPRO и Blitz для Google Chrome")
 
 		; Расширение CryptoPro и Blitz
-			RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist", "1", "REG_SZ", "iifchhfnnmpdbibifmljnfjhpififfog;https://clients2.google.com/service/update2/crx")
-			RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist", "2", "REG_SZ", "pomekhchngaooffdadfjnghfkaeipoba;https://clients2.google.com/service/update2/crx")
-			RunWait(@ComSpec & " /c " & "gpupdate /force", "", @SW_HIDE) ; Применяем политику
+		RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist", "1", "REG_SZ", "iifchhfnnmpdbibifmljnfjhpififfog;https://clients2.google.com/service/update2/crx")
+		RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist", "2", "REG_SZ", "pomekhchngaooffdadfjnghfkaeipoba;https://clients2.google.com/service/update2/crx")
+		RunWait(@ComSpec & " /c " & "gpupdate /force", "", @SW_HIDE) ; Применяем политику
 
 		; Browser Plugins
 		Status("Установка и настройка CryptoPro Browser plugin")
 
-			; Криптопро Браузер Плагин
-			If SoftDownload($dir_federal, $cbpSetup) Then
-				RunWait("wmic product where name=""КриптоПро ЭЦП Browser plug-in"" call uninstall /nointeractive")
-				SoftInstall($dir_federal, $cbpSetup, "cades")
+		; Криптопро Браузер Плагин
+		If SoftDownload($dir_federal, $cbpSetup) Then
+			RunWait("wmic product where name=""КриптоПро ЭЦП Browser plug-in"" call uninstall /nointeractive")
+			SoftInstall($dir_federal, $cbpSetup, "cades")
 
-				; Настраиваем доверенные сайты для криптопро браузер плагина
-				If SoftDownload($dir_federal, $cades) Then
-					Local $hCadesImport = FileOpen($dir_federal & "cades_import.reg", 2)
-					Local $hCadesSites = FileOpen($dir_federal & $cades, 0)
-					Local $sCadesRead = FileRead($hCadesSites)
-					FileClose($hCadesSites)
+			; Настраиваем доверенные сайты для криптопро браузер плагина
+			If SoftDownload($dir_federal, $cades) Then
+				Local $hCadesImport = FileOpen($dir_federal & "cades_import.reg", 2)
+				Local $hCadesSites = FileOpen($dir_federal & $cades, 0)
+				Local $sCadesRead = FileRead($hCadesSites)
+				FileClose($hCadesSites)
 
-					FileWrite($hCadesImport, "Windows Registry Editor Version 5.00")
-					FileWrite($hCadesImport, @CRLF & "[HKEY_USERS\" & _GetCurrentUserSID() & "\SOFTWARE\Crypto Pro\CAdESplugin]")
-					FileWrite($hCadesImport, @CRLF & $sCadesRead)
-					FileClose($hCadesImport)
-					RunWait("reg.exe IMPORT " & $dir_federal & "cades_import.reg") ; Настройка доверенных сайтов для КриптоПро
-				EndIf
-				; /= > Доверенные сайты
+				FileWrite($hCadesImport, "Windows Registry Editor Version 5.00")
+				FileWrite($hCadesImport, @CRLF & "[HKEY_USERS\" & _GetCurrentUserSID() & "\SOFTWARE\Crypto Pro\CAdESplugin]")
+				FileWrite($hCadesImport, @CRLF & $sCadesRead)
+				FileClose($hCadesImport)
+				RunWait("reg.exe IMPORT " & $dir_federal & "cades_import.reg") ; Настройка доверенных сайтов для КриптоПро
 			EndIf
+			; /= > Доверенные сайты
+		EndIf
 
 		; Настройка КриптоПро: Усиленный контроль использования ключей
 		Status("Настройка КриптоПро для работы с ГОСТ 2001")
@@ -1002,8 +1047,8 @@ Func FederalResources()
 			Switch @OSArch ; Проверяем разрядность ОС
 				Case "X64"
 					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
-	 			Case "X86"
-	 				FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
+				Case "X86"
+					FileWrite($hCryptoImport, @CRLF & "[HKEY_LOCAL_MACHINE\SOFTWARE\Crypto Pro\Cryptography\CurrentVersion\Parameters]")
 			EndSwitch
 
 			FileWrite($hCryptoImport, @CRLF & $sCryptoRead)
@@ -1014,14 +1059,14 @@ Func FederalResources()
 		; Плагин для Госуслуг
 		Status("Установка и настройка плагина для Госуслуг")
 
-			Local $gosSetup = $gosSetup32
-			If @OSArch = "X64" Then $gosSetup = $gosSetup64
-			If SoftDownload($dir_federal, $gosSetup) Then SoftInstall($dir_federal, $gosSetup, "msi")
+		Local $gosSetup = $gosSetup32
+		If @OSArch = "X64" Then $gosSetup = $gosSetup64
+		If SoftDownload($dir_federal, $gosSetup) Then SoftInstall($dir_federal, $gosSetup, "msi")
 
 		; Федресурс плагин
 		Status("Установка и настройка плагина для Федресурса")
 
-			If SoftDownload($dir_federal, $fedResurs) Then SoftInstall($dir_federal, $fedResurs, "msi")
+		If SoftDownload($dir_federal, $fedResurs) Then SoftInstall($dir_federal, $fedResurs, "msi")
 	EndIf
 
 	; Adobe Reader DC
@@ -1038,7 +1083,7 @@ Func FederalResources()
 		If SoftDownload($dir_federal, $pdfSetup) Then SoftInstall($dir_federal, $pdfSetup, "pdf")
 	EndIf
 
-		; КриптоЛайн
+	; КриптоЛайн
 	If Checked($checkLine) Then
 		Status("Установка и настройка КриптоЛайн")
 
@@ -1048,7 +1093,7 @@ Func FederalResources()
 	; Yandex.Browser
 	If Checked($checkYA) Then
 		Status("Установка Яндекс.Браузера")
-		
+
 		If @OSArch = "X64" Then $yaBrowser = $yaBrowser_x64
 
 		If SoftDownload($dir_federal, $yaBrowser) Then SoftInstall($dir_federal, $yaBrowser, "msi") ; Установка Яндекс.Браузера
@@ -1158,7 +1203,7 @@ Func FederalResources()
 	If Checked($checkChrome) Then
 		Status("Установка и настройка Google Chrome")
 		RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome", "ExtensionManifestV2Availability", "REG_DWORD", 2)
-		
+
 		Local $Registry64 = ""
 		ProcessClose("chrome.exe") ; закрываем Chrome
 		If @OSArch = "X64" Then $Registry64 = "Wow6432Node\"
@@ -1166,10 +1211,10 @@ Func FederalResources()
 
 		If SoftDownload($dir_federal, $chromeSetup) Then
 			RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE\" & $Registry64 & "google\update") ; исключаем ошибки от предыдущих установок
-			
+
 			; Переименовываем предыдущую папку с установленным хромом
 			If FileExists(@LocalAppDataDir & "\Google") Then DirMove(@LocalAppDataDir & "\Google", @LocalAppDataDir & "\Google-backup", 1)
-			
+
 			SoftInstall($dir_federal, $chromeSetup, "msi") ; Скачиваем и устанавливаем хром
 
 			; Расширение CryptoPro и Blitz
@@ -1199,9 +1244,9 @@ Func Programs()
 	If Checked($checkNpso_dostup) Then ; NPSO Доступ
 		Status("Установка NPSO Доступ")
 
-		If SoftDownload($dir_software, $npso_dostup) Then 
+		If SoftDownload($dir_software, $npso_dostup) Then
 			ShellExecuteWait("msiexec.exe", '/x "' & $dir_software & '\npso_dostup.msi" /qn')
-    		ShellExecuteWait("msiexec.exe", '/i "' & $dir_software & '\npso_dostup.msi" /qn')
+			ShellExecuteWait("msiexec.exe", '/i "' & $dir_software & '\npso_dostup.msi" /qn')
 		EndIf
 	EndIf
 	; IrfanView
@@ -1229,8 +1274,8 @@ Func Programs()
 		Status("Установка и настройка Teamviewer QS 9")
 
 		If SoftDownload($dir_software, $tm_ds) Then
-	 		FileCreateShortcut($dir_software & $tm_ds, @DesktopDir & "\TeamViewer.lnk", $dir_software)
-	 		_UpdateScreen()
+			FileCreateShortcut($dir_software & $tm_ds, @DesktopDir & "\TeamViewer.lnk", $dir_software)
+			_UpdateScreen()
 
 			SoftInstall($dir_software, $tm_ds, "run", "0") ; Запускаем ТМ
 		EndIf
@@ -1261,7 +1306,7 @@ Func Programs()
 	If Checked($checkKonturDostup) Then
 		Status("Установка и настройка КонтурДоступ")
 
-		If SoftDownload($dir_software, $KonturDostup_ds, "wext") Then 
+		If SoftDownload($dir_software, $KonturDostup_ds, "wext") Then
 			If SoftUnzip($dir_software, _FilenameFromUrl($KonturDostup_ds)) Then SoftInstall($dir_software, "Kontur.Dostup.exe", "run", "0") ; Запускаем KonturDostup
 		EndIf
 	EndIf
@@ -1297,8 +1342,9 @@ Func Programs()
 	If Checked($checkOpenShell) Then
 		Status("Установка и настройка OpenShell для Windows 10")
 
-		If SoftDownload($dir_software, $openshell_ds) Then	SoftInstall($dir_software, $openshell_ds, "/qn ADDLOCAL=StartMenu")
-
+		If SoftDownload($dir_software, $openshell_ds) Then
+			SoftInstall($dir_software, $openshell_ds, "/qn ADDLOCAL=StartMenu")
+		EndIf
 	EndIf
 
 	; MySql Backup
@@ -1406,22 +1452,23 @@ Func Programs()
 
 	; XML Notepad
 
- 	If Checked($checkXMLPad) Then
+	If Checked($checkXMLPad) Then
 		Status("Установка и настройка XML Notepad")
 
-		If SoftDownload($dir_software, $xmlpad_ds) Then	SoftInstall($dir_software, $xmlpad_ds, "msi")
-	EndIf 
-
+		If SoftDownload($dir_software, $xmlpad_ds) Then
+			SoftInstall($dir_software, $xmlpad_ds, "msi")
+		EndIf
+	EndIf
 
 	; CSPclean
-	If Checked($checkcspclean) Then
+	If Checked($checkCSPclean) Then
 		Status("Удаление крипто-про")
 
 		If SoftDownload($dir_software, $cspclean) Then SoftInstall($dir_software, $cspclean, "/Silent")
 	EndIf
 
 	; Classic PhotoViewer
-	If Checked($checkphotoviewer) Then
+	If Checked($checkPhotoViewer) Then
 		Status("Настройка классического просмотрщика фотографий")
 
 		If SoftDownload($dir_software, $photoviewer) Then RunWait("reg.exe IMPORT " & $dir_software & $photoviewer)
@@ -1438,33 +1485,33 @@ Func Programs()
 	If Checked($checkXPSPrinter) Then
 		Status("Установка XPS - принтера для экспресса")
 
-		If @OSArch="X64" Then
-				_WinAPI_Wow64EnableWow64FsRedirection(False)
-					RunWait(@ComSpec & " /c " & "Dism /online /Disable-Feature /FeatureName:Printing-XPSServices-Features /NoRestart")
-					RunWait(@ComSpec & " /c " & "Dism /online /Enable-Feature /FeatureName:Printing-XPSServices-Features /NoRestart")
-				_WinAPI_Wow64EnableWow64FsRedirection(True)
+		If @OSArch = "X64" Then
+			_WinAPI_Wow64EnableWow64FsRedirection(False)
+			RunWait(@ComSpec & " /c " & "Dism /online /Disable-Feature /FeatureName:Printing-XPSServices-Features /NoRestart")
+			RunWait(@ComSpec & " /c " & "Dism /online /Enable-Feature /FeatureName:Printing-XPSServices-Features /NoRestart")
+			_WinAPI_Wow64EnableWow64FsRedirection(True)
 		EndIf
 	EndIf
 
 	; Naps2
-	If checked($checkNaps2) Then
+	If Checked($checkNaps2) Then
 		Status("Установка Naps2")
 
 		If SoftDownload($dir_software, $naps2_ds) Then SoftInstall($dir_software, $naps2_ds, "msi")
 	EndIf
 
 	; Space sniffer
-	If checked($checkSpaceSniffer) Then
+	If Checked($checkSpaceSniffer) Then
 		Status("Установка SpaceSniffer")
 
 		If SoftDownload($dir_software, $sniffer_ds) Then SoftInstall($dir_software, $sniffer_ds, "run", 0)
 	EndIf
-	
+
 	; HWInfo
 	If Checked($checkHWInfo) Then
 		Status("Загрузка HWInfo")
 
-		If SoftDownload($dir_software, $hwinfo_ds) Then SoftInstall($dir_software, $hwinfo_ds, "run", 0)
+		If SoftDownload($dir_software, $hwinfo_ds) Then ShellExecute($dir_software & $hwinfo_ds)
 	EndIf
 
 	; CrystaDisk
@@ -1493,30 +1540,30 @@ Func Programs()
 			FileCreateShortcut($dir_software & "WindowCenteringHelper-PE.exe", @DesktopDir & "\WindowCenteringHelper-PE.lnk", $dir_software)
 		EndIf
 	EndIf
-	
+
 
 	; LibreOffice Latest Version Finder (Simplified)
 	If Checked($check_libre) Then
 		Status("Загрузка и установка LibreOffice")
-		
+
 		; Get HTML content from stable versions page
 		Local $sData = BinaryToString(InetRead("https://download.documentfoundation.org/libreoffice/stable/"))
-		
+
 		; Find all version folders - extract from href attributes
 		Local $aVersions = StringRegExp($sData, 'href="(\d+\.\d+\.\d+)/"', 3)
-		
+
 		Local $version = ""
-		
+
 		If Not @error And UBound($aVersions) > 0 Then
 			; Sort versions to find the highest
 			Local $highestVersion = $aVersions[0]
-			
+
 			For $i = 1 To UBound($aVersions) - 1
 				If _CompareVersions($aVersions[$i], $highestVersion) > 0 Then
 					$highestVersion = $aVersions[$i]
 				EndIf
 			Next
-			
+
 			$version = $highestVersion
 		Else
 			; Fallback - try to find any version pattern
@@ -1528,17 +1575,17 @@ Func Programs()
 				ConsoleWrite("Warning: Could not detect version, using fallback: " & $version & @CRLF)
 			EndIf
 		EndIf
-		
+
 		; Determine platform
 		Local $platform = "x86"
 		If @OSArch = "x64" Then $platform = $platform & "_64"
-		
+
 		; Construct the download URL
 		Local $newURL = "https://download.documentfoundation.org/libreoffice/stable/" & $version & "/win/" & $platform & "/LibreOffice_" & $version & "_Win_" & StringRegExpReplace($platform, "x86_64", "x86-64") & ".msi"
-		
+
 		ConsoleWrite("Found LibreOffice version: " & $version & @CRLF)
 		ConsoleWrite("Download URL: " & $newURL & @CRLF)
-		
+
 		; Download and install
 		If SoftDownload($dir_software, $newURL, "wext") Then SoftInstall($dir_software, _FilenameFromUrl($newURL), "msi")
 	EndIf
@@ -1583,11 +1630,11 @@ Func Express()
 	EndIf
 
 	; MS XML
-	;~ If Checked($checkXML) Then
-	;~ 	Status("Установка и настройка MsXml")
+;~ If Checked($checkXML) Then
+;~ 	Status("Установка и настройка MsXml")
 
-	;~ 	If SoftDownload($dir_express, $xml_ds) Then SoftInstall($dir_express, $xml_ds, "msi")
-	;~ EndIf
+;~ 	If SoftDownload($dir_express, $xml_ds) Then SoftInstall($dir_express, $xml_ds, "msi")
+;~ EndIf
 
 	; Hasp Driver
 	If Checked($checkHASP) Then
@@ -1595,10 +1642,10 @@ Func Express()
 
 		If SoftDownload($dir_express, $hasp_ds) Then
 			Status("Удаляем старые hasp драйверы")
-				RunWait($dir_express & $hasp_ds & " -fr -kp -purge -nomsg")
+			RunWait($dir_express & $hasp_ds & " -fr -kp -purge -nomsg")
 
 			Status("Устанавливаем новый hasp драйвер")
-				RunWait($dir_express & $hasp_ds &  " -i -kp -nomsg")
+			RunWait($dir_express & $hasp_ds & " -i -kp -nomsg")
 		EndIf
 	EndIf
 
@@ -1615,149 +1662,161 @@ Func Express()
 		Else
 			If SoftDownload($dir_software, $chrome4express_w10, "ext") Then SoftUnzip($dir_software, "SetupCef_Win10.zip", $dir_express_installed & "LibCef\")
 		EndIf
-	Endif
+	EndIf
 EndFunc   ;==>Express
 
 ; ----------------------------------------------- FNS FUNC;
 
 Func FNS()
-    Local $prog_files = "C:\Program Files\АО ГНИВЦ\ППДГР"
-    Local $prog_files_new = "C:\АО ГНИВЦ\ППДГР"
-    Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2"
-    If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
+	Local $prog_files = "C:\Program Files\АО ГНИВЦ\ППДГР"
+	Local $prog_files_new = "C:\АО ГНИВЦ\ППДГР"
+	Local $prog_files_v2 = "C:\АО ГНИВЦ\ППДГР-2"
+	If @OSArch = "X64" Then $prog_files = "C:\Program Files (x86)\АО ГНИВЦ\ППДГР"
 
-    ; FNS Program | v 2.0
-    If Checked($checkFNS2) Then
-        Status("Установка и настройка программ для ФНС")
-        
-        Local $msiErr = ""
-        Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link2", "")
-        Local $SproLink = IniRead($dir_distr & "version.ini", "FNS", "Spro", "")
+	; FNS Program | v 2.0
+	If Checked($checkFNS2) Then
+		Status("Установка и настройка программ для ФНС")
 
-        ; --- 1. ФИКС ДЛЯ WINDOWS 7 (Обязательно ДО сетевых запросов) ---
-        If @OSVersion = "WIN_7" Then
-            If SoftDownload($dir_software, $win7quick_fix_ssl) Then SoftInstall($dir_software, $win7quick_fix_ssl, "msi")
+		Local $msiErr = ""
+		Local $FnsLink = IniRead($dir_distr & "version.ini", "FNS", "Link2", "")
+		Local $SproLink = IniRead($dir_distr & "version.ini", "FNS", "Spro", "")
 
-            Local $regPath1 = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client"
-            Local $regPath2 = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"
-            Local $regName = "DisabledByDefault"
-            Local $regValue = 0
-            
-            RegWrite($regPath1, $regName, "REG_DWORD", $regValue)
-            RegWrite($regPath2, $regName, "REG_DWORD", $regValue)
-        EndIf
+		; --- 1. ФИКС ДЛЯ WINDOWS 7 (Обязательно ДО сетевых запросов) ---
+		If @OSVersion = "WIN_7" Then
+			If SoftDownload($dir_software, $win7quick_fix_ssl) Then SoftInstall($dir_software, $win7quick_fix_ssl, "msi")
 
-        ; --- 2. УМНЫЙ ПОИСК ВЕРСИИ ---
-        Local $sSource = _INetGetSource("https://www.gnivc.ru/html/gnivcsoft/ppdgr/VersPPDGR_3_WithInfo.txt")
-        Local $RegExNumbersOnly = "(\d+\.\d+\.\d+)" ; Ищем формат X.X.X
-        Local $aVisibleVersion = StringRegExp($sSource, $RegExNumbersOnly, 1)
-        Local $FnsVersion2 = ""
+			Local $regPath1 = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client"
+			Local $regPath2 = "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"
+			Local $regName = "DisabledByDefault"
+			Local $regValue = 0
 
-        If Not @error Then
+			RegWrite($regPath1, $regName, "REG_DWORD", $regValue)
+			RegWrite($regPath2, $regName, "REG_DWORD", $regValue)
+		EndIf
+
+		; --- 2. SMART VERSION SEARCH ---
+        Status("Checking PPDGR version on GNIVC...")
+        _FileWriteLog($dir_logs & "Install.log", "Searching PPDGR version on GNIVC server...")
+
+        HttpSetUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+
+        ; Download raw binary version file
+        Local $bSource = InetRead("https://www.gnivc.ru/html/gnivcsoft/ppdgr/VersPPDGR_3_WithInfo.txt", 1)
+
+        ; Remove NUL bytes to handle raw string properly
+        Local $sCleanText = StringReplace(BinaryToString($bSource, 1), Chr(0), "")
+
+        ; Match version format X.X.X
+        Local $RegExNumbersOnly = "(\d+\.\d+\.\d+)"
+        Local $aVisibleVersion = StringRegExp($sCleanText, $RegExNumbersOnly, 1)
+
+        If IsArray($aVisibleVersion) Then
             Local $sCurrentVersion = $aVisibleVersion[0]
             Local $sBestVersion = $sCurrentVersion
-            
-            ; Разбираем версию (например, 2.7.3)
+            _FileWriteLog($dir_logs & "Install.log", "Found version on site: " & $sCurrentVersion)
+
             Local $aParts = StringSplit($sCurrentVersion, ".")
             If $aParts[0] = 3 Then
                 Local $iMajor = $aParts[1]
                 Local $iMinor = $aParts[2]
                 Local $iPatch = Int($aParts[3])
 
-                Status("Поиск скрытых обновлений ППДГР на сервере...")
-                
-                ; Ищем до 10 версий вперед
-                For $i = 1 To 10
+                ; Check for newer releases on server (+0 to +5)
+                For $i = 0 To 5
                     Local $sCheckVer = $iMajor & "." & $iMinor & "." & ($iPatch + $i)
                     Local $sCheckUrl = "https://data.nalog.ru/files/ppdgr/" & $sCheckVer & "/SetupPPDGR2.msi"
-                    
-                    ; Проверяем размер файла (1 = игнорировать кэш)
+
                     Local $iSize = InetGetSize($sCheckUrl, 1)
-                    If $iSize > 1000000 Then ; MSI явно весит больше 1 Мб
+                    _FileWriteLog($dir_logs & "Install.log", "Checking URL: " & $sCheckVer & " | Size: " & $iSize & " bytes")
+
+                    If $iSize > 5000000 Then
                         $sBestVersion = $sCheckVer
-                        ConsoleWrite("+++ Найдена более свежая версия: " & $sBestVersion & @CRLF)
                     Else
-                        ExitLoop ; Если следующей версии нет, прерываем поиск
+                        If $i > 0 Then ExitLoop
                     EndIf
                 Next
             EndIf
-            
+
             $FnsVersion2 = $sBestVersion
             $FnsLink = "https://data.nalog.ru/files/ppdgr/" & $FnsVersion2 & "/SetupPPDGR2.msi"
+        Else
+            _FileWriteLog($dir_logs & "Install.log", "ERROR: Failed to parse version. Using fallback 2.7.5")
+            $FnsLink = "https://data.nalog.ru/files/ppdgr/2.7.5/SetupPPDGR2.msi"
         EndIf
-        ConsoleWrite("FnsLink: " & $FnsLink & @CRLF)
 
-        ; --- 3. ОЧИСТКА И СКАЧИВАНИЕ ---
-        DirRemove($dir_ppdgr, 1)
-        DirRemove($prog_files_v2, 1) 
-        DirRemove($prog_files, 1)
-        DirRemove($prog_files_new, 1)
-        DirCreate($dir_ppdgr)
+        _FileWriteLog($dir_logs & "Install.log", "Final download URL: " & $FnsLink)
 
-        If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
+		; --- 3. ОЧИСТКА И СКАЧИВАНИЕ ---
+		DirRemove($dir_ppdgr, 1)
+		DirRemove($prog_files_v2, 1)
+		DirRemove($prog_files, 1)
+		DirRemove($prog_files_new, 1)
+		DirCreate($dir_ppdgr)
 
-            ; --- 4. УСТАНОВКА / ОБНОВЛЕНИЕ ---
-            ; Добавлены кавычки для путей на случай пробелов
-            $msiErr = RunWait("msiexec /fa """ & $dir_ppdgr & $ds_ppdgr2 & """ /qb /passive /norestart REBOOT=ReallySuppress /L*V """ & $dir_logs & $ds_ppdgr2 & ".log""")
-            
-            If $msiErr = "1605" Then ; Если нечего обновлять (программа не установлена), ставим начисто
-                SoftInstall($dir_ppdgr, $ds_ppdgr2, "msi")
-            Else
-                _FileWriteLog($dir_logs & "Install.log", $ds_ppdgr2 & ": Updated")
-            EndIf
+		If SoftDownload($dir_ppdgr, $FnsLink, "wext") Then
 
-            ; --- 5. УСТАНОВКА МОДУЛЯ ПЕЧАТИ ---
-            $BPrint = WinWait("Печать НД", "", 5)
-            If WinExists($BPrint) Then
-                Local $PidActwin = WinGetProcess($BPrint)
-                ProcessClose($PidActwin)
+			; --- 4. УСТАНОВКА / ОБНОВЛЕНИЕ ---
+			; Добавлены кавычки для путей на случай пробелов
+			$msiErr = RunWait("msiexec /fa """ & $dir_ppdgr & $ds_ppdgr2 & """ /qb /passive /norestart REBOOT=ReallySuppress /L*V """ & $dir_logs & $ds_ppdgr2 & ".log""")
 
-                If FileExists($prog_files_v2) Then 
-                    FileChangeDir($prog_files_v2)
-                
-                    Local $hSearch = FileFindFirstFile("*.msi")
-                    If $hSearch <> -1 Then
-                        Local $sFileName = FileFindNextFile($hSearch)
-                        FileClose($hSearch)
+			If $msiErr = "1605" Then             ; Если нечего обновлять (программа не установлена), ставим начисто
+				SoftInstall($dir_ppdgr, $ds_ppdgr2, "msi")
+			Else
+				_FileWriteLog($dir_logs & "Install.log", $ds_ppdgr2 & ": Updated")
+			EndIf
 
-                        If $sFileName <> "" Then
-                            Status("Установка и настройка модуля печати ППДГР")
-                            RunWait("msiexec /i """ & $sFileName & """ /qb REBOOT=ReallySuppress /passive")
-                        EndIf
-                    EndIf
-                    FileChangeDir($dir_distr)
-                    Global $ppdgr_print_cont = False 
-                EndIf
-            EndIf
+			; --- 5. УСТАНОВКА МОДУЛЯ ПЕЧАТИ ---
+			$BPrint = WinWait("Печать НД", "", 5)
+			If WinExists($BPrint) Then
+				Local $PidActwin = WinGetProcess($BPrint)
+				ProcessClose($PidActwin)
 
-            ; --- 6. ОБНОВЛЕНИЕ СПРАВОЧНИКОВ СПРО ---
-            If SoftDownload($dir_ppdgr, $SproLink, "wext") Then
-                FileChangeDir($dir_ppdgr)
-                SoftUnzip($dir_ppdgr, "SPRO.ARJ", $dir_ppdgr, "arj")
+				If FileExists($prog_files_v2) Then
+					FileChangeDir($prog_files_v2)
 
-                Local $hSearchTxt = FileFindFirstFile("*.txt")
-                If $hSearchTxt <> -1 Then
-                    DirCreate($prog_files_v2 & "\XML") 
-                    
-                    While 1
+					Local $hSearch = FileFindFirstFile("*.msi")
+					If $hSearch <> -1 Then
+						Local $sFilename = FileFindNextFile($hSearch)
+						FileClose($hSearch)
+
+						If $sFilename <> "" Then
+							Status("Установка и настройка модуля печати ППДГР")
+							RunWait("msiexec /i """ & $sFilename & """ /qb REBOOT=ReallySuppress /passive")
+						EndIf
+					EndIf
+					FileChangeDir($dir_distr)
+					Global $ppdgr_print_cont = False
+				EndIf
+			EndIf
+
+			; --- 6. ОБНОВЛЕНИЕ СПРАВОЧНИКОВ СПРО ---
+			If SoftDownload($dir_ppdgr, $SproLink, "wext") Then
+				FileChangeDir($dir_ppdgr)
+				SoftUnzip($dir_ppdgr, "SPRO.ARJ", $dir_ppdgr, "arj")
+
+				Local $hSearchTxt = FileFindFirstFile("*.txt")
+				If $hSearchTxt <> -1 Then
+					DirCreate($prog_files_v2 & "\XML")
+
+					While 1
 						Local $sFileTxt = FileFindNextFile($hSearchTxt)
 						If @error Then ExitLoop
-						
+
 						Local $sDestPath = $prog_files_v2 & "\XML\" & $sFileTxt
-						
+
 						; Принудительно перемещаем файл с заменой
 						FileMove($sFileTxt, $sDestPath, 1)
 					WEnd
-                    FileClose($hSearchTxt)
-                EndIf
+					FileClose($hSearchTxt)
+				EndIf
 
-                FileChangeDir($dir_distr)
-            EndIf
-        EndIf
+				FileChangeDir($dir_distr)
+			EndIf
+		EndIf
 
-        If $Start_param_FNS Then MsgBox(64, "Статус", "Программа подготовки документов для государственной регистрации установлена!")
-    EndIf
-EndFunc
+		If $Start_param_FNS Then MsgBox(64, "Статус", "Программа подготовки документов для государственной регистрации установлена!")
+	EndIf
+EndFunc   ;==>FNS
 
 ; ----------------------------------------------- Programs2Reboot FUNC;
 
@@ -1770,7 +1829,7 @@ Func Programs2Reboot() ; Все программы, которые желате�
 
 		If SoftDownload($dir_federal, $arm_settings) Then RunWait("reg.exe IMPORT " & $dir_federal & $arm_settings) ; Настройка КриптоАРМ
 	EndIf
-EndFunc
+EndFunc   ;==>Programs2Reboot
 
 ; ------------------------------------------------- BACKEND  ----------------------------------------------------------------------------------------------------------->
 
@@ -1784,20 +1843,20 @@ Func Status($Msg) ; Статус
 		_GUICtrlStatusBar_SetText($StatusBar1, $Msg, 2)
 		_GUICtrlStatusBar_SetText($StatusBar2, $Msg, 2)
 	EndIf
-EndFunc   ;==>_Status
+EndFunc   ;==>Status
 
 Func Checked($Checkbox) ; Проверяет, выбран ли чекбокс
 	If GUICtrlGetState($Checkbox) Then
 		If GUICtrlRead($Checkbox) = $GUI_CHECKED Then
-			Return(True)
+			Return (True)
 		Else
-			Return(False)
+			Return (False)
 		EndIf
 	EndIf
-EndFunc   ;==>_Checked
+EndFunc   ;==>Checked
 
 Func SoftDownload($Place, $Soft_ds, $dwnloader = "wget") ; Закачка софта (проверка на существование и проверка на переносимость сборки) /  Возвращает True, если файл успешно скачан
-														 ; $dwnloader = "wget" или "raw" - закачка средствами autoit с сервера, "wext" - wget с внешнего сервера, "ext" - закачка с внешнего сервера
+	; $dwnloader = "wget" или "raw" - закачка средствами autoit с сервера, "wext" - wget с внешнего сервера, "ext" - закачка с внешнего сервера
 	Local $FileDownloaded = False
 	Local $repeat_number = 3
 	Local $Portable = IniRead($dir_distr & $VersionInfo, "MODE", "Offline", "0")
@@ -1821,7 +1880,7 @@ Func SoftDownload($Place, $Soft_ds, $dwnloader = "wget") ; Закачка соф
 		If Not $checkCrc Then ; Если CRC сумма неверна, то удаляем файл (если есть), скачиваем новый, записываем в лог об успешной загрузке файла
 			Switch $dwnloader
 				Case "wget"
-					For $i = 0 to $repeat_number Step 1
+					For $i = 0 To $repeat_number Step 1
 						FileDelete($FilePath)
 						_Wget($Soft_ds, $Place)
 						$checkCrc = _CheckCRC($FilePath)
@@ -1884,7 +1943,7 @@ Func SoftDownload($Place, $Soft_ds, $dwnloader = "wget") ; Закачка соф
 	If $Download_only Then $FileDownloaded = False ; Отмечаем, чтобы не продолжать установку
 
 	Return $FileDownloaded
-EndFunc   ;==>_SoftDownload
+EndFunc   ;==>SoftDownload
 
 Func SoftUnzip($Place, $Soft_ds, $Place_to = $Place, $Option = "zip") ; Извлечение файлов
 	Local $FileUnzip = False
@@ -1912,25 +1971,25 @@ Func SoftUnzip($Place, $Soft_ds, $Place_to = $Place, $Option = "zip") ; Извл
 	EndIf
 
 	Return $FileUnzip
-EndFunc   ;==>_SoftUnzip
+EndFunc   ;==>SoftUnzip
 
 Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка софта
 	; (Место, Название, Вариант установки: 				   run = Только запуск
-														;  msi = Тихая установка MSI пакетов
-														;  msu = Тихая установка обновлений Windows
-														;  cab = Тихая установка cab - пакетов (распакованные обновления Windows)
-														;  etoken = Тихая установка etoken
-														;  cades = Тихая установка пакетов криптоПРО плагин
-														;  pdf = Тихая установка пакетов КриптоПДФ
-														;  arm = Тихая установка криптоАРМ
-														;  , Ждать окончания установки?)
+	;  msi = Тихая установка MSI пакетов
+	;  msu = Тихая установка обновлений Windows
+	;  cab = Тихая установка cab - пакетов (распакованные обновления Windows)
+	;  etoken = Тихая установка etoken
+	;  cades = Тихая установка пакетов криптоПРО плагин
+	;  pdf = Тихая установка пакетов КриптоПДФ
+	;  arm = Тихая установка криптоАРМ
+	;  , Ждать окончания установки?)
 
 	Local $FileInstall = False
 	Local $arg = " /qb REBOOT=REALLYSUPPRESS /L*V " & $dir_logs & $Soft_ds & ".log"
 
 	$FilePath = $Place & $Soft_ds ; Переменная для приведения пути к файлу в нужный вид
 	If $Place <> $dir_tools Then $FilePath = $Place & "\" & $Soft_ds
-	
+
 
 	_FileWriteLog($dir_logs & "Install.log", $Soft_ds & ": Installing") ; записываем в лог время запуска установки определенного пункта
 
@@ -1955,7 +2014,7 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 
 		Case "csp5" ; КриптоПро 5.0
 			$arg = $FilePath & " -root -nodlg -noreboot -args ""/qn REBOOT=REALLYSUPPRESS"" "
-		
+
 		Case "csp5r3" ; КриптоПро 5.0 r3
 			$arg = $FilePath & " -root -noyandex -norestart -silent "
 
@@ -1963,10 +2022,10 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 			$arg = $FilePath & " -silent -noreboot -root -args ""/qb"" "
 
 		Case "arm" ; КриптоАРМ
-			$arg = $FilePath & " /V """ & StringStripWS($arg,1) & """"
+			$arg = $FilePath & " /V """ & StringStripWS($arg, 1) & """"
 
 		Case "pdf" ; КриптоПДФ
-			$arg = $FilePath & " -silent -args """ & StringStripWS($arg,1) & """"
+			$arg = $FilePath & " -silent -args """ & StringStripWS($arg, 1) & """"
 
 		Case Else
 			$arg = $FilePath & " " & $Option
@@ -1974,9 +2033,9 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 
 	If $Wait = "1" Then ; Ждем завершения программы или нет?
 		If ($Option = "cab") Then
-			If @OSArch="X64" Then
+			If @OSArch = "X64" Then
 				_WinAPI_Wow64EnableWow64FsRedirection(False)
-					RunWait($arg)
+				RunWait($arg)
 				_WinAPI_Wow64EnableWow64FsRedirection(True)
 			Else
 				RunWait($arg)
@@ -1997,12 +2056,12 @@ Func SoftInstall($Place, $Soft_ds, $Option, $Wait = "1") ; Установка с
 	EndIf
 
 	Return $FileInstall
-EndFunc   ;==>_SoftInstall
+EndFunc   ;==>SoftInstall
 
 ; ------------------------------------------------- INITIALIZATION FUNC ------------------------------------------------------------->
 
 Func _update() ; Обновление программы и подготовка для установки
-	Local $title = "АйТи помощник "  & FileGetVersion(@ScriptFullPath)
+	Local $title = "АйТи помощник " & FileGetVersion(@ScriptFullPath)
 	Local $CurPath = StringTrimRight(@ScriptFullPath, StringLen($MainApp))
 	Local $Portable = IniRead($CurPath & "\" & $VersionInfo, "MODE", "Offline", "0")
 	;Local $oldVersion = IniRead($CurPath & "\" & $VersionInfo, "Version", "Version", "")
@@ -2015,16 +2074,16 @@ Func _update() ; Обновление программы и подготовка
 		$title = $title & " | Оффлайн режим"
 
 		$dir_distr = @WorkingDir & "\"
-		$dir_tools  = $dir_distr & "Tools\"
-		$dir_logs   = $dir_distr & "Logs\"
+		$dir_tools = $dir_distr & "Tools\"
+		$dir_logs = $dir_distr & "Logs\"
 		$dir_update = $dir_distr & "Update\"
 
-		$dir_ecp       = $dir_tools & "ecp\"
-		$dir_enot      = $dir_tools & "enot\"
-		$dir_express   = $dir_tools & "express\"
-		$dir_federal   = $dir_tools & "federal\"
-		$dir_software  = $dir_tools & "software\"
-		$dir_certs     = $dir_tools & "certs\"
+		$dir_ecp = $dir_tools & "ecp\"
+		$dir_enot = $dir_tools & "enot\"
+		$dir_express = $dir_tools & "express\"
+		$dir_federal = $dir_tools & "federal\"
+		$dir_software = $dir_tools & "software\"
+		$dir_certs = $dir_tools & "certs\"
 
 		$dir_ppdgr = $dir_federal & "ppdgr\"
 	EndIf
@@ -2032,11 +2091,11 @@ Func _update() ; Обновление программы и подготовка
 	If $Portable = 0 Then
 		; Подготовка дистра
 		DirCreate($dir_tools) ; Создаем папки для работы программы
-			DirCreate($dir_ecp)
-			DirCreate($dir_enot)
-			DirCreate($dir_express)
-			DirCreate($dir_federal)
-			DirCreate($dir_software)
+		DirCreate($dir_ecp)
+		DirCreate($dir_enot)
+		DirCreate($dir_express)
+		DirCreate($dir_federal)
+		DirCreate($dir_software)
 		DirCreate($dir_update)
 		DirCreate($dir_logs)
 	EndIf
@@ -2050,7 +2109,7 @@ Func _update() ; Обновление программы и подготовка
 		FileMove($dir_update & $VersionInfo, $dir_distr & $VersionInfo, 1)
 	Else
 		FileMove($dir_update & $VersionInfo & ".bak", $dir_distr & $VersionInfo, 1)
-		MsgBox("","Ошибка", "Не удалось загрузить Version.ini")
+		MsgBox("", "Ошибка", "Не удалось загрузить Version.ini")
 		ProcessClose(@AutoItPID)
 	EndIf
 
@@ -2058,7 +2117,7 @@ Func _update() ; Обновление программы и подготовка
 
 	If Not SoftDownload($dir_tools, $sZip, "raw") Then ; Скачиваем 7Zip
 		FileMove($dir_update & $VersionInfo & ".bak", $dir_distr & $VersionInfo, 1)
-		MsgBox("","Ошибка", "Не найден 7za.exe в папке Tools.")
+		MsgBox("", "Ошибка", "Не найден 7za.exe в папке Tools.")
 		ProcessClose(@AutoItPID)
 	EndIf
 
@@ -2088,18 +2147,18 @@ Func _update() ; Обновление программы и подготовка
 		EndIf
 
 		If Not _CheckCRC($dir_distr & $MainApp) Then
-		; If $newVersion <> $oldVersion Then ; проверка версии программы
+			; If $newVersion <> $oldVersion Then ; проверка версии программы
 			FileDelete($dir_update & $MainApp)
-			FileDelete($dir_update & $MainApp & ".tmp")	
-				If SoftDownload($dir_update, $MainApp, "raw") Then ; скачиваем программу
-					FileMove($dir_update & $MainApp, $dir_update & $MainApp & ".tmp", 1)
-					;IniWrite($dir_distr & $VersionInfo, "Version", "Version", $newVersion) ; записываем новую версию в version.ini
-					_ScriptRestart() ; перезапускаем скрипт			
-				EndIf
+			FileDelete($dir_update & $MainApp & ".tmp")
+			If SoftDownload($dir_update, $MainApp, "raw") Then ; скачиваем программу
+				FileMove($dir_update & $MainApp, $dir_update & $MainApp & ".tmp", 1)
+				;IniWrite($dir_distr & $VersionInfo, "Version", "Version", $newVersion) ; записываем новую версию в version.ini
+				_ScriptRestart() ; перезапускаем скрипт
+			EndIf
 		EndIf
 	EndIf
 
-	Return($title)
+	Return ($title)
 EndFunc   ;==>_update
 
 Func _ScriptRestart() ; перезапуск скрипта
@@ -2156,14 +2215,14 @@ Func _ScriptRestart() ; перезапуск скрипта
 	EndIf
 EndFunc   ;==>_ScriptRestart
 
-Func _Next($msg = "Установка завершена", $dwnload_only = False, $button = "") ; Закачка, установка и настройка
+Func _Next($Msg = "Установка завершена", $dwnload_only = False, $button = "") ; Закачка, установка и настройка
 	Local $continue = False
 
 	;If Checked($checkNGate) Then GUICtrlSetState($checkCerts, $GUI_CHECKED)
 	;If Checked($checkCertsKey) Then GUICtrlSetState($checkCertsClean, $GUI_CHECKED)
 
 	If $button = "Specialist" Then ; Настройка кнопки "Тех. работник"
-		$iMsgBoxAnswer = MsgBox(33,"Внимание","Вы уверены, что хотите запустить настройку рабочего места тех. работника?")
+		$iMsgBoxAnswer = MsgBox(33, "Внимание", "Вы уверены, что хотите запустить настройку рабочего места тех. работника?")
 		Select
 			Case $iMsgBoxAnswer = 1 ;Ок
 				GUICtrlSetState($checkCSP, $GUI_CHECKED)
@@ -2177,7 +2236,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 	EndIf
 
 	If $button = "NewPK" Then ; Настройка кнопки "Новое раб. место"
-		$iMsgBoxAnswer = MsgBox(33,"Внимание","Вы уверены, что хотите запустить настройку нового рабочего места?")
+		$iMsgBoxAnswer = MsgBox(33, "Внимание", "Вы уверены, что хотите запустить настройку нового рабочего места?")
 		Select
 			Case $iMsgBoxAnswer = 1 ;Ок
 				; GUICtrlSetState($checkNet_48, $GUI_CHECKED)
@@ -2200,7 +2259,7 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 				GUICtrlSetState($checkActx_Browser, $GUI_CHECKED)
 		EndSelect
 	EndIf
-	
+
 	For $i = 0 To UBound($AllCheckboxes) - 1 Step 1 ; Проверяем, выбран ли какой-либо пункт меню
 		If GUICtrlRead($AllCheckboxes[$i]) = $GUI_CHECKED Then $continue = True
 	Next
@@ -2228,41 +2287,43 @@ Func _Next($msg = "Установка завершена", $dwnload_only = False
 		GUICtrlSetState($btnDownloadOnly, $GUI_ENABLE)
 		GUICtrlSetState($btnInstall, $GUI_ENABLE)
 		GUICtrlSetState($menuHelp, $GUI_ENABLE)
-		Status($msg)
+		Status($Msg)
 
-		If $button = "NewPk" or $button = "Specialist" Then	MsgBox ("", "Внимание" ,"Для завершения установки необходимо перезагрузить компьютер.")
+		If $button = "NewPk" Or $button = "Specialist" Then
+			MsgBox("", "Внимание", "Для завершения установки необходимо перезагрузить компьютер.")
+		EndIf
 	EndIf
 EndFunc   ;==>_Next
 
 Func WM_NOTIFY($hWnd, $iMsg, $wParam, $lParam) ; копирование инфы из статус бара
-    #forceref $hWnd, $iMsg, $wParam
-    Local $hWndFrom, $iIDFrom, $iCode, $tNMHDR, $aPos
+	#forceref $hWnd, $iMsg, $wParam
+	Local $hWndFrom, $iIDFrom, $iCode, $tNMHDR, $aPos
 
-    $tNMHDR = DllStructCreate($tagNMHDR, $lParam)
-    $hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
-    $iCode = DllStructGetData($tNMHDR, "Code")
+	$tNMHDR = DllStructCreate($tagNMHDR, $lParam)
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
+	$iCode = DllStructGetData($tNMHDR, "Code")
 	Local $tInfo
-    Switch $hWndFrom
-        Case $StatusBar1
-            Switch $iCode
+	Switch $hWndFrom
+		Case $StatusBar1
+			Switch $iCode
 				Case $NM_CLICK
 					$tInfo = DllStructCreate($tagNMMOUSE, $lParam)
 					If DllStructGetData($tInfo, "X") > 0 And DllStructGetData($tInfo, "X") < 100 Then  ; Копируем первую часть статус-бара (айпишник)
 						$aPos = MouseGetPos()
-						ClipPut(StringStripWS (_GUICtrlStatusBar_GetText($StatusBar1, 0),1))
-						ToolTip("IP - адрес скопирован", $aPos[0], $aPos[1],"","",2)
+						ClipPut(StringStripWS(_GUICtrlStatusBar_GetText($StatusBar1, 0), 1))
+						ToolTip("IP - адрес скопирован", $aPos[0], $aPos[1], "", "", 2)
 					EndIf
 
-					If DllStructGetData($tInfo, "X") > 100  And DllStructGetData($tInfo, "X") < 200 Then ; Копируем вторую часть статус-бара (имя компа)
+					If DllStructGetData($tInfo, "X") > 100 And DllStructGetData($tInfo, "X") < 200 Then  ; Копируем вторую часть статус-бара (имя компа)
 						$aPos = MouseGetPos()
-						ClipPut(StringStripWS (_GUICtrlStatusBar_GetText($StatusBar1, 1),1))
-						ToolTip("Имя компьютера скопировано", $aPos[0], $aPos[1],"","",2)
+						ClipPut(StringStripWS(_GUICtrlStatusBar_GetText($StatusBar1, 1), 1))
+						ToolTip("Имя компьютера скопировано", $aPos[0], $aPos[1], "", "", 2)
 					EndIf
 
-                    Return True
-            EndSwitch
-    EndSwitch
-    Return $GUI_RUNDEFMSG
+					Return True
+			EndSwitch
+	EndSwitch
+	Return $GUI_RUNDEFMSG
 EndFunc   ;==>WM_NOTIFY
 
 ; ------------------------------------------------- DOWNLOAD FUNC ------------------------------------------------------------->
@@ -2271,7 +2332,7 @@ Func _Wget($file_url, $folder_to, $ext = "npso") ; Процедура загру
 	If $ext = "ext" Then
 		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user-agent=""Mozilla/5.0 (Windows NT 10.0; Win64; x64)"" " & $file_url & " -P " & $folder_to)
 	ElseIf $ext = "npso" Then
-		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user=" & $User & " --password=" & $Pass & " https://" & $Server & "/" & $file_url & " -P " & $folder_to)	
+		RunWait($dir_tools & "wget.exe -q -N --show-progress -c --tries=5 --read-timeout=5 --no-check-certificate --user=" & $User & " --password=" & $Pass & " https://" & $Server & "/" & $file_url & " -P " & $folder_to)
 	EndIf
 EndFunc   ;==>_Wget
 
@@ -2279,8 +2340,8 @@ Func _DownloadPortable($Place, $Soft_ds, $Option)
 	Local $Portable = IniRead($dir_distr & $VersionInfo, "MODE", "Offline", "0")
 	If Not IsDeclared("iMsgBoxAnswer") Then Dim $iMsgBoxAnswer
 
-	If $Portable = 1 Then 
-		$iMsgBoxAnswer = MsgBox(33,"Не найден " & $Soft_ds & " в папке " & $Place, "Переключиться в онлайн режим и скачать его?")
+	If $Portable = 1 Then
+		$iMsgBoxAnswer = MsgBox(33, "Не найден " & $Soft_ds & " в папке " & $Place, "Переключиться в онлайн режим и скачать его?")
 		Select
 			Case $iMsgBoxAnswer = 1 ;OK
 				IniWrite($dir_distr & $VersionInfo, "MODE", "Offline", 0)
@@ -2295,7 +2356,7 @@ Func _DownloadPortable($Place, $Soft_ds, $Option)
 		MsgBox("", "Ошибка", "Не удалось загрузить wget. Работа программы будет завершена.")
 		ProcessClose(@AutoItPID)
 	EndIf
-EndFunc
+EndFunc   ;==>_DownloadPortable
 
 Func _Download($url, $folder) ; Процедура загрузки файлов (http) с отображением хода прогресса
 	Local $ParentWin_Pos = WinGetPos($HelperForm, "")
@@ -2342,7 +2403,7 @@ Func _DownloadRawBar($from, $to) ; Загрузка с http с прогресс 
 	Local $url = $from ; Wget URL
 	$folder = $to
 	$FileSize = InetGetSize($url)
-	
+
 	$hInet = InetGet($url, $folder, 1, 1)
 	While Not InetGetInfo($hInet, 2)
 		Sleep(500)
@@ -2361,7 +2422,7 @@ Func _CheckCRC($sFile) ; Проверка CRC суммы файла (возвр�
 	Local $sha1 = _SHA1ForFile($sFile) ; Получаем CRC нашего файла
 	Local $crcArray = IniReadSection($dir_distr & $VersionInfo, "CRC") ; Получаем массив CRC из version.ini
 
-	for $i = 1 to UBound($crcArray) -1 ; Перебираем массив из всех CRC
+	For $i = 1 To UBound($crcArray) - 1 ; Перебираем массив из всех CRC
 		If $sha1 = $crcArray[$i][1] Then ; При нахождении нужного CRC меняем переменную на True
 			$crc_found = True
 			ExitLoop
@@ -2369,7 +2430,7 @@ Func _CheckCRC($sFile) ; Проверка CRC суммы файла (возвр�
 	Next
 
 	Return $crc_found ; В случае, если у нас найдено CRC, значит скачался файл полностью и докачка не требуется
-EndFunc   ;==>_checkCRC
+EndFunc   ;==>_CheckCRC
 
 Func _IsWin7Above() ; Это windows 7 или выше?
 	If RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\", "CurrentVersion") > 6.2 Then
@@ -2381,41 +2442,41 @@ EndFunc   ;==>_IsWin7Above
 
 
 Func _FileFontInstall($sFontPath)
-    ; Извлекаем имя файла из полного пути
-    Local $sFileName = StringRegExpReplace($sFontPath, ".*\\", "")
-    
-    ; Определяем пути для проверки
-    Local $sUserFonts = @LocalAppDataDir & "\Microsoft\Windows\Fonts\" & $sFileName
-    Local $sSystemFonts = @WindowsDir & "\Fonts\" & $sFileName
-    
-    ; Проверяем наличие шрифта в системе
-    If FileExists($sUserFonts) Or FileExists($sSystemFonts) Then Return
-    
-    ; Определяем тип шрифта
-    Local $sExt = StringRight($sFileName, 3)
-    Local $sType
-    Switch StringLower($sExt)
-        Case "ttf"
-            $sType = "Truetype"
-        Case "otf"
-            $sType = "Opentype"
-        Case Else
-            Return ; Неподдерживаемый формат
-    EndSwitch
-    
-    ; Создаем целевую директорию при необходимости
-    Local $sTargetDir = @LocalAppDataDir & "\Microsoft\Windows\Fonts\"
-    If Not FileExists($sTargetDir) Then DirCreate($sTargetDir)
-    
-    ; Копируем файл шрифта
-    If FileCopy($sFontPath, $sTargetDir & $sFileName, $FC_OVERWRITE) Then
-        ; Добавляем запись в реестр
-        RegWrite("HKCU\Software\Microsoft\Windows NT\CurrentVersion\Fonts", _
-                $sFileName & " (" & $sType & ")", _
-                "REG_SZ", _
-                $sTargetDir & $sFileName)
-    EndIf
-EndFunc
+	; Извлекаем имя файла из полного пути
+	Local $sFilename = StringRegExpReplace($sFontPath, ".*\\", "")
+
+	; Определяем пути для проверки
+	Local $sUserFonts = @LocalAppDataDir & "\Microsoft\Windows\Fonts\" & $sFilename
+	Local $sSystemFonts = @WindowsDir & "\Fonts\" & $sFilename
+
+	; Проверяем наличие шрифта в системе
+	If FileExists($sUserFonts) Or FileExists($sSystemFonts) Then Return
+
+	; Определяем тип шрифта
+	Local $sExt = StringRight($sFilename, 3)
+	Local $sType
+	Switch StringLower($sExt)
+		Case "ttf"
+			$sType = "Truetype"
+		Case "otf"
+			$sType = "Opentype"
+		Case Else
+			Return             ; Неподдерживаемый формат
+	EndSwitch
+
+	; Создаем целевую директорию при необходимости
+	Local $sTargetDir = @LocalAppDataDir & "\Microsoft\Windows\Fonts\"
+	If Not FileExists($sTargetDir) Then DirCreate($sTargetDir)
+
+	; Копируем файл шрифта
+	If FileCopy($sFontPath, $sTargetDir & $sFilename, $FC_OVERWRITE) Then
+		; Добавляем запись в реестр
+		RegWrite("HKCU\Software\Microsoft\Windows NT\CurrentVersion\Fonts", _
+				$sFilename & " (" & $sType & ")", _
+				"REG_SZ", _
+				$sTargetDir & $sFilename)
+	EndIf
+EndFunc   ;==>_FileFontInstall
 
 Func _InstallDotNet($version) ; Устанавливаем netframework, если не установлен
 	Local $arg = False
@@ -2444,7 +2505,7 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 					$arg = True
 				EndIf
 			Else
-				If @OSArch="X64" Then _WinAPI_Wow64EnableWow64FsRedirection(False)
+				If @OSArch = "X64" Then _WinAPI_Wow64EnableWow64FsRedirection(False)
 				RunWait(@ComSpec & " /c " & "DISM /Online /Enable-Feature /FeatureName:NetFx3 /All")
 				$arg = True
 				_WinAPI_Wow64EnableWow64FsRedirection(True)
@@ -2481,49 +2542,49 @@ Func _InstallDotNet($version) ; Устанавливаем netframework, есл�
 					$arg = True
 				EndIf
 			EndIf
-		
-			Case "48"
-				Status("Устанавливаем .Net Framework 4.8")
-				Local $yes = true
-				Local $s = RegRead('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release')
-				If $s < 528040 Then
-					If @OSVersion = "Win_7" Then
-						Local $iRET = RunWait(@ComSpec & ' /c WMIC qfe get hotfixid | FIND "' & "4019990" & '"', @TempDir, @SW_HIDE)
-						If Not $iRET Then ; Проверяем, установлено ли обновление
-							Local $win7patch = $win7patch_x32
-							If @OSArch = "X64" Then $win7patch = $win7patch_x64
-							Status("Установка обновления 4019990")
-							If SoftDownload($dir_software, $win7patch) Then SoftInstall($dir_software, $win7patch, "cab") ; Ставим патч на 7ку
-						EndIf
-					EndIf
-					
-					If @OSVersion = "WIN_8" Then
-							$prompt = MsgBox(3, "Увага!", "Необходимо обновить вашу операционную систему. Нажмите ""Да"", чтобы скачать обновление.")
-							If $prompt = "6" Then ; Да
-								ShellExecute($win8to81)
-							EndIf	
-							$yes = false
-					EndIf
 
-					If @OSVersion = "WIN_10" Then
-						If Int(RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId")) < 14393 Then
-							$prompt = MsgBox(3, "Увага!", "Необходимо обновить вашу операционную систему. Нажмите ""Да"", чтобы скачать и установить обновление. Внимание! Перед процедурой сохраните ваши документы и закройте все программы.")
-							If $prompt = "6" Then ; Да
-								Status("Обновление операционной системы!")
-								If SoftDownload($dir_software, $win10upgrade) Then SoftInstall($dir_software, $win10upgrade, "/skipeula /auto upgrade")
-							EndIf
-							$yes = false
-						EndIf
-					EndIf
-
-					If $yes Then 
-						If SoftDownload($dir_software, $_netFramework48) Then
-							SoftInstall($dir_software, $_netFramework48, "/passive /norestart")
-							$arg = True
-						EndIf
+		Case "48"
+			Status("Устанавливаем .Net Framework 4.8")
+			Local $yes = True
+			Local $s = RegRead('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release')
+			If $s < 528040 Then
+				If @OSVersion = "Win_7" Then
+					Local $iRET = RunWait(@ComSpec & ' /c WMIC qfe get hotfixid | FIND "' & "4019990" & '"', @TempDir, @SW_HIDE)
+					If Not $iRET Then ; Проверяем, установлено ли обновление
+						Local $win7patch = $win7patch_x32
+						If @OSArch = "X64" Then $win7patch = $win7patch_x64
+						Status("Установка обновления 4019990")
+						If SoftDownload($dir_software, $win7patch) Then SoftInstall($dir_software, $win7patch, "cab") ; Ставим патч на 7ку
 					EndIf
 				EndIf
-					
+
+				If @OSVersion = "WIN_8" Then
+					$prompt = MsgBox(3, "Увага!", "Необходимо обновить вашу операционную систему. Нажмите ""Да"", чтобы скачать обновление.")
+					If $prompt = "6" Then ; Да
+						ShellExecute($win8to81)
+					EndIf
+					$yes = False
+				EndIf
+
+				If @OSVersion = "WIN_10" Then
+					If Int(RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId")) < 14393 Then
+						$prompt = MsgBox(3, "Увага!", "Необходимо обновить вашу операционную систему. Нажмите ""Да"", чтобы скачать и установить обновление. Внимание! Перед процедурой сохраните ваши документы и закройте все программы.")
+						If $prompt = "6" Then ; Да
+							Status("Обновление операционной системы!")
+							If SoftDownload($dir_software, $win10upgrade) Then SoftInstall($dir_software, $win10upgrade, "/skipeula /auto upgrade")
+						EndIf
+						$yes = False
+					EndIf
+				EndIf
+
+				If $yes Then
+					If SoftDownload($dir_software, $_netFramework48) Then
+						SoftInstall($dir_software, $_netFramework48, "/passive /norestart")
+						$arg = True
+					EndIf
+				EndIf
+			EndIf
+
 	EndSwitch
 
 	; Выключаем включенные службы обновления винды
@@ -2564,23 +2625,28 @@ Func _RetrieveServiceState($s_ServiceName) ; получение статуса �
 	EndIf
 EndFunc   ;==>_RetrieveServiceState
 
+Func _ServiceExists($sServiceName)
+    Local $sReg = RegRead("HKLM\SYSTEM\CurrentControlSet\Services\" & $sServiceName, "DisplayName")
+    Return Not @error ; Если ключа нет, @error вернет значение отличное от 0
+EndFunc
+
 ; Function to compare version numbers
 Func _CompareVersions($version1, $version2)
-    Local $aParts1 = StringSplit($version1, ".", $STR_NOCOUNT)
-    Local $aParts2 = StringSplit($version2, ".", $STR_NOCOUNT)
-    
-    Local $maxParts = UBound($aParts1) > UBound($aParts2) ? UBound($aParts1) : UBound($aParts2)
-    
-    For $i = 0 To $maxParts - 1
-        Local $part1 = $i < UBound($aParts1) ? Number($aParts1[$i]) : 0
-        Local $part2 = $i < UBound($aParts2) ? Number($aParts2[$i]) : 0
-        
-        If $part1 > $part2 Then Return 1
-        If $part1 < $part2 Then Return -1
-    Next
-    
-    Return 0
-EndFunc
+	Local $aParts1 = StringSplit($version1, ".", $STR_NOCOUNT)
+	Local $aParts2 = StringSplit($version2, ".", $STR_NOCOUNT)
+
+	Local $maxParts = UBound($aParts1) > UBound($aParts2) ? UBound($aParts1) : UBound($aParts2)
+
+	For $i = 0 To $maxParts - 1
+		Local $part1 = $i < UBound($aParts1) ? Number($aParts1[$i]) : 0
+		Local $part2 = $i < UBound($aParts2) ? Number($aParts2[$i]) : 0
+
+		If $part1 > $part2 Then Return 1
+		If $part1 < $part2 Then Return -1
+	Next
+
+	Return 0
+EndFunc   ;==>_CompareVersions
 
 
 Func _WindowsUpdateFix()
@@ -2637,19 +2703,19 @@ Func _WindowsUpdateFix()
 	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS\*.* /remove ""NT AUTHORITY\СИСТЕМА"" /T', @TempDir, @SW_HIDE)
 	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS\*.* /remove ""NT SERVICE\TrustedInstaller"" /T', @TempDir, @SW_HIDE)
 	RunWait(@ComSpec & ' /c ICACLS ' & @WindowsDir & '\WinSxS\*.* /inheritance:e /T', @TempDir, @SW_HIDE)
-	
+
 	; Включаем службу обновлений
 	RunWait(@ComSpec & ' /c sc config bits start= demand', '', @SW_HIDE)
 	RunWait(@ComSpec & ' /c net start bits', '', @SW_HIDE)
 	RunWait(@ComSpec & ' /c sc config wuauserv start= demand', '', @SW_HIDE)
 	RunWait(@ComSpec & ' /c net start wuauserv', '', @SW_HIDE)
-EndFunc
+EndFunc   ;==>_WindowsUpdateFix
 
 Func _FilenameFromUrl($url)
 	Local $msi_pattern = "(?:.+\/)(.+)"
 
-	Return(StringRegExp($url, $msi_pattern, 1)[0])
-EndFunc
+	Return (StringRegExp($url, $msi_pattern, 1)[0])
+EndFunc   ;==>_FilenameFromUrl
 
 Func _UpdateScreen() ; обновить рабочий стол
 	Local $Opt = Opt('WinSearchChildren', 1)
@@ -2667,42 +2733,56 @@ Func _StringBetween2($s, $from, $to)
 EndFunc   ;==>_StringBetween2
 
 Func _GetCurrentUser()
-    Local $result = DllCall("Wtsapi32.dll","int", "WTSQuerySessionInformationW", "Ptr", 0, "int", -1, "int", 5, "ptr*", 0, "dword*", 0)
-    If @error Or $result[0] = 0 Then Return SetError(1,0,"")
-    Local $User = DllStructGetData(DllStructCreate("wchar[" & $result[5] & "]" , $result[4]),1)
-    DllCall("Wtsapi32.dll", "int", "WTSFreeMemory", "ptr", $result[4])
-    Return $User
+	Local $result = DllCall("Wtsapi32.dll", "int", "WTSQuerySessionInformationW", "Ptr", 0, "int", -1, "int", 5, "ptr*", 0, "dword*", 0)
+	If @error Or $result[0] = 0 Then Return SetError(1, 0, "")
+	Local $User = DllStructGetData(DllStructCreate("wchar[" & $result[5] & "]", $result[4]), 1)
+	DllCall("Wtsapi32.dll", "int", "WTSFreeMemory", "ptr", $result[4])
+	Return $User
 EndFunc   ;==>_GetCurrentUser
 
 Func _GetCurrentUserSID()
-    Local $User = _Security__LookupAccountName(_GetCurrentUser(),@ComputerName)
-    If @error Then Return SetError(1,0,"")
-    Return $User[0]
+	Local $User = _Security__LookupAccountName(_GetCurrentUser(), @ComputerName)
+	If @error Then Return SetError(1, 0, "")
+	Return $User[0]
 EndFunc   ;==>_GetCurrentUserSID
 
 Func base64($vCode, $bEncode = True, $bUrl = False)
 
-    Local $oDM = ObjCreate("Microsoft.XMLDOM")
-    If Not IsObj($oDM) Then Return SetError(1, 0, 1)
+	Local $oDM = ObjCreate("Microsoft.XMLDOM")
+	If Not IsObj($oDM) Then Return SetError(1, 0, 1)
 
-    Local $oEL = $oDM.createElement("Tmp")
-    $oEL.DataType = "bin.base64"
+	Local $oEL = $oDM.createElement("Tmp")
+	$oEL.DataType = "bin.base64"
 
-    If $bEncode then
-        $oEL.NodeTypedValue = Binary($vCode)
-        If Not $bUrl Then Return $oEL.Text
-        Return StringReplace(StringReplace(StringReplace($oEL.Text, "+", "-"),"/", "_"), @LF, "")
-    Else
-        If $bUrl Then $vCode = StringReplace(StringReplace($vCode, "-", "+"), "_", "/")
-        $oEL.Text = $vCode
-        Return $oEL.NodeTypedValue
-    EndIf
+	If $bEncode Then
+		$oEL.NodeTypedValue = Binary($vCode)
+		If Not $bUrl Then Return $oEL.Text
+		Return StringReplace(StringReplace(StringReplace($oEL.Text, "+", "-"), "/", "_"), @LF, "")
+	Else
+		If $bUrl Then $vCode = StringReplace(StringReplace($vCode, "-", "+"), "_", "/")
+		$oEL.Text = $vCode
+		Return $oEL.NodeTypedValue
+	EndIf
 
-EndFunc ;==>base64
+EndFunc   ;==>base64
+
+Func ReadableSize($iBytes)
+	If $iBytes >= 1048576 Then
+		Return Round($iBytes / 1048576, 2) & " MB"
+	Else
+		Return Round($iBytes / 1024, 2) & " KB"
+	EndIf
+EndFunc   ;==>ReadableSize
+
+; Безопасная запись текста в лог без сбоя кодировки
+Func _LogText($sMessage)
+    Local $sAnsiText = BinaryToString(StringToBinary($sMessage, 4), 1)
+    _FileWriteLog($dir_logs & "Install.log", $sAnsiText)
+EndFunc
 
 Func _RegSettings($Option = "Read", $Hash = "")
 	Local $Date = RegRead("HKCU\Software\Helper", "Date")
-	Local $CurDate = @Mon & StringTrimLeft(@YEAR, 2) & @MDAY & @HOUR
+	Local $CurDate = @MON & StringTrimLeft(@YEAR, 2) & @MDAY & @HOUR
 	Local $NumberOfRestarts = RegRead("HKCU\Software\Helper", "NOR")
 	Local $Init = RegRead("HKCU\Software\Helper", "Init")
 	Local $arg = False
@@ -2736,4 +2816,4 @@ Func _RegSettings($Option = "Read", $Hash = "")
 	EndSwitch
 
 	Return $arg
-EndFunc   ;==>_Settings
+EndFunc   ;==>_RegSettings
